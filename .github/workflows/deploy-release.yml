@@ -30,6 +30,7 @@ jobs:
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PUBLISH_TOKEN }}
           repository-name: IvarK/AntimatterDimensions
           branch: master
           folder: dist
