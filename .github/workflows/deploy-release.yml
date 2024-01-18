@@ -11,6 +11,8 @@ on:
     branches:
       - release
 
+permissions: read-all
+
 jobs:
   build:
     name: Deploy 🚀
@@ -21,8 +23,8 @@ jobs:
           lfs: true
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-          cache: 'npm'
+          node-version: "14"
+          cache: "npm"
       - run: npm ci
       - run: npm run build:release
       - uses: JamesIves/github-pages-deploy-action@v4
