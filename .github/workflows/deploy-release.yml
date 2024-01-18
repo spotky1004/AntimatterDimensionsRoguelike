@@ -29,7 +29,7 @@ jobs:
       - run: npm run build:release
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          ssh-private-key: ${{ secrets.GH_PUBLISH_TOKEN }}
           token: ${{ secrets.GH_PUBLISH_TOKEN }}
           repository-name: IvarK/AntimatterDimensions
           branch: master
