@@ -8,8 +8,8 @@ window.PRESTIGE_EVENT = {
 
 /**
  * @template T
- * @param {T} obj 
- * @returns {T} 
+ * @param {T} obj
+ * @returns {T}
  */
 function deepFreeze(obj) {
   Object.keys(obj).forEach(prop => {
@@ -19,7 +19,7 @@ function deepFreeze(obj) {
   return Object.freeze(obj);
 }
 
-export const DC = deepFreeze({
+const rawDC = {
   // Naming Scheme:
   // D[0-9]: Decimal mantissa variable
   // _: decimal (.) part of the mantissa
@@ -196,7 +196,9 @@ export const DC = deepFreeze({
   E1E8:                 new Decimal("1e100000000"),
   E1_5E12:              new Decimal("1e1500000000000"),
   E1E15:                new Decimal("1e1000000000000000"),
-});
+};
+export const DC = deepFreeze(rawDC);
+
 
 window.AUTOBUYER_MODE = {
   BUY_SINGLE: 1,

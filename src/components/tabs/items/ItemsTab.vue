@@ -8,19 +8,31 @@ export default {
   },
   data() {
     return {
-      exampleInventory: [
+      exampleNormalInventory: [
         {
           id: 100,
+          lv: 1,
           prop: []
         },
         {
-          id: 101,
-          prop: [5]
+          id: 100,
+          lv: 2,
+          prop: []
+        },
+        {
+          id: 100,
+          lv: 3,
+          prop: []
+        },
+        {
+          id: 100,
+          lv: 4,
+          prop: []
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <template>
@@ -28,15 +40,15 @@ export default {
     <ItemsInventory
       is-special
       :name="'Special'"
-      :size="3"
-      :items="exampleInventory"
+      :size="2"
+      :items="[]"
     />
     <div class="item-tab__divide">
       <span>
         <ItemsInventory
           :name="'Normal'"
-          :size="10"
-          :items="exampleInventory"
+          :size="8"
+          :items="exampleNormalInventory"
         />
       </span>
       <span>
@@ -44,7 +56,7 @@ export default {
           is-debuff
           :name="'Debuff'"
           :size="40"
-          :items="exampleInventory"
+          :items="[]"
         />
       </span>
     </div>

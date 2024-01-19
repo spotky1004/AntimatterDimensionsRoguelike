@@ -36,7 +36,7 @@ export default {
       rowCount: this.isSpecial ? 1 : 5
     };
   }
-}
+};
 </script>
 
 <template>
@@ -44,7 +44,9 @@ export default {
     class="items-inventory"
     :class="{ special: isSpecial, debuff: isDebuff }"
   >
-    <div class="items-inventory__name">{{ name }}</div>
+    <div class="items-inventory__name">
+      {{ name }}
+    </div>
     <div
       v-for="row in rowCount"
       :key="row"
@@ -57,7 +59,7 @@ export default {
         :class="{ locked: (row - 1) * colCount + (col - 1) >= size }"
       >
         <ItemComponent
-          v-if="(row - 1) * colCount + (col - 1) < size"
+          v-if="(row - 1) * colCount + (col - 1) < Math.min(items.length, size)"
           :is-special="isSpecial"
           :is-debuff="isDebuff"
           :item="items[(row - 1) * colCount + (col - 1)]"
@@ -65,7 +67,11 @@ export default {
         <div
           v-else
         >
-          <i class="fas fa-lock"></i>
+          <div
+            v-if="(row - 1) * colCount + (col - 1) >= size"
+          >
+            <i class="fas fa-lock" />
+          </div>
         </div>
       </div>
     </div>
@@ -106,6 +112,16 @@ export default {
   box-shadow: 0 0 3rem #0008 inset;
 }
 
+.items-inventory.special .items-inventory__cell {
+  background-color: var(--color-item-special-dark3);
+  box-shadow: 0 0 3rem var(--color-item-special-dark2) inset;
+}
+
+.items-inventory.debuff .items-inventory__cell {
+  background-color: var(--color-item-debuff-dark3);
+  box-shadow: 0 0 3rem var(--color-item-debuff-dark2) inset;
+}
+
 .items-inventory__cell.locked {
   background-color: #111;
 }
@@ -120,7 +136,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   font-size: 4em;
   color: #111;
   mix-blend-mode: difference;

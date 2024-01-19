@@ -15,6 +15,7 @@ import { infinity } from "./infinity";
 import { news } from "./news";
 import { progressStages } from "./progress-checker";
 import { reality } from "./reality";
+import { rogue } from "./rogue";
 import { shopPurchases } from "./shop-purchases";
 import { sidebarResources } from "./sidebar-resources";
 import { speedrunMilestones } from "./speedrun-milestones";
@@ -34,6 +35,7 @@ export const GameDatabase = {
   eternity,
   h2p,
   infinity,
+  rogue,
   multiplierTabTree,
   multiplierTabValues,
   news,

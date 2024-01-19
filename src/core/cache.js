@@ -1,4 +1,10 @@
+/**
+ * @template T
+ */
 class Lazy {
+  /**
+   * @param {() => T} getValue
+   */
   constructor(getValue) {
     this._getValue = getValue;
     Lazy.registerLazy(this);
@@ -91,9 +97,11 @@ export const GameCache = {
 
   // The effect is defined in antimatter_dimensions.js because that's where the non-cached
   // code originally lived.
+  /** @type {Lazy<Decimal>} */
   antimatterDimensionCommonMultiplier: new Lazy(() => antimatterDimensionCommonMultiplier()),
 
   // 0 will cause a crash if invoked; this way the tier can be used as an index
+  /** @type {Lazy<Decimal>[]} */
   antimatterDimensionFinalMultipliers: Array.range(0, 9)
     .map(tier => new Lazy(() => getDimensionFinalMultiplierUncached(tier))),
 
@@ -114,6 +122,8 @@ export const GameCache = {
   challengeTimeSum: new Lazy(() => player.challenge.normal.bestTimes.sum()),
 
   infinityChallengeTimeSum: new Lazy(() => player.challenge.infinity.bestTimes.sum()),
+
+  rogueItemEffects: new Lazy(() => calculateRogueEffects())
 };
 
 EventHub.logic.on(GAME_EVENT.GLYPHS_CHANGED, () => {
