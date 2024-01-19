@@ -112,6 +112,10 @@ export const MultiplierTabIcons = {
       color,
     };
   },
+  ROGUE: {
+    symbol: `<i class="fas fa-chess-rook"></i>`,
+    color: "var(--color-rogue)"
+  },
   ANTIMATTER: {
     symbol: `<i class='fas fa-atom' />`,
     color: "var(--color-antimatter)",

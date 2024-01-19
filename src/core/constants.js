@@ -6,6 +6,11 @@ window.PRESTIGE_EVENT = {
   REALITY: 4,
 };
 
+/**
+ * @template T
+ * @param {T} obj 
+ * @returns {T} 
+ */
 function deepFreeze(obj) {
   Object.keys(obj).forEach(prop => {
     const reference = obj[prop];

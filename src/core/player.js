@@ -759,6 +759,10 @@ window.player = {
       showBought: false,
     }
   },
+  rogue: {
+    specialItems: [],
+    normalItems: []
+  },
   isGameEnd: false,
   tabNotifications: new Set(),
   triggeredTabNotificationBits: 0,

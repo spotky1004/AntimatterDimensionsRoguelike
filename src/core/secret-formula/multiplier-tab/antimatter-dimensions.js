@@ -89,6 +89,12 @@ export const AD = {
     icon: MultiplierTabIcons.DIMENSION("AD"),
   },
 
+  rogue: {
+    name: "Rogue",
+    multValue: () => DC.D1,
+    isActive: false,
+    icon: MultiplierTabIcons.ROGUE,
+  },
   dimboost: {
     name: dim => (dim ? `Dimboosts on AD ${dim}` : "Dimboosts"),
     multValue: dim => (dim

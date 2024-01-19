@@ -496,5 +496,24 @@ export const tabs = [
         hidable: true
       }
     ]
+  },
+  {
+    key: "rogue",
+    name: "Rogue",
+    hideAt: 2.5,
+    UIClass: "o-tab-btn--rogue",
+    condition: () => true,
+    id: 11,
+    hidable: true,
+    subtabs: [
+      {
+        key: "rogue-items",
+        name: "Items",
+        symbol: "<i class='fas fa-sack-dollar'></i>",
+        component: "ItemsTab",
+        id: 0,
+        hidable: true,
+      },
+    ]
   }
 ];

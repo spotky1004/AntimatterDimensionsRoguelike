@@ -136,6 +136,10 @@ export default {
   background-color: var(--color-celestials);
 }
 
+.o-tab-btn--rogue::before {
+  background-color: var(--color-rogue);
+}
+
 .o-subtab-btn--active {
   border-bottom-width: 0.5rem;
 }

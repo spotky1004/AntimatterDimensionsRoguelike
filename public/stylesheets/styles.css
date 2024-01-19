@@ -74,6 +74,7 @@ html {
   --color-notification: red;
   --color-overlay: rgba(30, 30, 50, 70%);
 
+  --color-rogue-alpha: #53701d01;
   --color-antimatter: #2196f3;
   --color-infinity: #b67f33;
   --color-eternity: #b341e0;
@@ -82,6 +83,16 @@ html {
   --color-reality-light: #d5ffd7;
   --color-reality-dark: #0a790c;
   --color-celestials: #5151ec;
+  --color-rogue: #9ccc42;
+  --color-rogue-fire: #53701d;
+  --color-item-special: #f7d83d;
+  --color-item-special-dark1: #ad9610;
+  --color-item-special-dark2: #66590d;
+  --color-item-special-dark3: #292406;
+  --color-item-debuff: #f34a37;
+  --color-item-debuff-dark1: #af3426;
+  --color-item-debuff-dark2: #7c261d;
+  --color-item-debuff-dark3: #461914;
   --color-prestige--accent: white;
 
   --color-teresa--base: #5151ec;
@@ -362,6 +373,58 @@ body {
 
 button:focus {
   outline: none;
+}
+
+/* Rogue */
+.rogue-fire {
+  animation: RogueFire 2s 0s infinite normal linear;
+}
+
+@keyframes RogueFire {
+  from {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(300%) contrast(91%);
+    text-shadow: 0 0 25px #fff0, 0 0 25px #fff0, -2px -4px 7px #fff, 0 0 25px #fff0;
+  }
+  10% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(350%) contrast(91%);
+    text-shadow: -2px -3px 3px #fff, 0 0 25px #fff0, -4px -6px 12px #fff0, 0 0 25px #fff0;
+  }
+  20% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(400%) contrast(91%);
+    text-shadow: -4px -7px 6px #fff0, 1px -2px 3px #fff, 0 0 25px #fff0, 0 0 25px #fff0;
+  }
+  30% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(500%) contrast(91%);
+    text-shadow: 0 0 12px #fff0, 2px -4px 7px #fff0, -1px -3px 3px #fff, 2px -2px 3px #fff;
+  }
+  40% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(450%) contrast(91%);
+    text-shadow: 0 0 25px #fff0, 0 0 25px #fff0, -3px -7px 9px #fff0, 4px -4px 7px #fff;
+  }
+  50% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(400%) contrast(91%);
+    text-shadow: -1px -2px 4px #fff, 0 0 25px #fff0, 0 0 25px #fff0, 6px -7px 12px #fff0;
+  }
+  60% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(300%) contrast(91%);
+    text-shadow: -2px -3px 8px #fff, 2px -1px 3px #fff, 0 0 25px #fff0, 0 0 25px #fff0;
+  }
+  70% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(350%) contrast(91%);
+    text-shadow: -4px -5px 12px #fff0, 4px -3px 7px #fff0, -2px -3px 5px #fff, 0 0 25px #fff0;
+  }
+  80% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(450%) contrast(91%);
+    text-shadow: 0 0 25px #fff0, 0 0 25px #fff0, -3px -6px 10px #fff0, 2px -2px 4px #fff;
+  }
+  90% {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(350%) contrast(91%);
+    text-shadow: 0 0 25px #fff0, 0 0 25px #fff0, 0 0 25px #fff0, 3px -4px 6px #fff;
+  }
+  to {
+    filter: invert(73%) sepia(60%) saturate(450%) hue-rotate(33deg) brightness(300%) contrast(91%);
+    text-shadow: 0 0 25px #fff0, 0 0 25px #fff0, -1px -2px 3px #fff, 5px -7px 12px #fff0;
+  }
 }
 
 /* #region CustomizeableTooltip */
@@ -752,6 +815,16 @@ button:focus {
 
 .o-tab-btn--celestial:hover {
   background: var(--color-celestials);
+}
+
+.o-tab-btn--rogue {
+  color: var(--color-rogue);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-rogue);
+}
+
+.o-tab-btn--rogue:hover {
+  background: var(--color-rogue);
 }
 
 /* #endregion tab buttons */
