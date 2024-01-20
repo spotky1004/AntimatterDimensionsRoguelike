@@ -9,26 +9,10 @@ export default {
   data() {
     return {
       exampleNormalInventory: [
-        {
-          id: 100,
-          lv: 1,
-          prop: []
-        },
-        {
-          id: 100,
-          lv: 2,
-          prop: []
-        },
-        {
-          id: 100,
-          lv: 3,
-          prop: []
-        },
-        {
-          id: 100,
-          lv: 4,
-          prop: []
-        }
+        window.GameDatabase.rogue.items.get(1001).itemGen(),
+        window.GameDatabase.rogue.items.get(1002).itemGen(),
+        window.GameDatabase.rogue.items.get(1003).itemGen(),
+        window.GameDatabase.rogue.items.get(1004).itemGen()
       ]
     };
   }

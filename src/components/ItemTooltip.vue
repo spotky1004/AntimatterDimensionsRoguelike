@@ -11,6 +11,18 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      t: 0,
+      intervalId: null
+    };
+  },
+  mounted() {
+    this.intervalId = setInterval(() => this.t++);
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalId);
+  },
   methods: {
     getName() {
       return this.itemData.nameStr(this.item.lv, this.item.props);
@@ -33,10 +45,12 @@ export default {
     }"
   >
     <div
+      :key="t"
       class="rogue-item__tooltip__name"
       v-html="getName()"
     />
     <div
+      :key="t + 1"
       class="rogue-item__tooltip__description"
       v-html="getDescription()"
     />
@@ -49,11 +63,6 @@ export default {
   right: -22rem;
   top: 0;
 
-  --color1: #888;
-  --color2: #555;
-  --color3: #333;
-  --color4: #111;
-
   border: 0.2rem solid var(--color1);
   background-color: var(--color2);
   box-shadow: 0 0 2rem var(--color4) inset;
@@ -61,6 +70,8 @@ export default {
 
   z-index: 100;
   animation: ItemTooltipAppear 0.2s ease-in 0s forwards;
+
+  user-select: none;
 }
 
 @keyframes ItemTooltipAppear {
@@ -78,20 +89,6 @@ export default {
   }
 }
 
-.rogue-item__tooltip.special {
-  --color1: var(--color-rogue-special);
-  --color2: var(--color-rogue-special-dark1);
-  --color3: var(--color-rogue-special-dark2);
-  --color4: var(--color-rogue-special-dark3);
-}
-
-.rogue-item__tooltip.debuff {
-  --color1: var(--color-rogue-debuff);
-  --color2: var(--color-rogue-debuff-dark1);
-  --color3: var(--color-rogue-debuff-dark2);
-  --color4: var(--color-rogue-debuff-dark3);
-}
-
 .rogue-item__tooltip__name {
   margin: 0 0 1rem 0;
   padding: 0 1rem;
@@ -101,9 +98,10 @@ export default {
   letter-spacing: -0.2rem;
   text-align: left;
 
+  color: #fff;
   background: linear-gradient(
     90deg,
-    var(--color4),
+    var(--color3),
     #0000
   );
 }
@@ -111,6 +109,11 @@ export default {
 .rogue-item__tooltip__description {
   margin-bottom: 1rem;
 
+  color: #fff;
   max-width: 20rem;
+}
+
+.rogue-item__tooltip.special > .rogue-item__tooltip__description {
+  color: #222;
 }
 </style>

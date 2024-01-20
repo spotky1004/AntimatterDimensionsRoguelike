@@ -128,6 +128,7 @@ export default {
 
 .items-inventory.special .items-inventory__cell.locked {
   background-color: var(--color-item-special-dark3);
+  filter: brightness(0.5);
 }
 
 .items-inventory__cell.locked > div {

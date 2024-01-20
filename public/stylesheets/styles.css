@@ -85,10 +85,10 @@ html {
   --color-celestials: #5151ec;
   --color-rogue: #9ccc42;
   --color-rogue-fire: #53701d;
-  --color-item-special: #f7d83d;
-  --color-item-special-dark1: #ad9610;
-  --color-item-special-dark2: #66590d;
-  --color-item-special-dark3: #292406;
+  --color-item-special: #ffe97a;
+  --color-item-special-dark1: #ddc53e;
+  --color-item-special-dark2: #a79428;
+  --color-item-special-dark3: #584e14;
   --color-item-debuff: #f34a37;
   --color-item-debuff-dark1: #af3426;
   --color-item-debuff-dark2: #7c261d;
@@ -377,7 +377,7 @@ button:focus {
 
 /* Rogue */
 .rogue-fire {
-  animation: RogueFire 2s 0s infinite normal linear;
+  animation: RogueFire 2s 0s infinite normal linear !important;
 }
 
 @keyframes RogueFire {
