@@ -91,8 +91,17 @@ export const AD = {
 
   rogue: {
     name: "Rogue",
-    multValue: () => DC.D1,
-    isActive: false,
+    displayOverride: dim => (dim ? `${AntimatterDimensions.all[dim - 1].displayName} Dimension` : ""),
+    multValue: dim => {
+      if (dim) {
+        if (!AntimatterDimensions.all[dim - 1].isProducing) return DC.D1;
+        return getRogueEffect("adMults")[dim].mul(getRogueEffect("adAllMult"));
+      }
+      return AntimatterDimensions.all
+        .filter(ad => ad.isProducing)
+        .reduce((x, y) => x.mul(getRogueEffect("adMults")[y.tier].mul(getRogueEffect("adAllMult"))), DC.D1);
+    },
+    isActive: true,
     icon: MultiplierTabIcons.ROGUE,
   },
   dimboost: {

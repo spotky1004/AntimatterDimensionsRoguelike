@@ -1,6 +1,3 @@
-import { calculateRogueEffects, items } from "./items";
+import * as rogueThings from "./items";
 
-export const rogue = {
-  items,
-  calculateRogueEffects
-};
+export const rogue = rogueThings;

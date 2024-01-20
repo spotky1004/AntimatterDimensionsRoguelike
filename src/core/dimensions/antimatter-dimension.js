@@ -49,6 +49,8 @@ export function antimatterDimensionCommonMultiplier() {
 
   if (Pelle.isDoomed) multiplier = multiplier.dividedBy(10);
 
+  multiplier = multiplier.times(getRogueEffect("adAllMult"));
+
   return multiplier;
 }
 
@@ -84,6 +86,8 @@ export function getDimensionFinalMultiplierUncached(tier) {
   if (AlchemyResource.inflation.isUnlocked && multiplier.gte(AlchemyResource.inflation.effectValue)) {
     multiplier = multiplier.pow(1.05);
   }
+
+  multiplier = multiplier.pow(getRogueEffect("adPows")[tier]);
 
   return multiplier;
 }
@@ -135,6 +139,8 @@ function applyNDMultipliers(mult, tier) {
   if (Achievement(43).isUnlocked) {
     multiplier = multiplier.times(1 + tier / 100);
   }
+
+  multiplier = multiplier.times(getRogueEffect("adMults")[tier]);
 
   multiplier = multiplier.clampMin(1);
 

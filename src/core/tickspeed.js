@@ -50,7 +50,7 @@ export function getTickSpeedMultiplier() {
     if (Pelle.isDoomed) galaxies *= 0.5;
 
     galaxies *= Pelle.specialGlyphEffect.power;
-    return DC.D0_01.clampMin(baseMultiplier - (galaxies * perGalaxy));
+    return DC.D0_01.clampMin(baseMultiplier - (galaxies * perGalaxy)).div(getRogueEffect("tickUpgrade"));
   }
   let baseMultiplier = 0.8;
   if (NormalChallenge(5).isRunning) baseMultiplier = 0.83;
@@ -63,7 +63,7 @@ export function getTickSpeedMultiplier() {
 
   galaxies *= Pelle.specialGlyphEffect.power;
   const perGalaxy = DC.D0_965;
-  return perGalaxy.pow(galaxies - 2).times(baseMultiplier);
+  return perGalaxy.pow(galaxies - 2).times(baseMultiplier).div(getRogueEffect("tickUpgrade"));
 }
 
 export function buyTickSpeed() {

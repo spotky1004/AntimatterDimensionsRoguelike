@@ -16,6 +16,37 @@ import { Notations } from "../../notations";
  * @prop {() => { id: number, lv: number, props: number[] }} itemGen
  */
 
+function calculateRogueEffects() {
+  const effect = {
+    tickUpgrade: DC.D1,
+    adAllMult: DC.D1,
+    /** @type {(typeof Decimal)[]} */
+    adMults: Array.range(0, 9).map(() => DC.D1),
+    /** @type {(typeof Decimal)[]} */
+    adPows: Array.range(0, 9).map(() => DC.D1),
+  };
+
+  const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
+  for (const key of rogueItemKeys) {
+    for (const item of window.player.rogue[key]) {
+      items.get(item.id).calcEffect(effect, item.lv, item.props);
+    }
+  }
+
+  return effect;
+}
+window.calculateRogueEffects = calculateRogueEffects;
+
+/**
+ * @template {keyof RogueEffects} Name
+ * @param {Name} name
+ * @returns {RogueEffects[Name]}
+ */
+function getRogueEffect(name) {
+  return GameCache.rogueItemEffects.value[name];
+}
+window.getRogueEffect = getRogueEffect;
+
 /**
  * @param {number} x
  */
@@ -88,8 +119,8 @@ const items = new Map([
     icon: faIcon("4"),
     rarity: "C",
     nameStr: lv => `${4 * lv} Tickspeed`,
-    descriptionStr: lv => `Boosts Tickspeed upgrade effect by x${format(DC.D1.add(0.04 * lv), 2, 2)}.`,
-    calcEffect: (effect, lv) => effect.tickUpgrade = effect.tickUpgrade.mul(DC.D1.add(0.04 * lv)),
+    descriptionStr: lv => `Boosts Tickspeed upgrade effect by x${format(DC.D1.add(0.004 * lv), 3, 3)}.`,
+    calcEffect: (effect, lv) => effect.tickUpgrade = effect.tickUpgrade.mul(DC.D1.add(0.004 * lv)),
     isUnlocked: () => Achievement(14).isUnlocked,
     itemGen: () => ({
       id: 1004,
@@ -121,28 +152,8 @@ const items = new Map([
   }]
 ]);
 
-function calculateRogueEffects() {
-  const effect = {
-    tickUpgrade: DC.D1,
-    adAllMult: DC.D1,
-    /** @type {(typeof Decimal)[]} */
-    adMults: Array.range(0, 9).map(() => DC.D1),
-    /** @type {(typeof Decimal)[]} */
-    adPows: Array.range(0, 9).map(() => DC.D1),
-  };
-
-  const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
-  for (const key of rogueItemKeys) {
-    for (const item of window.player.rogue[key]) {
-      items.get(item.id).calcEffect(effect, item.props);
-    }
-  }
-
-  return effect;
-}
-window.calculateRogueEffects = calculateRogueEffects;
-
 export {
   items,
-  calculateRogueEffects
+  calculateRogueEffects,
+  getRogueEffect
 };

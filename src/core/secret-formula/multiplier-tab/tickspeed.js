@@ -25,6 +25,12 @@ export const tickspeed = {
     overlay: ["<i class='fa-solid fa-clock' />"],
     icon: MultiplierTabIcons.TICKSPEED,
   },
+  rogue: {
+    name: "Rogue",
+    multValue: () => getRogueEffect("tickUpgrade"),
+    isActive: () => true,
+    icon: MultiplierTabIcons.ROGUE
+  },
   base: {
     name: "Base Tickspeed from Achievements",
     displayOverride: () => {
