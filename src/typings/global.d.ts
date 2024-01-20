@@ -1,5 +1,5 @@
 import { default as _Decimal } from "./break_infinity";
-import playerData from "../core/playerData";
+import playerData from "../core/player-data";
 import { DC } from "../core/constants";
 import { GameCache as _GameCache } from "../core/cache";
 import { GameDatabase } from "../core/secret-formula/game-database";

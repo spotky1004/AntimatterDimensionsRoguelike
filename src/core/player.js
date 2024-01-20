@@ -1,6 +1,6 @@
 import { DC } from "./constants";
 import { deepmergeAll } from "@/utility/deepmerge";
-import playerData from "./playerData";
+import playerData from "./player-data";
 
 
 // This is actually reassigned when importing saves

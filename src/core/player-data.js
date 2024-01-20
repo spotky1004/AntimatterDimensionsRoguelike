@@ -756,12 +756,23 @@ export default {
     }
   },
   rogue: {
+    hp: DC.D1,
+    maxHp: DC.D1,
     /** @type {{ id: number, props: number[] }[]} */
     specialItems: [],
     /** @type {{ id: number, props: number[] }[]} */
     normalItems: [],
     /** @type {{ id: number, props: number[] }[]} */
-    debuffItems: []
+    debuffItems: [],
+    unlocks: {
+      itemsTab: false,
+      hp: false,
+      quests: false,
+      leveling: false,
+      boss: Array(10).fill(false),
+      specialItem: false,
+      skillTree: false,
+    }
   },
   isGameEnd: false,
   tabNotifications: new Set(),
