@@ -110,7 +110,7 @@ const items = new Map([
     icon: faIcon("fire-flame-curved"),
     rarity: "C",
     nameStr: lv => `Burning Dimensions ${roman(lv)}`,
-    descriptionStr: lv => `-${lv ** 2 / 100} ${faIcon("heart")} when you buy Normal Dimension`,
+    descriptionStr: lv => `-${lv ** 2 / 100} ${faIcon("heart")} when you buy a Normal Dimension`,
     calcEffect: () => "TODO",
     isUnlocked: () => true,
     itemGen: () => ({
