@@ -27,11 +27,12 @@ function roman(x) {
  * @param {string} name
  */
 function faIcon(name) {
-  return `<i class="fas fa-${name}" />`;
+  return `<i class="fas fa-${name}"></i>`;
 }
 
 /** @type {Map<number, RogueItemData>} */
 const items = new Map([
+  // Normal
   [1001, {
     type: "normal",
     icon: faIcon("1"),
@@ -101,6 +102,22 @@ const items = new Map([
     icon: faIcon("5"),
     rarity: "C",
     nameStr: lv => `Antimatter Punch ${roman(lv)}`
+  }],
+
+  // Debuff
+  [2001, {
+    type: "debuff",
+    icon: faIcon("fire-flame-curved"),
+    rarity: "C",
+    nameStr: lv => `Burning Dimensions ${roman(lv)}`,
+    descriptionStr: lv => `-${lv ** 2 / 100} ${faIcon("heart")} when you buy Normal Dimension`,
+    calcEffect: () => "TODO",
+    isUnlocked: () => true,
+    itemGen: () => ({
+      id: 2001,
+      lv: 1,
+      props: []
+    }),
   }]
 ]);
 

@@ -13,6 +13,9 @@ export default {
         window.GameDatabase.rogue.items.get(1002).itemGen(),
         window.GameDatabase.rogue.items.get(1003).itemGen(),
         window.GameDatabase.rogue.items.get(1004).itemGen()
+      ],
+      exampleDebuffInventory: [
+        window.GameDatabase.rogue.items.get(2001).itemGen(),
       ]
     };
   }
@@ -40,7 +43,7 @@ export default {
           is-debuff
           :name="'Debuff'"
           :size="40"
-          :items="[]"
+          :items="exampleDebuffInventory"
         />
       </span>
     </div>
