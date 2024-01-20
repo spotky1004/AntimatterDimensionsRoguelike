@@ -1,4 +1,5 @@
 <script>
+import { deepmergeAll } from "@/utility/deepmerge";
 import ItemsInventory from "./ItemsInventory";
 
 export default {
@@ -8,16 +9,17 @@ export default {
   },
   data() {
     return {
-      exampleNormalInventory: [
-        window.GameDatabase.rogue.items.get(1001).itemGen(),
-        window.GameDatabase.rogue.items.get(1002).itemGen(),
-        window.GameDatabase.rogue.items.get(1003).itemGen(),
-        window.GameDatabase.rogue.items.get(1004).itemGen()
-      ],
-      exampleDebuffInventory: [
-        window.GameDatabase.rogue.items.get(2001).itemGen(),
-      ]
+      normalInventory: [],
+      debuffInventory: [],
+      specialInventory: []
     };
+  },
+  methods: {
+    update() {
+      this.normalInventory = deepmergeAll([[], window.player.rogue.normalItems]);
+      this.debuffInventory = deepmergeAll([[], window.player.rogue.debuffItems]);
+      this.specialInventory = deepmergeAll([[], window.player.rogue.specialItems]);
+    }
   }
 };
 </script>
@@ -28,14 +30,14 @@ export default {
       is-special
       :name="'Special'"
       :size="2"
-      :items="[]"
+      :items="specialInventory"
     />
     <div class="item-tab__divide">
       <span>
         <ItemsInventory
           :name="'Normal'"
           :size="8"
-          :items="exampleNormalInventory"
+          :items="normalInventory"
         />
       </span>
       <span>
@@ -43,7 +45,7 @@ export default {
           is-debuff
           :name="'Debuff'"
           :size="40"
-          :items="exampleDebuffInventory"
+          :items="debuffInventory"
         />
       </span>
     </div>

@@ -64,9 +64,7 @@ export default {
           :is-debuff="isDebuff"
           :item="items[(row - 1) * colCount + (col - 1)]"
         />
-        <div
-          v-else
-        >
+        <div v-else>
           <div
             v-if="(row - 1) * colCount + (col - 1) >= size"
           >
