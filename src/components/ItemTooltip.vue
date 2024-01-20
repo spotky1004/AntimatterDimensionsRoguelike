@@ -13,22 +13,14 @@ export default {
   },
   data() {
     return {
-      t: 0,
-      intervalId: null
+      name: this.itemData.nameStr(this.item.lv, this.item.props),
+      description: this.itemData.descriptionStr(this.item.lv, this.item.props)
     };
   },
-  mounted() {
-    this.intervalId = setInterval(() => this.t++);
-  },
-  beforeDestroy() {
-    clearInterval(this.intervalId);
-  },
   methods: {
-    getName() {
-      return this.itemData.nameStr(this.item.lv, this.item.props);
-    },
-    getDescription() {
-      return this.itemData.descriptionStr(this.item.lv, this.item.props);
+    update() {
+      this.name = this.itemData.nameStr(this.item.lv, this.item.props);
+      this.description = this.itemData.descriptionStr(this.item.lv, this.item.props);
     }
   }
 };
@@ -45,14 +37,12 @@ export default {
     }"
   >
     <div
-      :key="t"
       class="rogue-item__tooltip__name"
-      v-html="getName()"
+      v-html="name"
     />
     <div
-      :key="t + 1"
       class="rogue-item__tooltip__description"
-      v-html="getDescription()"
+      v-html="description"
     />
   </div>
 </template>
