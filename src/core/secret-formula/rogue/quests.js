@@ -11,6 +11,7 @@
 const numberify = x => (x instanceof Decimal ? x.toNumber() : Number(x));
 const clampProgress = progress => Math.max(0, Math.min(1, numberify(progress)));
 
+/** @type {Map<number, RogueQuestData>} */
 const quests = new Map();
 /** @param {RogueQuestData} data */
 function addQuest(data) {
@@ -38,6 +39,19 @@ addQuest({
   isUnlocked: () => true,
 });
 
+const normalQuests = [...quests.entries()]
+  .map(v => v[1])
+  .filter(quest => quest.type === "normal");
+const debuffQuests = [...quests.entries()]
+  .map(v => v[1])
+  .filter(quest => quest.type === "debuff");
+const specialQuests = [...quests.entries()]
+  .map(v => v[1])
+  .filter(quest => quest.type === "special");
+
 export {
-  quests
+  quests,
+  normalQuests,
+  debuffQuests,
+  specialQuests
 };
