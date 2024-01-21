@@ -2,8 +2,8 @@
  * @typedef RogueQuestData
  * @prop {number} id
  * @prop {"normal" | "debuff" | "special"} type
- * @prop {string} name
- * @prop {string} description
+ * @prop {() => string} name
+ * @prop {() => string} description
  * @prop {() => number} getProgress range: [0, 1]
  * @prop {() => boolean} isUnlocked
  */
@@ -23,9 +23,17 @@ function addQuest(data) {
 addQuest({
   id: 101,
   type: "normal",
-  name: "Getting started",
-  description: "Have a 2nd Antimatter Dimension",
+  name: () => "Getting started",
+  description: () => "Have a 2nd Antimatter Dimension",
   getProgress: () => clampProgress(window.player.dimensions.antimatter[2].amount),
+  isUnlocked: () => true,
+});
+addQuest({
+  id: 102,
+  type: "normal",
+  name: () => "e30",
+  description: () => `Have ${format(1e30)} Antimatter`,
+  getProgress: () => clampProgress(window.player.antimatter.max(1).log(10) / 30),
   isUnlocked: () => true,
 });
 
@@ -33,8 +41,8 @@ addQuest({
 addQuest({
   id: 201,
   type: "debuff",
-  name: "Getting debuffed",
-  description: "Have a Dimension Boost",
+  name: () => "Getting debuffed",
+  description: () => "Have a Dimension Boost",
   getProgress: () => clampProgress(window.player.dimensionBoosts),
   isUnlocked: () => true,
 });

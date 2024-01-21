@@ -42,6 +42,8 @@ export default {
         v-for="item in items"
         :key="item.id"
         :quest="item"
+        :advanced="hover"
+        :has-reward="type === 'normal'"
       />
     </div>
   </div>
@@ -106,6 +108,9 @@ export default {
   background-color: var(--color4);
   border: var(--border);
   border-radius: 0.4rem;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 
   transition: 0.2s width, 0.2s height;
 }
