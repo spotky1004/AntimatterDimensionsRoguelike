@@ -1,4 +1,5 @@
 <script>
+import { deepmergeAll } from "@/utility/deepmerge";
 import ItemTooltip from "@/components/ItemTooltip";
 
 export default {
@@ -16,7 +17,7 @@ export default {
   data() {
     return {
       hover: false,
-      itemData: GameDatabase.rogue.items.get(this.item.id) ?? {}
+      itemData: deepmergeAll([{}, GameDatabase.rogue.items.get(this.item.id) ?? {}])
     };
   },
   methods: {
