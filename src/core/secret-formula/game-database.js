@@ -35,12 +35,7 @@ export const GameDatabase = {
   eternity,
   h2p,
   infinity,
-  /**
-   * @type {{
-   *  items: typeof import("./rogue/items")["items"],
-   *  calculateRogueEffects: typeof import("./rogue/items")["calculateRogueEffects"] }
-   * }
-   */
+  /** @type {typeof import("./rogue/index")["rogue"]} */
   rogue,
   multiplierTabTree,
   multiplierTabValues,
