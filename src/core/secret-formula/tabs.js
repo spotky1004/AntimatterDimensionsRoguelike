@@ -507,13 +507,21 @@ export const tabs = [
     hidable: true,
     subtabs: [
       {
+        key: "rogue-quests",
+        name: "Quests",
+        symbol: "<i class='fas fa-list-check'></i>",
+        component: "QuestsTab",
+        id: 0,
+        hidable: true
+      },
+      {
         key: "rogue-items",
         name: "Items",
         symbol: "<i class='fas fa-sack-dollar'></i>",
         component: "ItemsTab",
-        id: 0,
+        id: 1,
         hidable: true,
-      },
+      }
     ]
   }
 ];

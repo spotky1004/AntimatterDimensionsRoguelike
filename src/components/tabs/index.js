@@ -18,6 +18,7 @@ import ImaginaryUpgradesTab from "./imaginary-upgrades/ImaginaryUpgradesTab";
 import InfinityChallengesTab from "./infinity-challenges/InfinityChallengesTab";
 import InfinityDimensionsTab from "./infinity-dimensions/InfinityDimensionsTab";
 import InfinityUpgradesTab from "./infinity-upgrades/InfinityUpgradesTab";
+import ItemsTab from "./items/ItemsTab";
 import LaitelaTab from "./celestial-laitela/LaitelaTab";
 import MultiplierBreakdownTab from "./statistics/MultiplierBreakdownTab";
 import NormalAchievementsTab from "./normal-achievements/NormalAchievementsTab";
@@ -29,6 +30,7 @@ import PastPrestigeRunsTab from "./past-prestige-runs/PastPrestigeRunsTab";
 import PelleTab from "./celestial-pelle/PelleTab";
 import PerksTab from "./perks/PerksTab";
 import PreviousSpeedrunTab from "./speedrun-milestones/PreviousSpeedrunTab";
+import QuestsTab from "./quests/QuestsTab";
 import RaTab from "./celestial-ra/RaTab";
 import RealityUpgradesTab from "./reality-upgrades/RealityUpgradesTab";
 import ReplicantiTab from "./replicanti/ReplicantiTab";
@@ -41,7 +43,6 @@ import TimeDilationTab from "./time-dilation/TimeDilationTab";
 import TimeDimensionsTab from "./time-dimensions/TimeDimensionsTab";
 import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
-import ItemsTab from "./items/ItemsTab";
 
 const TabComponents = {
   AntimatterDimensionsTab,
@@ -85,6 +86,7 @@ const TabComponents = {
   AlchemyTab,
   CelestialNavigationTab,
   ItemsTab,
+  QuestsTab,
   ShopTab,
   MultiplierBreakdownTab
 };
