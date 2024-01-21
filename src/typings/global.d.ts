@@ -7,6 +7,7 @@ import {
   calculateRogueEffects as _calculateRogueEffects,
   getRogueEffect as _getRogueEffect,
 } from "../core/secret-formula/rogue/items";
+import { Currency as _Currency } from "../core/currency";
 export {};
 
 declare global {
@@ -16,6 +17,7 @@ declare global {
   }
   const Decimal = _Decimal;
   const GameCache = _GameCache;
+  const Currency = _Currency;
   const Achievement: (x: number) => { isUnlocked: boolean };
   const getRogueEffect = _getRogueEffect;
 }
