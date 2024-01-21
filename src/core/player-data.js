@@ -7,11 +7,14 @@ import { GlyphTypes } from "./glyph-effects";
 export default {
   antimatter: DC.E1,
   dimensions: {
+    /** @type {{ bought: number, costBumps: number, amount: typeof Decimal }[]} */
     antimatter: Array.range(0, 8).map(() => ({
       bought: 0,
       costBumps: 0,
       amount: DC.D0
     })),
+    // eslint-disable-next-line
+    /** @type {{ isUnlocked: boolean, bought: number, amount: typeof Decimal, cost: typeof Decimal, baseAmount: number }[]} */
     infinity: Array.range(0, 8).map(tier => ({
       isUnlocked: false,
       bought: 0,
@@ -19,6 +22,7 @@ export default {
       cost: [DC.E8, DC.E9, DC.E10, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
       baseAmount: 0
     })),
+    /** @type {{ cost: typeof Deciaml, amount: typeod Deciaml, bought: number }[]} */
     time: Array.range(0, 8).map(tier => ({
       cost: [DC.D1, DC.D5, DC.E2, DC.E3, DC.E2350, DC.E2650, DC.E3000, DC.E3350][tier],
       amount: DC.D0,
@@ -758,6 +762,8 @@ export default {
   rogue: {
     hp: DC.D1,
     maxHp: DC.D1,
+    questUnlocked: Array(500).fill(false),
+    questCompleted: Array(500).fill(false),
     /** @type {{ id: number, props: number[] }[]} */
     specialItems: [],
     /** @type {{ id: number, props: number[] }[]} */
