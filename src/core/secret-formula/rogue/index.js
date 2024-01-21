@@ -1,3 +1,7 @@
-import * as rogueThings from "./items";
+import * as rogueItemThings from "./items";
+import * as rogueQuestsThings from "./quests";
 
-export const rogue = rogueThings;
+export const rogue = {
+  ...rogueItemThings,
+  ...rogueQuestsThings
+};
