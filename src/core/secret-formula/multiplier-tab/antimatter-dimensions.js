@@ -101,6 +101,13 @@ export const AD = {
         .filter(ad => ad.isProducing)
         .reduce((x, y) => x.mul(getRogueEffect("adMults")[y.tier].mul(getRogueEffect("adAllMult"))), DC.D1);
     },
+    powValue: dim => {
+      if (dim) {
+        if (!AntimatterDimensions.all[dim - 1].isProducing) return 1;
+        return getRogueEffect("adPows")[dim].toNumber();
+      }
+      return 1;
+    },
     isActive: true,
     icon: MultiplierTabIcons.ROGUE,
   },
