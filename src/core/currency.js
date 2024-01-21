@@ -477,3 +477,34 @@ Currency.galaxyGeneratorGalaxies = new class extends NumberCurrency {
     player.celestials.pelle.galaxyGenerator.spentGalaxies += spent;
   }
 }();
+
+Currency.maxHp = new class extends DecimalCurrency {
+  get value() { return window.player.rogue.maxHp; }
+  set value(value) {
+    const delta = (new Decimal(value)).sub(this.value);
+    if (delta.gt(0)) Currency.hp.add(delta);
+    else Currency.hp.subtract(delta);
+    this.value = value;
+  }
+
+  reset() {
+    window.player.rogue.maxHp = DC.D1;
+    Currency.hp.reset();
+  }
+}();
+
+Currency.hp = new class extends DecimalCurrency {
+  get value() { return window.player.rogue.hp; }
+  set value(value) { window.player.rogue.hp = value; }
+  add(amount) {
+    // TODO: Fancy regen animation here
+    this.value = this.value.add(amount);
+  }
+
+  subtract(amount) {
+    // TODO: Fancy hurt animation here
+    this.value = this.value.sub(amount);
+  }
+
+  reset() { this.value = window.player.rogue.maxHp; }
+}();
