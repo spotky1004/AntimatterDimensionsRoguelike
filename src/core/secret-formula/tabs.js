@@ -520,7 +520,15 @@ export const tabs = [
         symbol: "<i class='fas fa-sack-dollar'></i>",
         component: "ItemsTab",
         id: 1,
-        hidable: true,
+        hidable: true
+      },
+      {
+        key: "rogue-collection",
+        name: "Collection",
+        symbol: "<i class='fas fa-scroll'></i>",
+        component: "CollectionTab",
+        id: 2,
+        hidable: true
       }
     ]
   }
