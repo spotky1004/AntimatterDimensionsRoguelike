@@ -131,7 +131,8 @@ addItem({
   id: 1005,
   type: "normal",
   icon: faIcon("5"),
-  nameStr: lv => `Antimatter Punch ${roman(lv)}`
+  nameStr: lv => `Antimatter Punch ${roman(lv)}`,
+  isUnlocked: () => Achievement(15).isUnlocked
 });
 
 // Debuff

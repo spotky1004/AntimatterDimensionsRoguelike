@@ -9,6 +9,7 @@ import {
 } from "../core/secret-formula/rogue/items";
 import { Currency as _Currency } from "../core/currency";
 export {};
+import { GAME_EVENT as _GAME_EVENT } from "../core/event-hub";
 
 declare global {
   interface Window {
@@ -20,4 +21,5 @@ declare global {
   const Currency = _Currency;
   const Achievement: (x: number) => { isUnlocked: boolean };
   const getRogueEffect = _getRogueEffect;
+  const GAME_EVENT = _GAME_EVENT;
 }

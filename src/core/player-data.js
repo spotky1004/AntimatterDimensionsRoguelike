@@ -760,6 +760,7 @@ export default {
     }
   },
   rogue: {
+    seed: Math.floor(Math.random() * 2 ** 32),
     hp: DC.D1,
     maxHp: DC.D1,
     itemsUnlocked: Array(4000).fill(false),

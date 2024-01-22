@@ -47,7 +47,7 @@ window.EventHub = class EventHub {
 EventHub.logic = new EventHub();
 EventHub.ui = new EventHub();
 
-window.GAME_EVENT = {
+export const GAME_EVENT = {
   // Ticks
   GAME_TICK_BEFORE: "GAME_TICK_BEFORE",
   GAME_TICK_AFTER: "GAME_TICK_AFTER",
@@ -104,6 +104,7 @@ window.GAME_EVENT = {
   AUTOMATOR_SAVE_CHANGED: "AUTOMATOR_SAVE_CHANGED",
   AUTOMATOR_CONSTANT_CHANGED: "AUTOMATOR_CONSTANT_CHANGED",
   PELLE_STRIKE_UNLOCKED: "PELLE_STRIKE_UNLOCKED",
+  ROGUE_DIE: "ROGUE_DIE",
 
   // Used by events to signify that they are triggered by a particular
   // event, not handled by the event hub
@@ -117,3 +118,4 @@ window.GAME_EVENT = {
   TAB_CHANGED: "TAB_CHANGED",
   CLOSE_MODAL: "CLOSE_MODAL",
 };
+window.GAME_EVENT = GAME_EVENT;

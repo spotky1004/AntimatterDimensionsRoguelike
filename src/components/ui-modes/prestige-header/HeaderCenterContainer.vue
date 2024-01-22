@@ -38,7 +38,7 @@ export default {
       this.isDoomed = Pelle.isDoomed;
       this.antimatter.copyFrom(Currency.antimatter);
       this.hasRealityButton = PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought;
-      this.rogueFire = getHpDelta().gt(0);
+      this.rogueFire = getHpDelta().lt(0);
       if (!this.hasRealityButton) this.antimatterPerSec.copyFrom(Currency.antimatter.productionPerSecond);
     },
   },
@@ -52,7 +52,7 @@ export default {
   >
     <span>You have <span
       class="c-game-header__antimatter"
-      :class="{ rogueFire }"
+      :class="{ 'rogue-fire': rogueFire }"
     >{{ format(antimatter, 2, 1) }}</span> antimatter.</span>
     <div
       v-if="hasRealityButton"

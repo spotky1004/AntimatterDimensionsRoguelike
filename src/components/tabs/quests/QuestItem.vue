@@ -23,48 +23,88 @@ export default {
       progressStr: "0%",
       completed: false,
       received: false,
+      locked: true,
     };
   },
   methods: {
     update() {
       this.progress = window.GameDatabase.rogue.quests.get(this.quest.id).getProgress();
       this.progressStr = `--progress: ${this.progress === 0 ? -5 : this.progress * 100}% `;
+      this.received = window.player.rogue.questCompleted[this.quest.id];
       this.completed = this.progress >= 1;
+      this.locked = !window.player.rogue.questUnlocked[this.quest.id];
+    },
+    openReward() {
+      if (!this.completed || this.received) return;
+      Modal.rogueItemChoose.show({
+        questId: this.quest.id
+      });
     }
   }
 };
 </script>
 
 <template>
-  <div
-    class="quest-item"
-    :class="{
-      advanced,
-      completed,
-      received,
-      hasReward
-    }"
-    :style="progressStr"
-  >
-    <span class="quest-item__info">
-      <div class="quest-item__name">
-        {{ quest.name() }}
-      </div>
-      <div
-        class="quest-item__description"
-        v-html="quest.description()"
-      />
-    </span>
-    <span
-      v-if="hasReward"
-      class="quest-item__receive"
+  <div>
+    <div
+      v-if="!locked"
+      class="quest-item"
+      :class="{
+        advanced,
+        completed,
+        received,
+        hasReward,
+      }"
+      :style="progressStr"
     >
-      <i class="fa-solid fa-sack-dollar" />
-    </span>
+      <span class="quest-item__info">
+        <div class="quest-item__name">
+          {{ quest.name() }}
+        </div>
+        <div
+          class="quest-item__description"
+          v-html="quest.description()"
+        />
+      </span>
+      <span
+        v-if="hasReward"
+        class="quest-item__receive"
+        @click="openReward"
+      >
+        <i class="fa-solid fa-sack-dollar" />
+      </span>
+    </div>
+    <div
+      v-else
+      class="quest-item-locked"
+      :class="{ advanced }"
+    >
+      <i class="fas fa-lock" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.quest-item-locked {
+  position: relative;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.8rem;
+
+  background-color: var(--color4);
+  filter: brightness(0.7);
+
+  transition: 0.2s font-size, 0.2s height;
+}
+
+.quest-item-locked.advanced {
+  font-size: 4rem;
+  height: 6rem;
+}
+
 .quest-item {
   --progress: 0%;
 
@@ -85,7 +125,7 @@ export default {
   transition: 0.2s height, 0.2s background-size;
   overflow: hidden;
 }
-.quest-item::after {
+.quest-item-locked::after, .quest-item::after {
   content: "";
   width: 80%;
 
@@ -102,7 +142,12 @@ export default {
   height: 6rem;
 }
 
-.quest-item.advanced.hasReward {
+.quest-item.received {
+  filter: brightness(0.5);
+  /* order: 10; */
+}
+
+.quest-item.advanced:not(.received).hasReward {
   background-size: 80% 100%;
 }
 
@@ -152,7 +197,6 @@ export default {
   opacity: 1;
 }
 
-
 .quest-item__receive {
   position: relative;
   flex-grow: 0;
@@ -168,7 +212,7 @@ export default {
   overflow: hidden;
 }
 
-.quest-item.advanced .quest-item__receive {
+.quest-item.advanced:not(.received) .quest-item__receive {
   flex-grow: 1;
 }
 
