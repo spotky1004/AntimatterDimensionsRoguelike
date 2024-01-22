@@ -6,6 +6,7 @@
  * @prop {() => string} description
  * @prop {() => number} getProgress range: [0, 1]
  * @prop {() => boolean} isUnlocked
+ * @prop {[weight: number, id: number][]} [rewardTable]
  */
 
 const numberify = x => (x instanceof Decimal ? x.toNumber() : Number(x));
@@ -27,6 +28,7 @@ addQuest({
   description: () => "Have a 2nd Antimatter Dimension",
   getProgress: () => clampProgress(window.player.dimensions.antimatter[2].amount),
   isUnlocked: () => true,
+  rewardRoll: [[1, 1001], [1, 1002], [1, 1003], [1, 1004]]
 });
 addQuest({
   id: 102,
