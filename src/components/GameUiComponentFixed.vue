@@ -3,6 +3,7 @@ import CelestialQuoteHistoryDisplay from "@/components/modals/celestial-quotes/C
 import CelestialQuoteModal from "@/components/modals/celestial-quotes/CelestialQuoteModal";
 import CreditsContainer from "@/components/tabs/celestial-pelle/CreditsContainer";
 import FadeAway from "@/components/tabs/celestial-pelle/FadeAway";
+import HealthDisplay from "./HealthDisplay";
 import HowToPlay from "@/components/HowToPlay";
 import ModalProgressBar from "@/components/modals/ModalProgressBar";
 import ModernSidebar from "@/components/ui-modes/modern/ModernSidebar";
@@ -17,6 +18,7 @@ export default {
   name: "GameUiComponentFixed",
   components: {
     HowToPlay,
+    HealthDisplay,
     TimeTheoremShop,
     ModernSidebar,
     SaveTimer,
@@ -74,6 +76,7 @@ export default {
       :style="hideIfMatoFullscreen"
     />
     <SaveTimer :style="hideIfMatoFullscreen" />
+    <HealthDisplay />
     <SpeedrunStatus :style="hideIfMatoFullscreen" />
     <template v-if="view.theme !== 'S12'">
       <ModalProgressBar v-if="view.modal.progressBar" />

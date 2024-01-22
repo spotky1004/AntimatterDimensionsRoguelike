@@ -51,7 +51,7 @@ export default {
 .o-save-timer {
   white-space: nowrap;
   position: absolute;
-  bottom: 0;
+  bottom: 2rem;
   left: 0;
   z-index: 5;
   text-align: left;
