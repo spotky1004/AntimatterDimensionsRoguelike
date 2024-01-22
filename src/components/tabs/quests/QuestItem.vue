@@ -128,6 +128,7 @@ export default {
 .quest-item.advanced .quest-item__name {
   font-size: 3em;
   opacity: 0.15;
+  user-select: none;
 }
 
 .quest-item__description {
