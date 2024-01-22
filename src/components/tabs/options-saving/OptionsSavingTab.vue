@@ -31,6 +31,9 @@ export default {
       inSpeedrun: false,
       creditsClosed: false,
       canModifySeed: false,
+      resetTheGameCounter: 100,
+      resetCounterUpdated: 0,
+      resetTheGameContent: "RESET THE GAME",
     };
   },
   computed: {
@@ -83,8 +86,24 @@ export default {
       this.inSpeedrun = player.speedrun.isActive;
       this.canModifySeed = Speedrun.canModifySeed();
       this.creditsClosed = GameEnd.creditsEverClosed;
+      const time = player.lastUpdate;
+      if (time - this.resetCounterUpdated > 1500) {
+        this.resetTheGameCounter = Math.min(100, this.resetTheGameCounter + 1);
+        this.resetCounterUpdated = time;
+      }
+      this.resetTheGameContent = this.resetTheGameCounter === 100
+        ? "RESET THE GAME"
+        : `${this.resetTheGameCounter} more clicks!`;
       if (!this.loggedIn) return;
       this.userName = Cloud.user.displayName;
+    },
+    clickReset() {
+      if (this.resetTheGameCounter <= 0) {
+        Modal.hardReset.show();
+        this.resetTheGameCounter = 100;
+      } else {
+        this.resetTheGameCounter--;
+      }
     },
     importAsFile(event) {
       // This happens if the file dialog is canceled instead of a file being selected
@@ -136,10 +155,9 @@ export default {
         <OptionsButton
           class="o-primary-btn--option_font-x-large"
           :class="{ 'o-pelle-disabled-pointer': creditsClosed }"
-          onclick="Modal.hardReset.show()"
-        >
-          RESET THE GAME
-        </OptionsButton>
+          @click="clickReset()"
+          v-text="resetTheGameContent"
+        />
       </div>
       <div class="l-options-grid__row">
         <OptionsButton
