@@ -762,6 +762,7 @@ export default {
   rogue: {
     hp: DC.D1,
     maxHp: DC.D1,
+    itemsUnlocked: Array(4000).fill(false),
     questUnlocked: Array(500).fill(false),
     questCompleted: Array(500).fill(false),
     /** @type {{ id: number, props: number[] }[]} */
