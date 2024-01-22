@@ -498,12 +498,12 @@ Currency.hp = new class extends DecimalCurrency {
   set value(value) { window.player.rogue.hp = value; }
   add(amount) {
     // TODO: Fancy regen animation here
-    this.value = this.value.add(amount);
+    this.value = this.value.add(amount).min(Currency.maxHp.value);
   }
 
   subtract(amount) {
     // TODO: Fancy hurt animation here
-    this.value = this.value.sub(amount);
+    this.value = this.value.sub(amount).max(0);
   }
 
   reset() { this.value = window.player.rogue.maxHp; }
