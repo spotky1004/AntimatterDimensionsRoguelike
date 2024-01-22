@@ -100,7 +100,7 @@ export default {
   margin-bottom: 1rem;
 
   color: #fff;
-  max-width: 20rem;
+  width: 20rem;
 }
 
 .rogue-item__tooltip.special > .rogue-item__tooltip__description {
