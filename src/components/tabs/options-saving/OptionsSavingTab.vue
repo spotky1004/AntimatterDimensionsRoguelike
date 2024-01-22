@@ -86,10 +86,9 @@ export default {
       this.inSpeedrun = player.speedrun.isActive;
       this.canModifySeed = Speedrun.canModifySeed();
       this.creditsClosed = GameEnd.creditsEverClosed;
-      const time = player.lastUpdate;
-      if (time - this.resetCounterUpdated > 1500) {
+      if (player.lastUpdate - this.resetCounterUpdated > 1500) {
         this.resetTheGameCounter = Math.min(100, this.resetTheGameCounter + 1);
-        this.resetCounterUpdated = time;
+        this.resetCounterUpdated = player.lastUpdate;
       }
       this.resetTheGameContent = this.resetTheGameCounter === 100
         ? "RESET THE GAME"
@@ -98,6 +97,7 @@ export default {
       this.userName = Cloud.user.displayName;
     },
     clickReset() {
+      this.resetCounterUpdated = player.lastUpdate;
       if (this.resetTheGameCounter <= 0) {
         Modal.hardReset.show();
         this.resetTheGameCounter = 100;
