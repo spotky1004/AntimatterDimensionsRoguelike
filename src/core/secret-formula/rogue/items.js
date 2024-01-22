@@ -161,6 +161,20 @@ addItem({
     props: Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
   }),
 });
+addItem({
+  id: 2002,
+  type: "debuff",
+  icon: faIcon("bug"),
+  nameStr: lv => `${["A", "Two", "Three", "Four"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
+  descriptionStr: lv => `- ${format(lv / 1000, 3, 3)} ${faIcon("heart")}/s`,
+  calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(lv / 1000),
+  isUnlocked: () => true,
+  itemGen: () => ({
+    id: 2002,
+    lv: 1,
+    props: []
+  })
+});
 
 export {
   items,
