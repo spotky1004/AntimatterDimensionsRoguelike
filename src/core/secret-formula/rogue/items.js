@@ -9,7 +9,6 @@ import { Notations } from "../../notations";
  * @prop {number} id
  * @prop {"normal" | "debuff" | "special"} type
  * @prop {string} icon
- * @prop {"C" | "B" | "A" | "S"} rarity
  * @prop {(lv: number, props: number[]) => string} nameStr
  * @prop {(lv: number, props: number[]) => string} descriptionStr
  * @prop {(effect: RogueEffects, lv: number, props: number[]) => void} calcEffect
@@ -64,10 +63,9 @@ addItem({
   id: 1001,
   type: "normal",
   icon: faIcon("1"),
-  rarity: "C",
   nameStr: lv => `${["First", "Second", "Third", "Fourth"][lv - 1]} Boost`,
-  descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.E1.pow(lv))}`,
-  calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.E1.pow(lv)),
+  descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.D5.pow(lv))}`,
+  calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.D5.pow(lv)),
   isUnlocked: () => Achievement(11).isUnlocked,
   itemGen: () => ({
     id: 1001,
@@ -79,10 +77,9 @@ addItem({
   id: 1002,
   type: "normal",
   icon: faIcon("2"),
-  rarity: "C",
   nameStr: lv => `${["Quadratic", "Cubic", "Quartic", "Quintic"][lv - 1]} Equation`,
-  descriptionStr: lv => `Boosts 2nd Antimatter Dimension's mult by ^${format(lv + 1)}`,
-  calcEffect: (effect, lv) => effect.adPows[2] = effect.adPows[2].mul(lv + 1),
+  descriptionStr: lv => `Boosts 2nd Antimatter Dimension's mult by ^${format(1 + lv / 5, 2, 2)}`,
+  calcEffect: (effect, lv) => effect.adPows[2] = effect.adPows[2].mul(1 + lv / 5, 2, 2),
   isUnlocked: () => Achievement(12).isUnlocked,
   itemGen: () => ({
     id: 1002,
@@ -94,16 +91,15 @@ addItem({
   id: 1003,
   type: "normal",
   icon: faIcon("3"),
-  rarity: "C",
   nameStr: lv => `Half Life ${roman(lv)}`,
   descriptionStr: (lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.E1.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D2.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     return `Boosts Anaimatter Dimensions by x${format(boost, 2, 2)}.<br> But, decays overtime.`;
   },
   calcEffect: (effect, lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.E1.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D2.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     effect.adAllMult = effect.adAllMult.mul(boost);
   },
   isUnlocked: () => Achievement(13).isUnlocked,
@@ -117,7 +113,6 @@ addItem({
   id: 1004,
   type: "normal",
   icon: faIcon("4"),
-  rarity: "C",
   nameStr: lv => `${4 * lv} Tickspeed`,
   descriptionStr: lv => `Boosts Tickspeed upgrade effect by x${format(DC.D1.add(0.004 * lv), 3, 3)}.`,
   calcEffect: (effect, lv) => effect.tickUpgrade = effect.tickUpgrade.mul(DC.D1.add(0.004 * lv)),
@@ -132,7 +127,6 @@ addItem({
   id: 1005,
   type: "normal",
   icon: faIcon("5"),
-  rarity: "C",
   nameStr: lv => `Antimatter Punch ${roman(lv)}`
 });
 
