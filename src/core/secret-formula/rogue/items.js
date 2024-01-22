@@ -24,6 +24,10 @@ function calculateRogueEffects() {
     adMults: Array.range(0, 9).map(() => DC.D1),
     /** @type {(typeof Decimal)[]} */
     adPows: Array.range(0, 9).map(() => DC.D1),
+    hpDelta: DC.D0,
+    fire: {
+      ad: false
+    }
   };
 
   const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
@@ -137,13 +141,24 @@ addItem({
   icon: faIcon("fire-flame-curved"),
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
-  descriptionStr: lv => `-${lv ** 2 / 100} ${faIcon("heart")} when you buy a Normal Dimension`,
-  calcEffect: () => "TODO",
+  descriptionStr: lv => `-${format(lv ** 2 / 1000, 3, 3)} ${faIcon("heart")} when you buy a Normal Dimension`,
+  calcEffect: (effect, lv, props) => {
+    effect.fire.ad = true;
+
+    const attackValue = lv ** 2 / 1000;
+    let diffSum = 0;
+    for (let i = 0; i < 8; i++) {
+      const curBoughtAmount = player.dimensions.antimatter[i].bought;
+      diffSum += Math.max(0, curBoughtAmount - props[i]);
+      props[i] = curBoughtAmount;
+    }
+    Currency.hp.subtract(diffSum * attackValue);
+  },
   isUnlocked: () => true,
   itemGen: () => ({
     id: 2001,
     lv: 1,
-    props: []
+    props: Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
   }),
 });
 

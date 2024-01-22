@@ -5,6 +5,7 @@ import RealityCurrencyHeader from "../../RealityCurrencyHeader";
 import HeaderTickspeedInfo from "../HeaderTickspeedInfo";
 
 import RealityButton from "./RealityButton";
+import { getHpDelta } from "../../../core/rogue/hp";
 
 // This component contains antimatter and antimatter rate at the start of the game, as well as some additional
 // information depending on the UI (tickspeed for Classic, game speed for Modern). Everything but antimatter is
@@ -25,6 +26,7 @@ export default {
       isDoomed: false,
       antimatter: new Decimal(0),
       antimatterPerSec: new Decimal(0),
+      rogueFire: false
     };
   },
   methods: {
@@ -36,6 +38,7 @@ export default {
       this.isDoomed = Pelle.isDoomed;
       this.antimatter.copyFrom(Currency.antimatter);
       this.hasRealityButton = PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought;
+      this.rogueFire = getHpDelta().gt(0);
       if (!this.hasRealityButton) this.antimatterPerSec.copyFrom(Currency.antimatter.productionPerSecond);
     },
   },
@@ -47,7 +50,10 @@ export default {
     v-if="shouldDisplay"
     class="c-prestige-button-container"
   >
-    <span>You have <span class="c-game-header__antimatter rogue-fire">{{ format(antimatter, 2, 1) }}</span> antimatter.</span>
+    <span>You have <span
+      class="c-game-header__antimatter"
+      :class="{ rogueFire }"
+    >{{ format(antimatter, 2, 1) }}</span> antimatter.</span>
     <div
       v-if="hasRealityButton"
       class="c-reality-container"

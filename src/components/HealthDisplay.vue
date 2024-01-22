@@ -19,7 +19,7 @@ export default {
         --hp-left: ${ratio * 100}%;
       `;
 
-      const delta = new Decimal(0);
+      const delta = getHpDelta();
       const sign = ["-", "±", "+"][delta.sign() + 1];
       this.healthDelatStr = `${sign} ${format(delta.abs(), 3, 3)}/s`;
     }

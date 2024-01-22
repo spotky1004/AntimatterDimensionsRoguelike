@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       isSmall: 0,
+      rogueFire: false,
     };
   },
   computed: {
@@ -44,11 +45,13 @@ export default {
       // Needs to be reactive or else rows that don't have changing values (eg. the highest dimension and any higher
       // locked ones) won't change layout when the window size changes
       this.isSmall = window.innerWidth < 1573;
+      this.rogueFire = getRogueEffect("fire").ad;
     },
     adjustableTextClass() {
       return {
         "l-narrow-box": this.isSmall,
         "l-wide-box": !this.isSmall,
+        "rogue-fire": this.rogueFire
       };
     }
   }
