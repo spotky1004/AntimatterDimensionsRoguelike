@@ -3,6 +3,11 @@ import { GameUI } from "./ui";
 import { Currency } from "./currency";
 
 export function rogueUpdate() {
+  Currency.maxHp.value = new Decimal(Currency.antimatter.value.add(1).log(10) / 10).max(Currency.maxHp.value);
+  if (Currency.hp.value.lte(0)) {
+    rogueDie();
+  }
+
   for (const [id, item] of window.GameDatabase.rogue.items) {
     if (window.player.rogue.itemsUnlocked[id] || !item.isUnlocked()) continue;
     window.player.rogue.itemsUnlocked[id] = true;
@@ -28,8 +33,16 @@ export function rogueUpdate() {
   }
 }
 
-const nonResetAchievements = [22, 76];
+export function calcRogueDieRewards() {
+
+}
+
 export function rogueDie() {
+  rogueReset();
+}
+
+const nonResetAchievements = [22, 76];
+export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
   Tab.rogue["rogue-quests"].show();
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);

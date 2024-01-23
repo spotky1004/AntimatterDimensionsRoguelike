@@ -482,9 +482,9 @@ Currency.maxHp = new class extends DecimalCurrency {
   get value() { return window.player.rogue.maxHp; }
   set value(value) {
     const delta = (new Decimal(value)).sub(this.value);
+    window.player.rogue.maxHp = value;
     if (delta.gt(0)) Currency.hp.add(delta);
-    else Currency.hp.subtract(delta);
-    this.value = value;
+    else Currency.hp.value = new Decimal(Currency.hp.value);
   }
 
   reset() {
@@ -495,7 +495,7 @@ Currency.maxHp = new class extends DecimalCurrency {
 
 Currency.hp = new class extends DecimalCurrency {
   get value() { return window.player.rogue.hp; }
-  set value(value) { window.player.rogue.hp = value; }
+  set value(value) { window.player.rogue.hp = value.min(Currency.maxHp.value).max(0); }
   add(amount) {
     // TODO: Fancy regen animation here
     this.value = this.value.add(amount).min(Currency.maxHp.value);
