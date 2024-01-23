@@ -761,6 +761,7 @@ export default {
   },
   rogue: {
     seed: Math.floor(Math.random() * 2 ** 32),
+    dieCount: 0,
     hp: DC.D1,
     maxHp: DC.D1,
     itemsUnlocked: Array(4000).fill(false),
@@ -773,9 +774,9 @@ export default {
     /** @type {{ id: number, props: number[] }[]} */
     debuffItems: [],
     unlocks: {
-      itemsTab: false,
       hp: false,
       quests: false,
+      items: false,
       leveling: false,
       boss: Array(10).fill(false),
       specialItem: false,

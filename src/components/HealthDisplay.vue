@@ -6,7 +6,8 @@ export default {
       healthStr: "1.000",
       maxHealthStr: "1.000",
       healthDelatStr: "± 0.000",
-      progressStyle: `--hp-left: 0%`
+      progressStyle: `--hp-left: 0%`,
+      locked: true,
     };
   },
   methods: {
@@ -22,6 +23,7 @@ export default {
       const delta = getHpDelta();
       const sign = ["-", "±", "+"][delta.sign() + 1];
       this.healthDelatStr = `${sign} ${format(delta.abs(), 3, 3)}/s`;
+      this.locked = !window.player.rogue.unlocks.hp;
     }
   }
 };
@@ -30,6 +32,7 @@ export default {
 <template>
   <div
     class="health-display"
+    :class="{ locked }"
     :style="progressStyle"
   >
     <span class="health-display__nums">
@@ -79,6 +82,11 @@ export default {
 
   transition: 0.3s background-position;
 }
+
+.health-display.locked {
+  filter: brightness(0) !important;
+}
+
 .health-display:hover::after {
   position: absolute;
   left: 50%;

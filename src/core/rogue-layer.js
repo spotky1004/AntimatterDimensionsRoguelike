@@ -1,11 +1,29 @@
+import { Currency } from "./currency";
 import { DC } from "./constants";
 import { GameUI } from "./ui";
-import { Currency } from "./currency";
 
 export function rogueUpdate() {
+  // Update hp & Check died
   Currency.maxHp.value = new Decimal(Currency.antimatter.value.add(1).log(10) / 10).max(Currency.maxHp.value);
-  if (Currency.hp.value.lte(0)) {
+  if (Currency.hp.value.lte(0.0001)) {
     rogueDie();
+  }
+
+  // Unlocks
+  if (
+    !window.player.rogue.unlocks.hp &&
+    window.player.dimensionBoosts >= 1
+  ) window.player.rogue.unlocks.hp = true;
+  if (
+    !window.player.rogue.unlocks.quests &&
+    window.player.dimensions.antimatter[1].amount.gte(1)
+  ) window.player.rogue.unlocks.quests = true;
+  if (
+    !window.player.rogue.unlocks.items &&
+    window.player.rogue.questCompleted.includes(true)
+  ) {
+    window.player.rogue.unlocks.items = true;
+    Tab.rogue["rogue-items"].show();
   }
 
   for (const [id, item] of window.GameDatabase.rogue.items) {
@@ -18,6 +36,7 @@ export function rogueUpdate() {
     window.player.rogue.questUnlocked[id] = true;
   }
 
+  // Debuff quest auto-complete
   for (const quest of window.GameDatabase.rogue.debuffQuests) {
     if (
       window.player.rogue.questCompleted[quest.id] ||
@@ -34,10 +53,12 @@ export function rogueUpdate() {
 }
 
 export function calcRogueDieRewards() {
-
+  // A
 }
 
 export function rogueDie() {
+  window.player.rogue.dieCount++;
+  GameUI.notify.error(`You died... #${window.player.rogue.dieCount}`);
   rogueReset();
 }
 
@@ -53,21 +74,22 @@ export function rogueReset() {
   }
   player.records.totalTimePlayed = player.records.realTimePlayed;
 
+  Currency.maxHp.reset();
   player.rogue.normalItems = [];
   player.rogue.debuffItems = [];
   player.rogue.specialItems = [];
   player.rogue.questCompleted.fill(false);
 
-  let x = player.reality.glyphs.protectedRows;
+  const x = player.reality.glyphs.protectedRows;
   player.reality.glyphs.protectedRows = 0;
-  for (let g = 0; g < 120; g++){
-    let glyph = Glyphs.inventory[g];
-    if (glyph != null && glyph.type != "companion") GlyphSacrificeHandler.deleteGlyph(glyph, true);
+  for (let g = 0; g < 120; g++) {
+    const glyph = Glyphs.inventory[g];
+    if (glyph !== null && glyph.type !== "companion") GlyphSacrificeHandler.deleteGlyph(glyph, true);
   }
   Glyphs.unequipAll(true);
-  for (let h = 0; h < 120; h++){
-    let glyph = Glyphs.inventory[h];
-    if (glyph != null && glyph.type != "companion") GlyphSacrificeHandler.deleteGlyph(glyph, true);
+  for (let h = 0; h < 120; h++) {
+    const glyph = Glyphs.inventory[h];
+    if (glyph !== null && glyph.type !== "companion") GlyphSacrificeHandler.deleteGlyph(glyph, true);
   }
   player.reality.glyphs.protectedRows = x;
 
@@ -93,7 +115,7 @@ export function rogueReset() {
     }
   };
 
-  player.records.totalAntimatter = DC.E1,
+  player.records.totalAntimatter = DC.E1;
   player.challenge.normal.bestTimes = Array.repeat(Decimal.pow10(Number.MAX_VALUE), 11);
   player.challenge.infinity.bestTimes = Array.repeat(Decimal.pow10(Number.MAX_VALUE), 8);
 
@@ -151,7 +173,7 @@ export function rogueReset() {
     totalAntimatter: DC.D0,
     totalInfinityPoints: DC.D0,
     totalEternityPoints: DC.D0,
-  },
+  };
   player.celestials.pelle.rebuyables.antimatterDimensionMult = 0;
   player.celestials.pelle.rebuyables.timeSpeedMult = 0;
   player.celestials.pelle.rebuyables.glyphLevels = 0;
@@ -225,7 +247,13 @@ export function rogueReset() {
   Perks.find(0).isBought = true;
   Perks.find(0).onPurchased();
   player.realities = 0;
-  for (const perkId of [10, 12, 13, 14, 15, 16, 17, 30, 31, 40, 41, 42, 43, 44, 45, 46, 51, 52, 53, 54, 55, 56, 57, 60, 61, 62, 70, 71, 72, 73, 80, 81, 82, 83, 100, 101, 102, 103, 104, 105, 106, 201, 202, 203, 204, 205]) {
+  for (const perkId of [
+    10, 12, 13, 14, 15, 16, 17, 30, 31, 40,
+    41, 42, 43, 44, 45, 46, 51, 52, 53, 54,
+    55, 56, 57, 60, 61, 62, 70, 71, 72, 73,
+    80, 81, 82, 83, 100, 101, 102, 103, 104,
+    105, 106, 201, 202, 203, 204, 205
+  ]) {
     const perk = Perks.find(perkId);
     perk.isBought = false;
   }
@@ -249,13 +277,13 @@ export function rogueReset() {
   player.reality.glyphs.sac.reality = 0;
   player.reality.glyphs.undo = [];
   player.reality.perkPoints = 0;
-  for (let i = 1; i <= 5; i++){
+  for (let i = 1; i <= 5; i++) {
     player.reality.rebuyables[i] = 0;
   }
-  for (let i = 1; i <= 10; i++){
+  for (let i = 1; i <= 10; i++) {
     player.reality.imaginaryRebuyables[i] = 0;
   }
-  for (let i = 0; i < 2; i++){
+  for (let i = 0; i < 2; i++) {
     player.blackHole[i].intervalUpgrades = 0;
     player.blackHole[i].powerUpgrades = 0;
     player.blackHole[i].durationUpgrades = 0;
@@ -343,8 +371,8 @@ export function rogueReset() {
   player.IPMultPurchases = 0;
 
   Currency.antimatter.reset();
-  player.dimensionBoosts =  0;
-  player.galaxies =  0;
+  player.dimensionBoosts = 0;
+  player.galaxies = 0;
   player.sacrificed = DC.D0;
   AntimatterDimensions.reset();
   resetTickspeed();
@@ -354,7 +382,7 @@ export function rogueReset() {
     achievement.lock();
   }
 
-  Glyphs.refreshActive(); 
+  Glyphs.refreshActive();
   EventHub.dispatch(GAME_EVENT.GLYPHS_EQUIPPED_CHANGED);
   if (player.options.automatorEvents.clearOnReality) AutomatorData.clearEventLog();
   if (Player.automatorUnlocked && AutomatorBackend.state.forceRestart) {

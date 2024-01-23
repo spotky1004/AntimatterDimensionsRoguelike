@@ -511,6 +511,7 @@ export const tabs = [
         name: "Quests",
         symbol: "<i class='fas fa-list-check'></i>",
         component: "QuestsTab",
+        condition: () => player.rogue.unlocks.quests,
         id: 0,
         hidable: true
       },
@@ -519,6 +520,7 @@ export const tabs = [
         name: "Items",
         symbol: "<i class='fas fa-sack-dollar'></i>",
         component: "ItemsTab",
+        condition: () => player.rogue.unlocks.items,
         id: 1,
         hidable: true
       },
@@ -527,6 +529,7 @@ export const tabs = [
         name: "Collection",
         symbol: "<i class='fas fa-scroll'></i>",
         component: "CollectionTab",
+        condition: () => player.rogue.unlocks.items,
         id: 2,
         hidable: true
       }
