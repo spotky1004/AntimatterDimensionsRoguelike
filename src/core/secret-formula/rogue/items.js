@@ -142,11 +142,11 @@ addItem({
   icon: faIcon("fire-flame-curved"),
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
-  descriptionStr: lv => `-${format(lv ** 2 / 1000, 3, 3)} ${faIcon("heart")} when you buy a Normal Dimension`,
+  descriptionStr: lv => `-${format(lv ** 2 / 10000, 3, 3)} ${faIcon("heart")} when you buy a Normal Dimension`,
   calcEffect: (effect, lv, props) => {
     effect.fire.ad = true;
 
-    const attackValue = lv ** 2 / 1000;
+    const attackValue = lv ** 2 / 10000;
     let diffSum = 0;
     for (let i = 0; i < 8; i++) {
       const curBoughtAmount = player.dimensions.antimatter[i].bought;
