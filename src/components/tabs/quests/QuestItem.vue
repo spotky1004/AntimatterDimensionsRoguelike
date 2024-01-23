@@ -105,6 +105,10 @@ export default {
   height: 6rem;
 }
 
+.quest-item-locked > i {
+  color: var(--color3);
+}
+
 .quest-item {
   --progress: 0%;
 
@@ -231,7 +235,8 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 2rem;
+
+  transform: translate(-50%, -50%);
 }
 </style>

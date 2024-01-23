@@ -69,15 +69,13 @@ export default {
   );
   border: var(--border);
   border-radius: 0.4rem;
-  filter: brightness(0.7);
 
-  transition: 0.2s width, 0.2s height, 0.2s filter, 2s cubic-bezier(.14,.88,.23,.99) margin;
+  transition: 0.2s width, 0.2s height, 2s cubic-bezier(.14,.88,.23,.99) margin;
 }
 .quest-list:hover {
   width: 45rem;
   height: 60rem;
   margin: 6rem;
-  filter: brightness(1);
 }
 
 .quest-list.debuff {
