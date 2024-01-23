@@ -5,7 +5,7 @@ import { GameUI } from "./ui";
 export function rogueUpdate() {
   // Update hp & Check died
   Currency.maxHp.value = new Decimal(Currency.antimatter.value.add(1).log(10) / 10).max(Currency.maxHp.value);
-  if (Currency.hp.value.lte(0.0001)) {
+  if (Currency.hp.value.lt(0.001)) {
     rogueDie();
   }
 
