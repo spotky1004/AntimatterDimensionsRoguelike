@@ -75,12 +75,14 @@ export const Laitela = {
   get canAnnihilate() {
     return Laitela.annihilationUnlocked && Currency.darkMatter.gte(this.annihilationDMRequirement);
   },
-  annihilate(force) {
+  annihilate(force, fromRogueDie = false) {
     if (!force && !this.canAnnihilate) return false;
     this.celestial.darkMatterMult += this.darkMatterMultGain;
     DarkMatterDimensions.reset();
-    Laitela.quotes.annihilation.show();
-    Achievement(176).unlock();
+    if (!fromRogueDie) {
+      Laitela.quotes.annihilation.show();
+      Achievement(176).unlock();
+    }
     return true;
   },
   // Greedily buys the cheapest available upgrade until none are affordable
@@ -110,8 +112,8 @@ export const Laitela = {
       buy(cheapestUpgrade, 1);
     }
   },
-  reset() {
-    this.annihilate(true);
+  reset(fromRogueDie = false) {
+    this.annihilate(true, fromRogueDie);
     this.celestial.darkMatterMult = 1;
     Currency.darkMatter.max = DC.D1;
     Currency.darkMatter.reset();
