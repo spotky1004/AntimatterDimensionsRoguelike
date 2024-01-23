@@ -8,6 +8,7 @@ export default {
       healthDelatStr: "± 0.000",
       progressStyle: `--hp-left: 0%`,
       locked: true,
+      hover: false
     };
   },
   methods: {
@@ -34,9 +35,16 @@ export default {
     class="health-display"
     :class="{ locked }"
     :style="progressStyle"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
   >
     <span class="health-display__nums">
-      {{ healthStr }} / {{ maxHealthStr }} ({{ healthDelatStr }})
+      <div v-if="!hover">
+        {{ healthStr }} / {{ maxHealthStr }} ({{ healthDelatStr }})
+      </div>
+      <div v-else>
+        Max <i class="  fas fa-heart" />: log(antimatter) / 10
+      </div>
     </span>
     <i class="health-display-icon fas fa-heart" />
   </div>
@@ -85,16 +93,6 @@ export default {
 
 .health-display.locked {
   filter: brightness(0) !important;
-}
-
-.health-display:not(.locked):hover::after {
-  position: absolute;
-  left: 50%;
-  bottom: 2rem;
-  content: "Max hp is based on log(antimatter)";
-  transform: translateX(-50%);
-  color: #aaa;
-  pointer-events: none;
 }
 
 .health-display__nums {
