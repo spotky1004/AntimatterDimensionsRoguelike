@@ -57,7 +57,7 @@ function rollRewardTable(quest, maxSelect = Infinity) {
     for (let j = 0; j < avaibles.length; j++) {
       const [weight, id] = avaibles[j];
       acc += weight;
-      if (acc < r) continue;
+      if (acc <= r) continue;
       avaibles.splice(j, 1);
       pickedItemIds.push(id);
       break;
