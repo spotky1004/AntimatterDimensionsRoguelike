@@ -74,7 +74,7 @@ export function rogueReset() {
   }
   player.records.totalTimePlayed = player.records.realTimePlayed;
 
-  Currency.maxHp.reset();
+  window.player.rogue.seed = Math.floor(Math.random() * 2 ** 32);
   player.rogue.normalItems = [];
   player.rogue.debuffItems = [];
   player.rogue.specialItems = [];
@@ -388,4 +388,5 @@ export function rogueReset() {
   if (Player.automatorUnlocked && AutomatorBackend.state.forceRestart) {
     AutomatorBackend.start(AutomatorBackend.state.topLevelScript);
   }
+  Currency.maxHp.reset();
 }
