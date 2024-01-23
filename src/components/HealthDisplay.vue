@@ -87,11 +87,14 @@ export default {
   filter: brightness(0) !important;
 }
 
-.health-display:hover::after {
+.health-display:not(.locked):hover::after {
   position: absolute;
   left: 50%;
   bottom: 2rem;
-  content: "Based on total antimatter";
+  content: "Max hp is based on log(antimatter)";
+  transform: translateX(-50%);
+  color: #aaa;
+  pointer-events: none;
 }
 
 .health-display__nums {
