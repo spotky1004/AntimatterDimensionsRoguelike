@@ -253,6 +253,11 @@ export default {
 </template>
 
 <style scoped>
+.time-theorem-buttons {
+  position: absolute;
+  bottom: 2rem;
+}
+
 .l-load-tree-area {
   display: flex;
   flex-direction: column;
