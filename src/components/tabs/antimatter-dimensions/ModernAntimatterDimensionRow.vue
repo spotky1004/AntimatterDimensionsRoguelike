@@ -125,6 +125,9 @@ export default {
         "button-content l-modern-buy-ad-text": true,
         "tutorial--glow": this.isAffordable && this.hasTutorial
       };
+    },
+    onFire() {
+      return getRogueEffect("fire").ad;
     }
   }
 };
@@ -142,6 +145,7 @@ export default {
       :multiplier-text="formatX(multiplier, 2, 2)"
       :amount-text="amountDisplay"
       :rate="rateOfChange"
+      :rogue-fire="onFire()"
     />
     <div class="l-dim-row-multi-button-container c-modern-dim-tooltip-container">
       <div class="c-modern-dim-purchase-count-tooltip">
