@@ -34,7 +34,8 @@ export default {
     },
     genItems() {
       const quest = window.GameDatabase.rogue.quests.get(this.questId);
-      return window.GameDatabase.rogue.rollRewardTable(quest).map(item => item.itemGen());
+      const rolled = window.GameDatabase.rogue.rollRewardTable(quest);
+      return rolled.map(([itemData, seed]) => itemData.itemGen(seed));
     },
     select(idx) {
       this.selectIdx = idx;
@@ -49,15 +50,7 @@ export default {
       window.player.rogue.questCompleted[this.questId] = true;
 
       const item = this.genItems()[this.selectIdx];
-      const itemData = window.GameDatabase.rogue.items.get(item.id);
-      const type = itemData.type;
-      if (type === "normal") {
-        window.player.rogue.normalItems.push(item);
-      } else if (type === "debuff") {
-        window.player.rogue.debuffItems.push(item);
-      } else if (type === "special") {
-        window.player.rogue.specialItems.push(item);
-      }
+      grantItem(item);
       this.emitClose();
     }
   }

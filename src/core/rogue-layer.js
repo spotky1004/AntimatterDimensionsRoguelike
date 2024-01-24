@@ -47,13 +47,34 @@ export function rogueUpdate() {
 
     const itemData = window.GameDatabase.rogue.rollRewardTable(quest, 1)[0];
     const item = itemData.itemGen();
-    window.player.rogue.debuffItems.push(item);
+    grantItem(item);
     GameUI.notify.strike(`Got a new debuff card: ${itemData.nameStr(item.lv, item.props)}`);
   }
 }
 
 export function calcRogueDieRewards() {
   // A
+}
+
+/**
+ * @param {import("../core/secret-formula/rogue/items").RogueItem} item
+ */
+export function grantItem(item) {
+  const itemData = window.GameDatabase.rogue.items.get(item.id);
+  const type = itemData.type;
+  if (type === "normal") {
+    window.player.rogue.normalItems.push(item);
+    return true;
+  }
+  if (type === "debuff") {
+    window.player.rogue.debuffItems.push(item);
+    return true;
+  }
+  if (type === "special") {
+    window.player.rogue.specialItems.push(item);
+    return true;
+  }
+  return false;
 }
 
 export function rogueDie() {

@@ -289,6 +289,10 @@ export function maxAll() {
   buyMaxTickSpeed();
 }
 
+export function getNDDiscountValue() {
+  return getRogueEffect("adDiscount");
+}
+
 export function buyMaxDimension(tier, bulk = Infinity) {
   const dimension = AntimatterDimension(tier);
   if (Laitela.continuumActive || !dimension.isAvailableForPurchase || !dimension.isAffordableUntil10) return;
@@ -323,9 +327,12 @@ export function buyMaxDimension(tier, bulk = Infinity) {
     return;
   }
 
+  const dcValue = getNDDiscountValue();
   // This is the bulk-buy math, explicitly ignored if abnormal cost increases are active
   const maxBought = dimension.costScale.getMaxBought(
-    Math.floor(dimension.bought / 10) + dimension.costBumps, dimension.currencyAmount, 10
+    Math.floor(dimension.bought / 10) + dimension.costBumps,
+    dimension.currencyAmount.mul(dcValue),
+    10
   );
   if (maxBought === null) {
     return;
@@ -334,7 +341,7 @@ export function buyMaxDimension(tier, bulk = Infinity) {
   if (buying > bulkLeft) buying = bulkLeft;
   dimension.amount = dimension.amount.plus(10 * buying).round();
   dimension.bought += 10 * buying;
-  dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice));
+  dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice).div(dcValue));
 }
 
 class AntimatterDimensionState extends DimensionState {
@@ -366,7 +373,9 @@ class AntimatterDimensionState extends DimensionState {
    * @returns {Decimal}
    */
   get cost() {
-    return this.costScale.calculateCost(Math.floor(this.bought / 10) + this.costBumps);
+    let cost = this.costScale.calculateCost(Math.floor(this.bought / 10) + this.costBumps);
+    cost = cost.div(getNDDiscountValue());
+    return cost;
   }
 
   /** @returns {number} */

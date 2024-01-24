@@ -2,6 +2,7 @@ import { DC } from "../../constants";
 import { Notations } from "../../notations";
 
 /**
+ * @typedef {{ id: number, lv: number, props: number[] }} RogueItem
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
  */
 /**
@@ -13,7 +14,7 @@ import { Notations } from "../../notations";
  * @prop {(lv: number, props: number[]) => string} descriptionStr
  * @prop {(effect: RogueEffects, lv: number, props: number[]) => void} calcEffect
  * @prop {() => boolean[]} isUnlocked
- * @prop {() => { id: number, lv: number, props: number[] }} itemGen
+ * @prop {(seed: number) => RogueItem} itemGen
  */
 
 function calculateRogueEffects() {
@@ -24,10 +25,11 @@ function calculateRogueEffects() {
     adMults: Array.range(0, 9).map(() => DC.D1),
     /** @type {(typeof Decimal)[]} */
     adPows: Array.range(0, 9).map(() => DC.D1),
+    adDiscount: DC.D1,
     hpDelta: DC.D0,
     fire: {
       ad: false
-    }
+    },
   };
 
   const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
@@ -71,9 +73,9 @@ addItem({
   descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.D5.pow(lv))}`,
   calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.D5.pow(lv)),
   isUnlocked: () => Achievement(11).isUnlocked,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 1001,
-    lv: 1,
+    lv: 1 + (seed % 2),
     props: []
   })
 });
@@ -85,9 +87,9 @@ addItem({
   descriptionStr: lv => `Boosts 2nd Antimatter Dimension's mult by ^${format(1 + lv / 5, 2, 2)}`,
   calcEffect: (effect, lv) => effect.adPows[2] = effect.adPows[2].mul(1 + lv / 5, 2, 2),
   isUnlocked: () => Achievement(12).isUnlocked,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 1002,
-    lv: 1,
+    lv: 1 + Math.floor((seed % 7) / 5),
     props: []
   })
 });
@@ -107,9 +109,9 @@ addItem({
     effect.adAllMult = effect.adAllMult.mul(boost);
   },
   isUnlocked: () => Achievement(13).isUnlocked,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 1003,
-    lv: 1,
+    lv: 1 + (seed % 2),
     props: [window.player.records.totalTimePlayed]
   })
 });
@@ -123,7 +125,7 @@ addItem({
   isUnlocked: () => Achievement(14).isUnlocked,
   itemGen: () => ({
     id: 1004,
-    lv: 1,
+    lv: 1 + Math.floor((seed % 3) / 2),
     props: []
   })
 });
@@ -132,7 +134,14 @@ addItem({
   type: "normal",
   icon: faIcon("5"),
   nameStr: lv => `Antimatter Punch ${roman(lv)}`,
-  isUnlocked: () => Achievement(15).isUnlocked
+  descriptionStr: lv => `Discount antimatter dimensions by /${format(DC.D5.pow(lv ** 2), 2)}`,
+  calcEffect: (effect, lv) => effect.adDiscount = effect.adDiscount.mul(DC.D5.pow(lv ** 2)),
+  isUnlocked: () => Achievement(15).isUnlocked,
+  itemGen: seed => ({
+    id: 1005,
+    lv: 1 + (seed % 2),
+    props: []
+  })
 });
 
 // Debuff
@@ -142,11 +151,11 @@ addItem({
   icon: faIcon("fire-flame-curved"),
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
-  descriptionStr: lv => `-${format(lv ** 2 / 1000, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`,
+  descriptionStr: lv => `-${format(lv / 1000, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`,
   calcEffect: (effect, lv, props) => {
     effect.fire.ad = true;
 
-    const attackValue = lv ** 2 / 1000;
+    const attackValue = lv / 1000;
     let diffSum = 0;
     for (let i = 0; i < 8; i++) {
       const curBoughtAmount = Math.floor(player.dimensions.antimatter[i].bought / 10);
@@ -158,7 +167,7 @@ addItem({
   isUnlocked: () => true,
   itemGen: () => ({
     id: 2001,
-    lv: 1,
+    lv: 1 + (seed % 2),
     props: Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
   }),
 });
@@ -170,9 +179,9 @@ addItem({
   descriptionStr: lv => `- ${format(lv / 1000, 3, 3)} ${faIcon("heart")}/s`,
   calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(lv / 1000),
   isUnlocked: () => true,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 2002,
-    lv: 1,
+    lv: 1 + seed % 4,
     props: []
   })
 });

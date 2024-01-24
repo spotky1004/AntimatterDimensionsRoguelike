@@ -35,7 +35,6 @@ function xorshift32(n) {
 
 /**
  * @param {RogueQuestData} quest
- * @returns {import("./items").RogueItemData[]}
  */
 function rollRewardTable(quest, maxSelect = Infinity) {
   if (!quest.rewardTable) return [];
@@ -58,13 +57,14 @@ function rollRewardTable(quest, maxSelect = Infinity) {
       const [weight, id] = avaibles[j];
       acc += weight;
       if (acc <= r) continue;
+      x = xorshift32(x);
       avaibles.splice(j, 1);
-      pickedItemIds.push(id);
+      pickedItemIds.push([id, x]);
       break;
     }
   }
 
-  /** @type {import("./items").RogueItemData[]} */
+  /** @type {[itemData: import("./items").RogueItemData, seed: number][]} */
   const pickedItems = pickedItemIds.map(id => window.GameDatabase.rogue.items.get(id));
   return pickedItems;
 }
