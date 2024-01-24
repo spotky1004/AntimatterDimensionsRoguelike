@@ -90,7 +90,7 @@ addQuest({
   id: 104,
   type: "normal",
   name: () => "666",
-  description: () => `Have exactly 6 Dim Boosts, 6 6th Antimatter Dimension`,
+  description: () => `Have exactly<br>6 Dim Boosts<br>6 6th Antimatter Dimension`,
   getProgress: () => {
     const dimBoost = window.player.dimensionBoosts;
     const dim6 = window.player.dimensions.antimatter[5].amount.toNumber();
