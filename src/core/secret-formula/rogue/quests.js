@@ -117,7 +117,7 @@ addQuest({
 addQuest({
   id: 202,
   type: "debuff",
-  name: () => 'More <i class="fas fa-fire"></i>',
+  name: () => "It's hurt",
   description: () => `Lose 10 <i class="fas fa-heart"></i>`,
   getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(10)),
   isUnlocked: () => false,
