@@ -5,6 +5,16 @@ export default {
   name: "QuestsTab",
   components: {
     QuestList
+  },
+  data() {
+    return {
+      specialUnlocked: window.player.rogue.unlocks.special
+    };
+  },
+  methods: {
+    update() {
+      this.specialUnlocked = window.player.rogue.unlocks.special;
+    }
   }
 };
 </script>
@@ -20,6 +30,7 @@ export default {
       name="Debuff Conditions"
     />
     <QuestList
+      v-if="specialUnlocked"
       type="special"
       name="Special Quests"
     />

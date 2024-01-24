@@ -779,7 +779,7 @@ export default {
       items: false,
       leveling: false,
       boss: Array(10).fill(false),
-      specialItem: false,
+      special: false,
       skillTree: false,
     }
   },

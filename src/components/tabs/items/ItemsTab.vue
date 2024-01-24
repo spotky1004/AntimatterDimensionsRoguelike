@@ -9,6 +9,8 @@ export default {
   },
   data() {
     return {
+      specialUnlocked: window.player.rogue.unlocks.special,
+      inventorySizes: getInventorySize(),
       normalInventory: [],
       debuffInventory: [],
       specialInventory: []
@@ -16,6 +18,8 @@ export default {
   },
   methods: {
     update() {
+      this.specialUnlocked = window.player.rogue.unlocks.special;
+      this.inventorySizes = getInventorySize();
       this.normalInventory = deepmergeAll([[], window.player.rogue.normalItems]);
       this.debuffInventory = deepmergeAll([[], window.player.rogue.debuffItems]);
       this.specialInventory = deepmergeAll([[], window.player.rogue.specialItems]);
@@ -27,16 +31,17 @@ export default {
 <template>
   <div>
     <ItemsInventory
+      v-if="specialUnlocked"
       is-special
       :name="'Special'"
-      :size="2"
+      :size="inventorySizes.special"
       :items="specialInventory"
     />
     <div class="item-tab__divide">
       <span>
         <ItemsInventory
           :name="'Normal'"
-          :size="8"
+          :size="inventorySizes.normal"
           :items="normalInventory"
         />
       </span>
@@ -44,7 +49,7 @@ export default {
         <ItemsInventory
           is-debuff
           :name="'Debuff'"
-          :size="40"
+          :size="inventorySizes.debuff"
           :items="debuffInventory"
         />
       </span>
