@@ -29,10 +29,14 @@ export default {
   methods: {
     update() {
       this.progress = window.GameDatabase.rogue.quests.get(this.quest.id).getProgress();
-      this.progressStr = `--progress: ${this.progress === 0 ? -5 : this.progress * 100}% `;
       this.received = window.player.rogue.questCompleted[this.quest.id];
       this.completed = this.progress >= 1;
       this.locked = !window.player.rogue.questUnlocked[this.quest.id];
+
+      let displayedProgress = this.progress;
+      if (this.progress === 0) displayedProgress = -5;
+      if (this.received) displayedProgress = 1;
+      this.progressStr = `--progress: ${displayedProgress * 100}% `;
     },
     openReward() {
       if (!this.completed || this.received) return;
