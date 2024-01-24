@@ -82,6 +82,7 @@ export default {
       v-else
       class="quest-item-locked"
       :class="{ advanced }"
+      :style="progressStr"
     >
       <i class="fas fa-lock" />
     </div>
@@ -98,7 +99,11 @@ export default {
 
   font-size: 1.8rem;
 
-  background-color: var(--color4);
+  background: linear-gradient(
+    90deg,
+    var(--color2) var(--progress),
+    var(--color4) var(--progress)
+  );
   filter: brightness(0.7);
 
   transition: 0.2s font-size, 0.2s height;
@@ -110,7 +115,8 @@ export default {
 }
 
 .quest-item-locked > i {
-  color: var(--color3);
+  color: #111;
+  mix-blend-mode: difference;
 }
 
 .quest-item {
