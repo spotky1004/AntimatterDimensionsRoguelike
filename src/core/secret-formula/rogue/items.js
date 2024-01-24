@@ -123,7 +123,7 @@ addItem({
   descriptionStr: lv => `Boosts Tickspeed upgrade effect by x${format(DC.D1.add(0.004 * lv), 3, 3)}.`,
   calcEffect: (effect, lv) => effect.tickUpgrade = effect.tickUpgrade.mul(DC.D1.add(0.004 * lv)),
   isUnlocked: () => Achievement(14).isUnlocked,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 1004,
     lv: 1 + Math.floor((seed % 3) / 2),
     props: []
@@ -165,7 +165,7 @@ addItem({
     Currency.hp.subtract(diffSum * attackValue);
   },
   isUnlocked: () => true,
-  itemGen: () => ({
+  itemGen: seed => ({
     id: 2001,
     lv: 1 + (seed % 2),
     props: Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)

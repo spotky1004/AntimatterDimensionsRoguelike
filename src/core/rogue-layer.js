@@ -45,8 +45,8 @@ export function rogueUpdate() {
     window.player.rogue.questUnlocked[quest.id] = true;
     window.player.rogue.questCompleted[quest.id] = true;
 
-    const itemData = window.GameDatabase.rogue.rollRewardTable(quest, 1)[0];
-    const item = itemData.itemGen();
+    const [itemData, seed] = window.GameDatabase.rogue.rollRewardTable(quest, 1)[0];
+    const item = itemData.itemGen(seed);
     grantItem(item);
     GameUI.notify.strike(`Got a new debuff card: ${itemData.nameStr(item.lv, item.props)}`);
   }
@@ -63,18 +63,30 @@ export function grantItem(item) {
   const itemData = window.GameDatabase.rogue.items.get(item.id);
   const type = itemData.type;
   if (type === "normal") {
+    if (window.player.rogue.normalItems.length >= getInventorySize().normal) return false;
     window.player.rogue.normalItems.push(item);
     return true;
   }
   if (type === "debuff") {
+    if (window.player.rogue.debuffItems.length >= getInventorySize().debuff) return false;
     window.player.rogue.debuffItems.push(item);
     return true;
   }
   if (type === "special") {
+    if (window.player.rogue.specialItems.length >= getInventorySize().special) return false;
     window.player.rogue.specialItems.push(item);
     return true;
   }
   return false;
+}
+
+export function getInventorySize() {
+  const sizes = {
+    normal: 6,
+    debuff: 40,
+    special: 0
+  };
+  return sizes;
 }
 
 export function rogueDie() {

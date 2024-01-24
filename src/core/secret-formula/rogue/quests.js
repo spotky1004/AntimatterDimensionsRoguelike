@@ -1,3 +1,5 @@
+import xorshift32 from "../../../utility/xorshift32";
+
 /**
  * @typedef RogueQuestData
  * @prop {number} id
@@ -20,19 +22,6 @@ function addQuest(data) {
   quests.set(key, data);
 }
 
-const MAX = 2 ** 32;
-const MAXN = 2n ** 32n;
-/**
- * @param {bigint} n
- */
-function xorshift32(n) {
-  let x = BigInt(n);
-  x ^= (x << 13n) % MAXN;
-  x ^= x >> 17n;
-  x ^= (x << 5n) % MAXN;
-  return Number(x);
-}
-
 /**
  * @param {RogueQuestData} quest
  */
@@ -40,7 +29,7 @@ function rollRewardTable(quest, maxSelect = Infinity) {
   if (!quest.rewardTable) return [];
 
   const avaibles = quest.rewardTable.filter(([, id]) => window.player.rogue.itemsUnlocked[id]);
-  let x = quest.id * window.player.rogue.seed % MAX;
+  let x = quest.id * window.player.rogue.seed;
   x = xorshift32(x);
 
   let pickCount = Math.floor(avaibles.length / 2) + (x % 2);
@@ -65,7 +54,7 @@ function rollRewardTable(quest, maxSelect = Infinity) {
   }
 
   /** @type {[itemData: import("./items").RogueItemData, seed: number][]} */
-  const pickedItems = pickedItemIds.map(id => window.GameDatabase.rogue.items.get(id));
+  const pickedItems = pickedItemIds.map(([id, seed]) => [window.GameDatabase.rogue.items.get(id), seed]);
   return pickedItems;
 }
 
@@ -86,7 +75,7 @@ addQuest({
   description: () => `Have ${format(1e30)} Antimatter`,
   getProgress: () => clampProgress(window.player.antimatter.max(1).log(10) / 30),
   isUnlocked: () => true,
-  rewardTable: [[4, 1001], [3, 1002], [2, 1003], [9, 1004]],
+  rewardTable: [[4, 1001], [3, 1002], [2, 1003], [9, 1004], [5, 1005]],
 });
 
 // Debuff

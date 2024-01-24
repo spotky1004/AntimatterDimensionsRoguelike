@@ -47,11 +47,15 @@ export default {
         window.player.rogue.questUnlocked[this.questId] &&
         !window.player.rogue.questCompleted[this.questId];
       if (!canReceive) return;
-      window.player.rogue.questCompleted[this.questId] = true;
 
       const item = this.genItems()[this.selectIdx];
-      grantItem(item);
-      this.emitClose();
+      const result = grantItem(item);
+      if (result) {
+        window.player.rogue.questCompleted[this.questId] = true;
+        this.emitClose();
+      } else {
+        GameUI.notify.error("Your inventory is full!");
+      }
     }
   }
 };
