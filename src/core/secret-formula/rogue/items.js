@@ -290,7 +290,7 @@ addItem({
     }
     Currency.hp.subtract(diffSum * attackValue);
   },
-  unlockConditionStr: () => `Obtain item by debuff quest`,
+  unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
   xpReqs: [0, 0, 0],
   levelChances: [0.4, 0.2, 0.1],
@@ -303,7 +303,7 @@ addItem({
   nameStr: lv => `${["A", "Two", "Three", "Four", "Five"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
   descriptionStr: lv => `- ${format(lv / 1000, 3, 3)} ${faIcon("heart")}/s`,
   calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(lv / 1000),
-  unlockConditionStr: () => `Obtain item by debuff quest`,
+  unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
   xpReqs: [0, 0, 0, 0],
   levelChances: [0.6, 0.5, 0.4, 0.3],

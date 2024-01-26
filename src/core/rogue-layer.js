@@ -132,9 +132,7 @@ export function rogueReset() {
   const rewards = calcRogueDieRewards();
   Modal.RogueDieModal.show({ rewards: deepmergeAll([{}, rewards]) });
   addRogueXp(rewards.xp);
-  console.log(rewards);
   for (const unlockedId of rewards.itemUnlocks) {
-    console.log(unlockedId);
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
 
