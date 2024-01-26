@@ -91,7 +91,7 @@ export function getInventorySize() {
 
 export function calcRogueDieRewards() {
   const rewards = {
-    xp: Currency.maxHp.value,
+    xp: Currency.maxHp.value.sub(1).max(0),
     /** @type {number[]} */
     itemUnlocks: []
   };
@@ -120,11 +120,23 @@ export function rogueDie() {
   return rewards;
 }
 
+export function addRogueXp(value) {
+  window.player.rogue.xp = window.player.rogue.xp.add(value);
+}
+
 const nonResetAchievements = [22, 76];
 export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
   Tab.rogue["rogue-quests"].show();
+  const rewards = calcRogueDieRewards();
+  Modal.RogueDieModal.show({ rewards });
+  addRogueXp(rewards.xp);
+  for (const unlockedId in rewards) {
+    window.player.rogue.itemsUnlocked[unlockedId] = true;
+  }
+
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
+
 
   for (const achievement of Achievements.all) {
     if (nonResetAchievements.includes(achievement.id)) continue;

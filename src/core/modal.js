@@ -21,6 +21,7 @@ import HardResetModal from "@/components/modals/prestige/HardResetModal";
 import RealityModal from "@/components/modals/prestige/RealityModal";
 import ReplicantiGalaxyModal from "@/components/modals/prestige/ReplicantiGalaxyModal";
 import ResetRealityModal from "@/components/modals/prestige/ResetRealityModal";
+import RogueDieModal from "@/components/modals/RogueDieModal";
 import RogueItemChooseModal from "@/components/modals/RogueItemChooseModal";
 
 import AnimationOptionsModal from "@/components/modals/options/AnimationOptionsModal";
@@ -221,6 +222,7 @@ Modal.enterSpeedrun = new Modal(SpeedrunModeModal);
 Modal.modifySeed = new Modal(ModifySeedModal);
 Modal.changeName = new Modal(ChangeNameModal);
 Modal.armageddon = new Modal(ArmageddonModal, 1);
+Modal.RogueDieModal = new Modal(RogueDieModal, 2);
 Modal.rogueItemChoose = new Modal(RogueItemChooseModal, 1, GAME_EVENT.ROGUE_DIE);
 
 Modal.confirmationOptions = new Modal(ConfirmationOptionsModal);
