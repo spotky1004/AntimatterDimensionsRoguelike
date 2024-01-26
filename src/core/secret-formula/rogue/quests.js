@@ -25,18 +25,18 @@ function addQuest(data) {
 /**
  * @param {RogueQuestData} quest
  */
-function rollRewardTable(quest, maxSelect = Infinity) {
+function rollRewardTable(quest, maxSelect = Infinity, surpassLock = false) {
   if (!quest.rewardTable) return [];
 
-  const avaibles = quest.rewardTable.filter(([, id]) => window.player.rogue.itemsUnlocked[id]);
+  const avaibles = quest.rewardTable.filter(([, id]) => surpassLock || window.player.rogue.itemsUnlocked[id]);
   let x = quest.id * window.player.rogue.seed;
   x = xorshift32(x);
 
-  let pickCount = Math.floor(avaibles.length / 2) + (x % 2);
+  let pickCount = Math.floor(Math.sqrt(avaibles.length)) + (x % 2);
   pickCount = Math.max(1, Math.min(maxSelect, avaibles.length, pickCount));
 
-  /** @type {number[]} */
-  const pickedItemIds = [];
+  /** @type {[itemData: import("./items").RogueItemData, item: import("./items").RogueItem][]} */
+  const pickedItems = [];
   for (let i = 0; i < pickCount; i++) {
     x = xorshift32(x);
     const sum = avaibles.reduce((a, b) => a + b[0], 0);
@@ -46,15 +46,16 @@ function rollRewardTable(quest, maxSelect = Infinity) {
       const [weight, id] = avaibles[j];
       acc += weight;
       if (acc <= r) continue;
-      x = xorshift32(x);
       avaibles.splice(j, 1);
-      pickedItemIds.push([id, x]);
+
+      x = xorshift32(x);
+      const itemData = window.GameDatabase.rogue.items.get(id);
+      const item = window.GameDatabase.rogue.genItem(itemData, x);
+      pickedItems.push([itemData, item]);
       break;
     }
   }
 
-  /** @type {[itemData: import("./items").RogueItemData, seed: number][]} */
-  const pickedItems = pickedItemIds.map(([id, seed]) => [window.GameDatabase.rogue.items.get(id), seed]);
   return pickedItems;
 }
 
@@ -75,7 +76,7 @@ addQuest({
   description: () => `Have ${format(1e30)} Antimatter`,
   getProgress: () => clampProgress(window.player.antimatter.max(1).log(10) / 30),
   isUnlocked: () => true,
-  rewardTable: [[4, 1001], [3, 1002], [2, 1003], [9, 1004], [5, 1005]],
+  rewardTable: [[4, 1001], [2, 1003], [9, 1004], [5, 1005]],
 });
 addQuest({
   id: 103,
@@ -84,7 +85,7 @@ addQuest({
   description: () => `Have 8 8th Antimatter Dimension`,
   getProgress: () => clampProgress(window.player.dimensions.antimatter[7].amount.div(8)),
   isUnlocked: () => window.player.rogue.questCompleted[101],
-  rewardTable: [[1, 1002], [1, 1004]]
+  rewardTable: [[1, 1004]]
 });
 addQuest({
   id: 104,
@@ -112,13 +113,13 @@ addQuest({
   description: () => "Have a Dimension Boost",
   getProgress: () => clampProgress(window.player.dimensionBoosts),
   isUnlocked: () => false,
-  rewardTable: [[1, 2001], [1, 2002]],
+  rewardTable: [[1, 2002]],
 });
 addQuest({
   id: 202,
   type: "debuff",
   name: () => "It's hurt",
-  description: () => `Lose 10 <i class="fas fa-heart"></i>`,
+  description: () => `Lose 10&nbsp;<i class="fas fa-heart"></i>`,
   getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(10)),
   isUnlocked: () => false,
   rewardTable: [[5, 2001], [1, 2002]]

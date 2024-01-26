@@ -52,6 +52,7 @@ const rawDC = {
   D3:                   new Decimal("3"),
   D4:                   new Decimal("4"),
   D5:                   new Decimal("5"),
+  D6:                   new Decimal("6"),
   D6_66:                new Decimal("6.66"),
   D15:                  new Decimal("15"),
   D16:                  new Decimal("16"),

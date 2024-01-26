@@ -1,6 +1,5 @@
 <script>
-import ItemComponent from "../ItemComponent";
-
+import ItemComponent from "@/components/ItemComponent";
 import ModalCloseButton from "@/components/modals/ModalCloseButton";
 import PrimaryButton from "@/components/PrimaryButton";
 
@@ -34,8 +33,8 @@ export default {
     },
     genItems() {
       const quest = window.GameDatabase.rogue.quests.get(this.questId);
-      const rolled = window.GameDatabase.rogue.rollRewardTable(quest);
-      return rolled.map(([itemData, seed]) => itemData.itemGen(seed));
+      const rolledItems = window.GameDatabase.rogue.rollRewardTable(quest).map(r => r[1]);
+      return rolledItems;
     },
     select(idx) {
       this.selectIdx = idx;
@@ -73,7 +72,10 @@ export default {
       class="c-modal-message__text"
       v-html="'Choose an Item'"
     />
-    <div class="rogue-choose-list">
+    <div
+      v-if="items.length > 0"
+      class="rogue-choose-list"
+    >
       <ItemComponent
         v-for="(item, i) in items"
         :key="i"
@@ -81,6 +83,13 @@ export default {
         :class="{ selected: selectIdx === i }"
         @click.native="() => select(i)"
       />
+    </div>
+    <div
+      v-else
+      class="rogue-choose-nothing"
+    >
+      Loot table is empty.<br>
+      Complete some new Achievements and die to unlock items.
     </div>
     <PrimaryButton
       v-if="selectIdx !== -1"
@@ -102,6 +111,10 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+.rogue-choose-nothing {
+  opacity: 0.5;
 }
 
 .rogue-choose-list > * {

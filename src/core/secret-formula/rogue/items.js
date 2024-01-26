@@ -1,6 +1,8 @@
 import { DC } from "../../constants";
 import { Notations } from "../../notations";
 
+import xorshift32, { MAX } from "../../../utility/xorshift32";
+
 /**
  * @typedef {{ id: number, lv: number, props: number[] }} RogueItem
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
@@ -13,8 +15,11 @@ import { Notations } from "../../notations";
  * @prop {(lv: number, props: number[]) => string} nameStr
  * @prop {(lv: number, props: number[]) => string} descriptionStr
  * @prop {(effect: RogueEffects, lv: number, props: number[]) => void} calcEffect
+ * @prop {() => string} unlockConditionStr
  * @prop {() => boolean[]} isUnlocked
- * @prop {(seed: number) => RogueItem} itemGen
+ * @prop {number[]} xpReqs
+ * @prop {number[]} levelChances ([0 ~ 1])[]
+ * @prop {() => number[]} defaultProps
  */
 
 function calculateRogueEffects() {
@@ -34,7 +39,7 @@ function calculateRogueEffects() {
 
   const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
   for (const key of rogueItemKeys) {
-    for (const item of window.player.rogue[key]) {
+    for (const item of [...window.player.rogue[key]]) {
       items.get(item.id).calcEffect(effect, item.lv, item.props);
     }
   }
@@ -52,6 +57,50 @@ function getRogueEffect(name) {
   return GameCache.rogueItemEffects.value[name];
 }
 window.getRogueEffect = getRogueEffect;
+
+/**
+ * @param {RogueItemData} itemData
+ */
+function getItemTier(itemData) {
+  let tier = 0;
+  const itemXp = window.player.rogue.itemXps[itemData.id];
+  const tierReqs = itemData.xpReqs;
+  for (let i = 0; i < tierReqs.length; i++) {
+    if (tierReqs[i] > itemXp) break;
+    tier++;
+  }
+  return tier;
+}
+window.getItemTier = getItemTier;
+
+/**
+ * @param {RogueItemData} itemData
+ * @param {number | null} forcedLevel
+ * @returns {RogueItem}
+ */
+function genItem(itemData, seed = 0, forcedLevel = null) {
+  let lv = 1;
+  if (forcedLevel) {
+    lv = forcedLevel;
+  } else {
+    const tier = getItemTier(itemData);
+    let x = seed;
+    for (let i = 0; i < tier; i++) {
+      x = xorshift32(x);
+      const r = x / MAX;
+      const p = itemData.levelChances[i];
+      if (r <= p) lv++;
+    }
+  }
+
+  const item = {
+    id: itemData.id,
+    lv,
+    props: itemData.defaultProps()
+  };
+  return item;
+}
+window.genItem = genItem;
 
 const roman = x => Notations.find("Roman").format(x);
 const faIcon = name => `<i class="fas fa-${name}"></i>`;
@@ -72,26 +121,24 @@ addItem({
   nameStr: lv => `${["First", "Second", "Third", "Fourth"][lv - 1]} Boost`,
   descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.D5.pow(lv))}`,
   calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.D5.pow(lv)),
-  isUnlocked: () => Achievement(11).isUnlocked,
-  itemGen: seed => ({
-    id: 1001,
-    lv: 1 + (seed % 2),
-    props: []
-  })
+  unlockConditionStr: () => `Free`,
+  isUnlocked: () => true,
+  xpReqs: [10, 80, 200],
+  levelChances: [0.5, 0.6, 0.7],
+  defaultProps: () => []
 });
 addItem({
   id: 1002,
   type: "normal",
   icon: faIcon("2"),
   nameStr: lv => `${["Quadratic", "Cubic", "Quartic", "Quintic"][lv - 1]} Equation`,
-  descriptionStr: lv => `Boosts 2nd Antimatter Dimension's mult by ^${format(1 + lv / 5, 2, 2)}`,
-  calcEffect: (effect, lv) => effect.adPows[2] = effect.adPows[2].mul(1 + lv / 5, 2, 2),
+  descriptionStr: lv => `Boosts 2nd Antimatter Dimension's mult by ^${format((10 + lv) / 10, 2, 2)}`,
+  calcEffect: (effect, lv) => effect.adPows[2] = effect.adPows[2].mul((10 + lv) / 10, 2, 2),
+  unlockConditionStr: () => `Complete achievement 12`,
   isUnlocked: () => Achievement(12).isUnlocked,
-  itemGen: seed => ({
-    id: 1002,
-    lv: 1 + Math.floor((seed % 7) / 5),
-    props: []
-  })
+  xpReqs: [20, 200, 2000],
+  levelChances: [0.3, 0.4, 0.6],
+  defaultProps: () => []
 });
 addItem({
   id: 1003,
@@ -108,12 +155,11 @@ addItem({
     const boost = DC.D2.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     effect.adAllMult = effect.adAllMult.mul(boost);
   },
+  unlockConditionStr: () => `Complete achievement 13`,
   isUnlocked: () => Achievement(13).isUnlocked,
-  itemGen: seed => ({
-    id: 1003,
-    lv: 1 + (seed % 2),
-    props: [window.player.records.totalTimePlayed]
-  })
+  xpReqs: [20, 50, 100, 500],
+  levelChances: [0.5, 0.6, 0.7, 0.8],
+  defaultProps: () => [window.player.records.totalTimePlayed]
 });
 addItem({
   id: 1004,
@@ -122,12 +168,11 @@ addItem({
   nameStr: lv => `${4 * lv} Tickspeed`,
   descriptionStr: lv => `Boosts Tickspeed upgrade effect by x${format(DC.D1.add(0.004 * lv), 3, 3)}.`,
   calcEffect: (effect, lv) => effect.tickUpgrade = effect.tickUpgrade.mul(DC.D1.add(0.004 * lv)),
+  unlockConditionStr: () => `Complete achievement 14`,
   isUnlocked: () => Achievement(14).isUnlocked,
-  itemGen: seed => ({
-    id: 1004,
-    lv: 1 + Math.floor((seed % 3) / 2),
-    props: []
-  })
+  xpReqs: [40, 300],
+  levelChances: [0.2, 0.2],
+  defaultProps: () => []
 });
 addItem({
   id: 1005,
@@ -136,12 +181,93 @@ addItem({
   nameStr: lv => `Antimatter Punch ${roman(lv)}`,
   descriptionStr: lv => `Discount antimatter dimensions by /${format(DC.D5.pow(lv ** 2), 2)}`,
   calcEffect: (effect, lv) => effect.adDiscount = effect.adDiscount.mul(DC.D5.pow(lv ** 2)),
+  unlockConditionStr: () => `Complete achievement 15`,
   isUnlocked: () => Achievement(15).isUnlocked,
-  itemGen: seed => ({
-    id: 1005,
-    lv: 1 + (seed % 2),
-    props: []
-  })
+  xpReqs: [10, 30, 70, 200, 500, 2000],
+  levelChances: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+  defaultProps: () => []
+});
+addItem({
+  id: 1006,
+  type: "normal",
+  icon: faIcon("6"),
+  nameStr: lv => `${"6".repeat(lv)}`,
+  descriptionStr: lv => {
+    let str = `Boosts 6th Antimatter Dimensions by ${format(DC.D6.pow(lv))}<br>`;
+    str += `But, - ${format(6 * lv / 1000, 3, 3)} ${faIcon("heart")}/s`;
+    return str;
+  },
+  calcEffect: (effect, lv) => {
+    effect.adMults[6] = effect.adMults[6].mul(DC.D6.pow(lv));
+    effect.hpDelta = effect.hpDelta.sub(6 * lv / 1000);
+  },
+  unlockConditionStr: () => `Complete achievement 16`,
+  isUnlocked: () => Achievement(16).isUnlocked,
+  xpReqs: [66],
+  levelChances: [0.66],
+  defaultProps: () => []
+});
+addItem({
+  id: 1007,
+  type: "normal",
+  icon: faIcon("7"),
+  nameStr: lv => `A luck related item ${roman(lv)}`,
+  descriptionStr: lv => {
+    let str = `For each Dimension Boost, `;
+    str += `${format(10 / lv, 2, 2)}% chance to recover ${format(lv)} ${faIcon("heart")}`;
+    return str;
+  },
+  calcEffect: (_, lv, props) => {
+    const [prevDimBoost] = props;
+    const curDimBoost = window.player.dimensionBoosts;
+    const rollCount = Math.max(0, curDimBoost - prevDimBoost);
+    props[0] = curDimBoost;
+
+    const chance = 10 / lv;
+    let recoverCount = 0;
+    if (rollCount < 3 / chance) {
+      for (let i = 0; i < rollCount; i++) {
+        if (fastRandom() <= chance) recoverCount++;
+      }
+    } else {
+      recoverCount = rollCount * chance * (1 + (fastRandom() * 2 - 1) / Math.sqrt(rollCount));
+    }
+    const recoverAmount = DC.D1.mul(lv).mul(recoverCount);
+    Currency.hp.add(recoverAmount);
+  },
+  isUnlocked: () => Achievement(17).isUnlocked,
+  xpReqs: [10, 30, 50, 100],
+  levelChances: [0.3, 0.3, 0.3, 0.3],
+  defaultProps: () => [window.player.dimensionBoosts]
+});
+addItem({
+  id: 1008,
+  type: "normal",
+  icon: faIcon("8"),
+  nameStr: lv => `Fake Infinity${"  ²³⁴⁵"[lv]}`,
+  descriptionStr: lv => {
+    let str = `+${format(2 * lv)} IP on next infinity.<br>`;
+    str += `But, item destories itself on activate and attacks you at ${format(1.5 * lv, 1, 1)} ${faIcon("heart")}`;
+    return str;
+  },
+  calcEffect: (_, lv, props) => {
+    const curInfTime = player.records.thisInfinity.realTime;
+    if (props[0] < curInfTime) {
+      props[0] = curInfTime;
+      return;
+    }
+
+    const thisIdx = window.player.rogue.normalItems.findIndex(v => v.props === props);
+    window.player.rogue.normalItems.splice(thisIdx, 1);
+
+    Currency.infinityPoints.add(2 * lv);
+    Currency.hp.subtract(1.5 * lv);
+  },
+  unlockConditionStr: () => `Complete achievement 18`,
+  isUnlocked: () => Achievement(18).isUnlocked,
+  xpReqs: [50, 200, 500],
+  levelChances: [0.5, 0.5, 0.5],
+  defaultProps: () => [player.records.thisInfinity.realTime]
 });
 
 // Debuff
@@ -164,12 +290,11 @@ addItem({
     }
     Currency.hp.subtract(diffSum * attackValue);
   },
-  isUnlocked: () => true,
-  itemGen: seed => ({
-    id: 2001,
-    lv: 1 + (seed % 2),
-    props: Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
-  }),
+  unlockConditionStr: () => `Obtain item by debuff quest`,
+  isUnlocked: () => false,
+  xpReqs: [0, 0, 0],
+  levelChances: [0.4, 0.2, 0.1],
+  defaultProps: () => Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
 });
 addItem({
   id: 2002,
@@ -178,16 +303,17 @@ addItem({
   nameStr: lv => `${["A", "Two", "Three", "Four"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
   descriptionStr: lv => `- ${format(lv / 1000, 3, 3)} ${faIcon("heart")}/s`,
   calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(lv / 1000),
-  isUnlocked: () => true,
-  itemGen: seed => ({
-    id: 2002,
-    lv: 1 + seed % 4,
-    props: []
-  })
+  unlockConditionStr: () => `Obtain item by debuff quest`,
+  isUnlocked: () => false,
+  xpReqs: [0, 0, 0, 0],
+  levelChances: [0.6, 0.5, 0.4, 0.3],
+  defaultProps: () => []
 });
 
 export {
   items,
   calculateRogueEffects,
-  getRogueEffect
+  getRogueEffect,
+  getItemTier,
+  genItem
 };

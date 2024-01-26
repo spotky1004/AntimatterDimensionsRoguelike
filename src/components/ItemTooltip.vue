@@ -9,18 +9,25 @@ export default {
     itemData: {
       type: Object,
       required: true
+    },
+    advanced: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
     return {
       name: this.itemData.nameStr(this.item.lv, this.item.props),
-      description: this.itemData.descriptionStr(this.item.lv, this.item.props)
+      description: this.itemData.descriptionStr(this.item.lv, this.item.props),
+      unlockCondition: this.itemData.unlockConditionStr()
     };
   },
   methods: {
     update() {
       this.name = this.itemData.nameStr(this.item.lv, this.item.props);
       this.description = this.itemData.descriptionStr(this.item.lv, this.item.props);
+      this.unlockCondition = this.itemData.unlockConditionStr();
     }
   }
 };
@@ -44,6 +51,12 @@ export default {
       class="rogue-item__tooltip__description"
       v-html="description"
     />
+    <div
+      v-if="advanced"
+      class="rogue-item__tooltip__unlock"
+    >
+      <i class="fas fa-unlock" /> {{ unlockCondition }}
+    </div>
   </div>
 </template>
 
@@ -105,5 +118,25 @@ export default {
 
 .rogue-item__tooltip.special > .rogue-item__tooltip__description {
   color: #222;
+}
+
+.rogue-item__tooltip__unlock {
+  position: relative;
+
+  padding: 0.2rem 0.5rem;
+  text-align: left;
+
+  background-color: var(--color3);
+  overflow: hidden;
+}
+
+.rogue-item__tooltip__unlock > i {
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  transform: translate(-90%, -90%) rotate(-15deg);
+
+  font-size: 2em;
+  opacity: 0.5;
 }
 </style>

@@ -26,10 +26,7 @@ export function rogueUpdate() {
     Tab.rogue["rogue-items"].show();
   }
 
-  for (const [id, item] of window.GameDatabase.rogue.items) {
-    if (window.player.rogue.itemsUnlocked[id] || !item.isUnlocked()) continue;
-    window.player.rogue.itemsUnlocked[id] = true;
-  }
+  window.player.rogue.itemsUnlocked[1001] = true;
 
   for (const [id, quest] of window.GameDatabase.rogue.quests) {
     if (window.player.rogue.questUnlocked[id] || !quest.isUnlocked()) continue;
@@ -45,15 +42,16 @@ export function rogueUpdate() {
     window.player.rogue.questUnlocked[quest.id] = true;
     window.player.rogue.questCompleted[quest.id] = true;
 
-    const [itemData, seed] = window.GameDatabase.rogue.rollRewardTable(quest, 1)[0];
-    const item = itemData.itemGen(seed);
+    const item = window.GameDatabase.rogue.rollRewardTable(quest, 1, true)[0][1];
+    const itemData = window.GameDatabase.rogue.items.get(item.id);
     grantItem(item);
     GameUI.notify.strike(`Got a new debuff card: ${itemData.nameStr(item.lv, item.props)}`);
   }
 }
 
-export function calcRogueDieRewards() {
-  // A
+export function getXpRequirement() {
+  const level = window.player.rogue.level;
+  return DC.D1.add(0.25 + level / 50).pow(level).mul(10);
 }
 
 /**
@@ -64,6 +62,8 @@ export function grantItem(item) {
   const type = itemData.type;
   if (type === "normal") {
     if (window.player.rogue.normalItems.length >= getInventorySize().normal) return false;
+    const xpGain = item.lv ** 2;
+    window.player.rogue.itemXps[itemData.id] += xpGain;
     window.player.rogue.normalItems.push(item);
     return true;
   }
@@ -89,10 +89,35 @@ export function getInventorySize() {
   return sizes;
 }
 
+export function calcRogueDieRewards() {
+  const rewards = {
+    xp: Currency.maxHp.value,
+    /** @type {number[]} */
+    itemUnlocks: []
+  };
+
+  // Item Unlocks
+  for (const [itemId, itemData] of window.GameDatabase.rogue.items) {
+    if (
+      window.player.rogue.itemsUnlocked[itemId] ||
+      !itemData.isUnlocked()
+    ) continue;
+    rewards.itemUnlocks.push(itemId);
+  }
+  for (const item of window.player.rogue.debuffItems) {
+    if (window.player.rogue.itemsUnlocked[item.id]) continue;
+    rewards.itemUnlocks.push(item.id);
+  }
+
+  return rewards;
+}
+
 export function rogueDie() {
   window.player.rogue.dieCount++;
   GameUI.notify.error(`You died... #${window.player.rogue.dieCount}`);
+  const rewards = calcRogueDieRewards();
   rogueReset();
+  return rewards;
 }
 
 const nonResetAchievements = [22, 76];

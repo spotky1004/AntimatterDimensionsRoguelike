@@ -1,4 +1,6 @@
 const MAXN = 2n ** 32n;
+
+export const MAX = Number(MAXN);
 /**
  * @param {number | bigint} n
  */

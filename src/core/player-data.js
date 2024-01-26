@@ -762,9 +762,11 @@ export default {
   rogue: {
     seed: Math.floor(Math.random() * 2 ** 32),
     dieCount: 0,
+    runStartAt: new Date().getTime(),
     hp: DC.D1,
     maxHp: DC.D1,
     itemsUnlocked: Array(4000).fill(false),
+    itemXps: Array(4000).fill(0),
     questUnlocked: Array(500).fill(false),
     questCompleted: Array(500).fill(false),
     /** @type {{ id: number, props: number[] }[]} */
@@ -773,6 +775,8 @@ export default {
     normalItems: [],
     /** @type {{ id: number, props: number[] }[]} */
     debuffItems: [],
+    xp: new Decimal(0),
+    level: 0,
     unlocks: {
       hp: false,
       quests: false,
