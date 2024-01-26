@@ -82,7 +82,7 @@ export function grantItem(item) {
 
 export function getInventorySize() {
   const sizes = {
-    normal: 6,
+    normal: 4,
     debuff: 40,
     special: 0
   };

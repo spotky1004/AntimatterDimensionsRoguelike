@@ -37,36 +37,21 @@ export default {
       :size="inventorySizes.special"
       :items="specialInventory"
     />
-    <div class="item-tab__divide">
-      <span>
-        <ItemsInventory
-          :name="'Normal'"
-          :size="inventorySizes.normal"
-          :items="normalInventory"
-        />
-      </span>
-      <span>
-        <ItemsInventory
-          is-debuff
-          :name="'Debuff'"
-          :size="inventorySizes.debuff"
-          :items="debuffInventory"
-        />
-      </span>
-    </div>
+    <ItemsInventory
+      :name="'Normal'"
+      :size="inventorySizes.normal"
+      :items="normalInventory"
+      :row-count="2"
+    />
+    <ItemsInventory
+      is-debuff
+      :name="'Debuff'"
+      :size="inventorySizes.debuff"
+      :items="debuffInventory"
+      :row-count="Math.max(1, Math.ceil(debuffInventory.length / 8))"
+    />
   </div>
 </template>
 
 <style scoped>
-.item-tab__divide {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.item-tab__divide > span {
-  width: 60rem;
-}
 </style>

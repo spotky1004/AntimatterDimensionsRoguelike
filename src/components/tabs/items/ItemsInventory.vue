@@ -28,12 +28,16 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    rowCount: {
+      type: Number,
+      required: false,
+      default: 1
     }
   },
   data() {
     return {
-      colCount: 8,
-      rowCount: this.isSpecial ? 1 : 5
+      colCount: 8
     };
   }
 };
