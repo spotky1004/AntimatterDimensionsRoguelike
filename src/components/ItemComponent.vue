@@ -203,7 +203,7 @@ export default {
 
 .rogue-item__exp > span {
   mix-blend-mode: difference;
-  color: #fff;
+  color: #444;
   font-size: 0.8em;
 
   opacity: 0;
