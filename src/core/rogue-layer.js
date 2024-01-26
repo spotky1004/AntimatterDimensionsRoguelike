@@ -1,5 +1,6 @@
 import { Currency } from "./currency";
 import { DC } from "./constants";
+import { deepmergeAll } from "@/utility/deepmerge";
 import { GameUI } from "./ui";
 
 export function rogueUpdate() {
@@ -129,9 +130,11 @@ export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
   Tab.rogue["rogue-quests"].show();
   const rewards = calcRogueDieRewards();
-  Modal.RogueDieModal.show({ rewards });
+  Modal.RogueDieModal.show({ rewards: deepmergeAll([{}, rewards]) });
   addRogueXp(rewards.xp);
-  for (const unlockedId in rewards) {
+  console.log(rewards);
+  for (const unlockedId of rewards.itemUnlocks) {
+    console.log(unlockedId);
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
 
