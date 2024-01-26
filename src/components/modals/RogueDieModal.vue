@@ -61,7 +61,7 @@ export default {
       class="rogue-die__section"
     >
       <div class="rogue-die__section__title">
-        Exp gained
+        Exp gain
       </div>
       <div class="rogue-die__xp">
         {{ xpGainStr }}
@@ -72,7 +72,7 @@ export default {
       class="rogue-die__section"
     >
       <div class="rogue-die__section__title">
-        Items Unlocked
+        Items Unlock
       </div>
       <ItemGrid
         :items="unlockedItems"
