@@ -51,6 +51,7 @@ export default {
     >
       <ItemComponent
         v-if="item && item.id !== -1"
+        class="rogue-item-grid__item"
         :item="item"
         :advanced="advanced"
       />
@@ -99,5 +100,9 @@ export default {
 
 .rogue-item-grid.advanced .rogue-item-grid__empty {
   margin-top: 0.9rem;
+}
+
+.rogue-item-grid__item:hover {
+  z-index: 10;
 }
 </style>
