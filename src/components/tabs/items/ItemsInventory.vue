@@ -165,8 +165,8 @@ export default {
   justify-content: center;
   align-items: center;
 
-  font-size: 4em;
-  color: #080808;
-  mix-blend-mode: difference;
+  font-size: 2em;
+  color: var(--color3);
+  filter: drop-shadow(0 0 0.2rem var(--color2));
 }
 </style>
