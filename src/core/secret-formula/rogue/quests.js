@@ -67,7 +67,7 @@ addQuest({
   description: () => "Have a 2nd Antimatter Dimension",
   getProgress: () => clampProgress(window.player.dimensions.antimatter[1].amount),
   isUnlocked: () => true,
-  rewardTable: [[5, 1001], [3, 1002], [2, 1003], [1, 1004]]
+  rewardTable: [[5, 1001], [5, 1002], [3, 1003], [1, 1004], [1, 1005]]
 });
 addQuest({
   id: 102,
@@ -85,7 +85,7 @@ addQuest({
   description: () => `Have 8 8th Antimatter Dimension`,
   getProgress: () => clampProgress(window.player.dimensions.antimatter[7].amount.div(8)),
   isUnlocked: () => window.player.rogue.questCompleted[101],
-  rewardTable: [[1, 1004]]
+  rewardTable: [[1, 1001], [2, 1002], [3, 1003], [4, 1004], [5, 1005], [6, 1006], [7, 1007], [8, 1008]]
 });
 addQuest({
   id: 104,
