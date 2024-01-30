@@ -31,7 +31,9 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div
+    class="collection-tab"
+  >
     <ItemGrid
       :items="items"
       :cols="8"
@@ -42,4 +44,34 @@ export default {
 </template>
 
 <style scoped>
+.collection-tab {
+  position: relative;
+  padding: 3rem;
+  margin: 1.5rem auto;
+  width: 90rem;
+
+  border: 0.2rem solid var(--color-rogue);
+  border-radius: 0.4rem;
+  background: linear-gradient(
+    270deg,
+    var(--color-rogue) -2%,
+    #222 5%
+  );
+}
+
+.collection-tab::after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  content: "Collection";
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  color: #111;
+  font-size: 2em;
+  font-weight: bold;
+
+  opacity: 0.7;
+}
 </style>

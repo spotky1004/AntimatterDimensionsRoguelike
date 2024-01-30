@@ -82,20 +82,60 @@ export default {
 
 <style scoped>
 .items-inventory {
-  width: 54.4rem;
-  margin: 1rem auto;
+  --color1: #888;
+  --color2: #555;
+  --color3: #222;
+  --color4: #111;
+
+
+  position: relative;
+  width: 90rem;
+  margin: 1.5rem auto;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  background: linear-gradient(
+    270deg,
+    var(--color1) -2%,
+    var(--color3) 5%
+  );
+  border-radius: 0.4rem;
+  box-shadow: 0 0 3rem var(--color4) inset;
+  border: 0.2rem solid var(--color1);
+}
+
+.items-inventory.special {
+  --color1: var(--color-item-special);
+  --color2: var(--color-item-special-dark1);
+  --color3: var(--color-item-special-dark2);
+  --color4: var(--color-item-special-dark3);
+}
+
+.items-inventory.debuff {
+  --color1: var(--color-item-debuff);
+  --color2: var(--color-item-debuff-dark1);
+  --color3: var(--color-item-debuff-dark2);
+  --color4: var(--color-item-debuff-dark3);
 }
 
 .items-inventory__name {
-  width: 100%;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 
+  mix-blend-mode: difference;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  color: #222;
   text-align: left;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: bold;
+
+  user-select: none;
 }
 
 .items-inventory__row {
@@ -110,27 +150,12 @@ export default {
   height: 8rem;
   margin: 0.4rem;
 
-  background-color: #555;
-  box-shadow: 0 0 3rem #0008 inset;
-}
-
-.items-inventory.special .items-inventory__cell {
-  background-color: var(--color-item-special-dark3);
-  box-shadow: 0 0 3rem var(--color-item-special-dark2) inset;
-}
-
-.items-inventory.debuff .items-inventory__cell {
-  background-color: var(--color-item-debuff-dark3);
-  box-shadow: 0 0 3rem var(--color-item-debuff-dark2) inset;
+  background-color: var(--color3);
+  box-shadow: 0 0 3rem var(--color4) inset;
 }
 
 .items-inventory__cell.locked {
-  background-color: #111;
-}
-
-.items-inventory.special .items-inventory__cell.locked {
-  background-color: var(--color-item-special-dark3);
-  filter: brightness(0.5);
+  background-color: var(--color3);
 }
 
 .items-inventory__cell.locked > div {
@@ -141,7 +166,7 @@ export default {
   align-items: center;
 
   font-size: 4em;
-  color: #111;
+  color: #080808;
   mix-blend-mode: difference;
 }
 </style>
