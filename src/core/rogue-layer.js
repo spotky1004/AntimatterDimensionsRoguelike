@@ -70,11 +70,15 @@ export function grantItem(item) {
   }
   if (type === "debuff") {
     if (window.player.rogue.debuffItems.length >= getInventorySize().debuff) return false;
+    const xpGain = item.lv;
+    window.player.rogue.itemXps[itemData.id] += xpGain;
     window.player.rogue.debuffItems.push(item);
     return true;
   }
   if (type === "special") {
     if (window.player.rogue.specialItems.length >= getInventorySize().special) return false;
+    const xpGain = item.lv;
+    window.player.rogue.itemXps[itemData.id] += xpGain;
     window.player.rogue.specialItems.push(item);
     return true;
   }
