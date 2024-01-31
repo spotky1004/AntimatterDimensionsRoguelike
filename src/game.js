@@ -441,7 +441,7 @@ export function gameLoop(passDiff, options = {}) {
 
   // Rogue things
   updateHp(realDiff);
-  rogueUpdate();
+  rogueUpdate(realDiff);
 
   // For single ticks longer than a minute from the GameInterval loop, we assume that the device has gone to sleep or
   // hibernation - in those cases we stop the interval and simulate time instead. The gameLoop interval automatically

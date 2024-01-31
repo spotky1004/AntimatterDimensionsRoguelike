@@ -775,6 +775,9 @@ export default {
     normalItems: [],
     /** @type {{ id: number, props: number[] }[]} */
     debuffItems: [],
+    cutsceneId: -1,
+    cutsceneTime: 0,
+    bossCompleted: Array(10).fill(false),
     xp: new Decimal(0),
     level: 0,
     unlocks: {

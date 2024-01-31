@@ -3,14 +3,17 @@ import { DC } from "./constants";
 import { deepmergeAll } from "@/utility/deepmerge";
 import { GameUI } from "./ui";
 
-export function rogueUpdate() {
+export function rogueUpdate(realDiff) {
   // Update hp & Check died
   Currency.maxHp.value = new Decimal(Currency.antimatter.value.add(1).log(10) / 10).max(Currency.maxHp.value);
   if (Currency.hp.value.lt(0.001)) {
     rogueDie();
   }
 
-  // Unlocks
+  // Update cutscene time
+  window.player.rogue.cutsceneTime += realDiff;
+
+  // Content unlocks
   if (
     !window.player.rogue.unlocks.hp &&
     window.player.dimensionBoosts >= 1
@@ -29,12 +32,12 @@ export function rogueUpdate() {
 
   window.player.rogue.itemsUnlocked[1001] = true;
 
+  // Quest complete
   for (const [id, quest] of window.GameDatabase.rogue.quests) {
     if (window.player.rogue.questUnlocked[id] || !quest.isUnlocked()) continue;
     window.player.rogue.questUnlocked[id] = true;
   }
 
-  // Debuff quest auto-complete
   for (const quest of window.GameDatabase.rogue.debuffQuests) {
     if (
       window.player.rogue.questCompleted[quest.id] ||
@@ -127,6 +130,11 @@ export function rogueDie() {
 
 export function addRogueXp(value) {
   window.player.rogue.xp = window.player.rogue.xp.add(value);
+}
+
+export function playCutscene(id) {
+  window.player.rogue.cutsceneId = id;
+  window.player.rogue.cutsceneTime = 0;
 }
 
 const nonResetAchievements = [22, 76];
