@@ -56,8 +56,8 @@ export default {
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
           const r = imgData[(x + y * size) * 4];
-          if (r >= 200 && fastRandom() > 0.95) avaiables.push([x - offset, y - offset]);
-          else if (fastRandom() > 0.999) avaiables.push([x - offset, y - offset]);
+          if (r >= 200 && fastRandom() > 0.92) avaiables.push([x - offset, y - offset, 0]);
+          else if (fastRandom() > 0.999) avaiables.push([x - offset, y - offset, 1]);
         }
       }
 
@@ -89,29 +89,31 @@ export default {
       if (t < 5) {
         ctx.globalAlpha = t / 5;
         for (let i = 0; i < this.pixelPositions.length; i++) {
-          const [x, y] = this.pixelPositions[i];
+          const [x, y, type] = this.pixelPositions[i];
           const rad = (Math.sqrt(t) * 5 + i);
           const dist = (250 + (i * 13 % 250)) * (5 - t);
           const moveX = dist * Math.sin(rad);
           const moveY = dist * Math.cos(rad);
-          const col = getColor(Math.sin(i + t * 6));
+          const col = type === 0 ? "#aaa" : getColor(Math.sin(rad));
+          const size = (i % 2) + 2;
           ctx.fillStyle = col;
           ctx.beginPath();
-          ctx.arc(x + centerX - 2 + moveX, y + centerY - 2 + moveY, 2, 0, 2 * Math.PI);
+          ctx.arc(x + centerX - size + moveX, y + centerY - size + moveY, size, 0, 2 * Math.PI);
           ctx.fill();
         }
       } else if (t < 10) {
         ctx.globalAlpha = (10 - t) / 5;
         for (let i = 0; i < this.pixelPositions.length; i++) {
-          const [x, y] = this.pixelPositions[i];
+          const [x, y, type] = this.pixelPositions[i];
           const rad = (Math.sqrt(t) * 5 + i);
           const dist = (t - 5) ** 2 * 4;
           const moveX = dist * Math.sin(rad);
           const moveY = dist * Math.cos(rad);
-          const col = getColor(Math.sin(i + t * 6));
+          const col = type === 0 ? "#aaa" : getColor(Math.sin(i + t * 6));
+          const size = (i % 2) + 2;
           ctx.fillStyle = col;
           ctx.beginPath();
-          ctx.arc(x + centerX - 2 + moveX, y + centerY - 2 + moveY, 2, 0, 2 * Math.PI);
+          ctx.arc(x + centerX - size + moveX, y + centerY - size + moveY, size, 0, 2 * Math.PI);
           ctx.fill();
         }
       }
