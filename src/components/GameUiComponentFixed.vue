@@ -1,5 +1,5 @@
 <script>
-import BossCutscenes from "@/components/boss-cutscenes/BossCutscenes";
+import BossCutscenes from "@/components/bosses/BossCutscenes";
 import CelestialQuoteHistoryDisplay from "@/components/modals/celestial-quotes/CelestialQuoteHistoryDisplay";
 import CelestialQuoteModal from "@/components/modals/celestial-quotes/CelestialQuoteModal";
 import CreditsContainer from "@/components/tabs/celestial-pelle/CreditsContainer";

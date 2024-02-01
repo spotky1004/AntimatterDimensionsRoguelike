@@ -57,7 +57,10 @@ export default {
         for (let x = 0; x < size; x++) {
           const r = imgData[(x + y * size) * 4];
           if (r >= 200 && fastRandom() > 0.92) avaiables.push([x - offset, y - offset, 0]);
-          else if (fastRandom() > 0.999) avaiables.push([x - offset, y - offset, 1]);
+          else if (
+            fastRandom() > 0.999 &&
+            Math.sqrt((x - size / 2) ** 2 + (y - size / 2) ** 2) < size / 2
+          ) avaiables.push([x - offset, y - offset, 1]);
         }
       }
 
@@ -72,6 +75,7 @@ export default {
   },
   mounted() {
     this.ctx = this.$el.getContext("2d");
+    this.ctx.clearRect(0, 0, this.width, this.height);
   },
   methods: {
     updateCanvas() {
@@ -84,7 +88,7 @@ export default {
 
       const t = this.time / 1000;
       ctx.globalAlpha = 0.1;
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = "#23032e";
       ctx.fillRect(0, 0, this.width, this.height);
       if (t < 5) {
         ctx.globalAlpha = t / 5;
@@ -101,19 +105,33 @@ export default {
           ctx.arc(x + centerX - size + moveX, y + centerY - size + moveY, size, 0, 2 * Math.PI);
           ctx.fill();
         }
-      } else if (t < 10) {
-        ctx.globalAlpha = (10 - t) / 5;
+      } else if (t < 6) {
+        ctx.globalAlpha = 1;
+        const gm = t - 5;
         for (let i = 0; i < this.pixelPositions.length; i++) {
           const [x, y, type] = this.pixelPositions[i];
-          const rad = (Math.sqrt(t) * 5 + i);
-          const dist = (t - 5) ** 2 * 4;
+          const col = type === 0 ? "#aaa" : getColor(Math.sin(i + t * 6));
+          const size = (i % 2) + 2;
+          const m = gm ** ((i % 12) / 3);
+          const xm = x * (1 - m) + centerX;
+          const ym = y * (1 - m) + centerY;
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          ctx.arc(xm - size, ym - size, size, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      } else if (t < 10) {
+        ctx.globalAlpha = (10 - t) / 4;
+        for (let i = 0; i < this.pixelPositions.length; i++) {
+          const rad = 3 * t + i / 3;
+          const dist = (t - 5.5) ** 8 * (1 + (i % 255) / 16);
           const moveX = dist * Math.sin(rad);
           const moveY = dist * Math.cos(rad);
-          const col = type === 0 ? "#aaa" : getColor(Math.sin(i + t * 6));
+          const col = getColor(Math.sin(i + t * 6));
           const size = (i % 2) + 2;
           ctx.fillStyle = col;
           ctx.beginPath();
-          ctx.arc(x + centerX - size + moveX, y + centerY - size + moveY, size, 0, 2 * Math.PI);
+          ctx.arc(centerX - size + moveX, centerY - size + moveY, size, 0, 2 * Math.PI);
           ctx.fill();
         }
       }

@@ -1,5 +1,5 @@
 <script>
-import MilkywayCutscene from "@/components/boss-cutscenes/Milkyway/MilkywayCutscene";
+import MilkywayCutscene from "@/components/bosses/Milkyway/MilkywayCutscene";
 
 export default {
   name: "BossCutscenes",
@@ -26,7 +26,7 @@ export default {
     class="boss-cutscene"
   >
     <MilkywayCutscene
-      v-if="id === 0 && time <= 5000000"
+      v-if="id === 0 && time <= 10000"
       :time="time"
     />
   </div>
@@ -41,6 +41,6 @@ export default {
   width: 100vw;
   height: 100vh;
 
-  background-color: #000;
+  pointer-events: none;
 }
 </style>
