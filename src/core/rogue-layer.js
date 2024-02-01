@@ -147,6 +147,9 @@ export function rogueReset() {
   for (const unlockedId of rewards.itemUnlocks) {
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
+  window.player.rogue.cutsceneId = -1;
+  window.player.rogue.bossFighting.fill(false);
+  window.player.rogue.bossCompleted.fill(false);
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
 

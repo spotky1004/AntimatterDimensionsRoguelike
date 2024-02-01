@@ -777,6 +777,7 @@ export default {
     debuffItems: [],
     cutsceneId: -1,
     cutsceneTime: 0,
+    bossFighting: Array(10).fill(false),
     bossCompleted: Array(10).fill(false),
     xp: new Decimal(0),
     level: 0,
