@@ -87,10 +87,10 @@ export default {
       const centerY = this.height / 2;
 
       const t = this.time / 1000;
-      ctx.globalAlpha = 0.1;
-      ctx.fillStyle = "#23032e";
-      ctx.fillRect(0, 0, this.width, this.height);
       if (t < 5) {
+        ctx.globalAlpha = 0.1;
+        ctx.fillStyle = "#23032e";
+        ctx.fillRect(0, 0, this.width, this.height);
         ctx.globalAlpha = t / 5;
         for (let i = 0; i < this.pixelPositions.length; i++) {
           const [x, y, type] = this.pixelPositions[i];
@@ -106,8 +106,11 @@ export default {
           ctx.fill();
         }
       } else if (t < 6) {
+        ctx.globalAlpha = 0.3;
+        ctx.fillStyle = "#23032e";
+        ctx.fillRect(0, 0, this.width, this.height);
         ctx.globalAlpha = 1;
-        const gm = t - 5;
+        const gm = (t - 5) ** 4;
         for (let i = 0; i < this.pixelPositions.length; i++) {
           const [x, y, type] = this.pixelPositions[i];
           const col = type === 0 ? "#aaa" : getColor(Math.sin(i + t * 6));
@@ -121,6 +124,9 @@ export default {
           ctx.fill();
         }
       } else if (t < 10) {
+        ctx.globalAlpha = 0.05;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, this.width, this.height);
         ctx.globalAlpha = (10 - t) / 4;
         for (let i = 0; i < this.pixelPositions.length; i++) {
           const rad = 3 * t + i / 3;
