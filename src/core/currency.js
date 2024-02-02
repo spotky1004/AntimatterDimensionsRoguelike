@@ -503,7 +503,7 @@ Currency.hp = new class extends DecimalCurrency {
 
   subtract(amount) {
     // TODO: Fancy hurt animation here
-    this.value = this.value.sub(amount).max(0);
+    this.value = this.value.sub(amount);
   }
 
   reset() { this.value = window.player.rogue.maxHp; }

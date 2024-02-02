@@ -124,7 +124,7 @@ export default {
           ctx.fill();
         }
       } else if (t < 10) {
-        ctx.globalAlpha = 0.05;
+        ctx.globalAlpha = (10 - t) / 12;
         ctx.fillStyle = "#000";
         ctx.fillRect(0, 0, this.width, this.height);
         ctx.globalAlpha = (10 - t) / 4;

@@ -439,8 +439,6 @@ export function gameLoop(passDiff, options = {}) {
     : diff;
   if (!GameStorage.ignoreBackupTimer) player.backupTimer += realDiff;
 
-  // Rogue things
-  updateHp(realDiff);
   rogueUpdate(realDiff);
 
   // For single ticks longer than a minute from the GameInterval loop, we assume that the device has gone to sleep or

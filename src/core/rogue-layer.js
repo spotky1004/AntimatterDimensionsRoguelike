@@ -4,16 +4,15 @@ import { deepmergeAll } from "@/utility/deepmerge";
 import { GameUI } from "./ui";
 
 export function rogueUpdate(realDiff) {
-  // Update hp & Check died
-  Currency.maxHp.value = new Decimal(Currency.antimatter.value.add(1).log(10) / 10).max(Currency.maxHp.value);
-  if (Currency.hp.value.lt(0.001)) {
-    rogueDie();
-  }
+  updateHp(realDiff);
+  if (Currency.hp.value.lte(0)) rogueDie();
 
-  // Update cutscene time
-  window.player.rogue.cutsceneTime += realDiff;
+  updateBoss(realDiff);
+  unlockRogueContents();
+  updateQuests();
+}
 
-  // Content unlocks
+export function unlockRogueContents() {
   if (
     !window.player.rogue.unlocks.hp &&
     window.player.dimensionBoosts >= 1
@@ -31,70 +30,6 @@ export function rogueUpdate(realDiff) {
   }
 
   window.player.rogue.itemsUnlocked[1001] = true;
-
-  // Quest complete
-  for (const [id, quest] of window.GameDatabase.rogue.quests) {
-    if (window.player.rogue.questUnlocked[id] || !quest.isUnlocked()) continue;
-    window.player.rogue.questUnlocked[id] = true;
-  }
-
-  for (const quest of window.GameDatabase.rogue.debuffQuests) {
-    if (
-      window.player.rogue.questCompleted[quest.id] ||
-      quest.getProgress() < 1
-    ) continue;
-    window.player.rogue.questUnlocked[quest.id] = true;
-    window.player.rogue.questCompleted[quest.id] = true;
-
-    const item = window.GameDatabase.rogue.rollRewardTable(quest, 1, true)[0][1];
-    const itemData = window.GameDatabase.rogue.items.get(item.id);
-    grantItem(item);
-    GameUI.notify.strike(`Got a new debuff card: ${itemData.nameStr(item.lv, item.props)}`);
-  }
-}
-
-export function getXpRequirement() {
-  const level = window.player.rogue.level;
-  return DC.D1.add(0.25 + level / 50).pow(level).mul(10);
-}
-
-/**
- * @param {import("../core/secret-formula/rogue/items").RogueItem} item
- */
-export function grantItem(item) {
-  const itemData = window.GameDatabase.rogue.items.get(item.id);
-  const type = itemData.type;
-  if (type === "normal") {
-    if (window.player.rogue.normalItems.length >= getInventorySize().normal) return false;
-    const xpGain = item.lv ** 2;
-    window.player.rogue.itemXps[itemData.id] += xpGain;
-    window.player.rogue.normalItems.push(item);
-    return true;
-  }
-  if (type === "debuff") {
-    if (window.player.rogue.debuffItems.length >= getInventorySize().debuff) return false;
-    const xpGain = item.lv;
-    window.player.rogue.itemXps[itemData.id] += xpGain;
-    window.player.rogue.debuffItems.push(item);
-    return true;
-  }
-  if (type === "special") {
-    if (window.player.rogue.specialItems.length >= getInventorySize().special) return false;
-    const xpGain = item.lv;
-    window.player.rogue.itemXps[itemData.id] += xpGain;
-    window.player.rogue.specialItems.push(item);
-    return true;
-  }
-  return false;
-}
-
-export function getInventorySize() {
-  const sizes = {
-    normal: 4,
-    debuff: 40,
-    special: 0
-  };
-  return sizes;
 }
 
 export function calcRogueDieRewards() {
@@ -128,15 +63,6 @@ export function rogueDie() {
   return rewards;
 }
 
-export function addRogueXp(value) {
-  window.player.rogue.xp = window.player.rogue.xp.add(value);
-}
-
-export function playCutscene(id) {
-  window.player.rogue.cutsceneId = id;
-  window.player.rogue.cutsceneTime = 0;
-}
-
 const nonResetAchievements = [22, 76];
 export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
@@ -148,7 +74,7 @@ export function rogueReset() {
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
   window.player.rogue.cutsceneId = -1;
-  window.player.rogue.bossFighting.fill(false);
+  window.player.rogue.bossFightings = [];
   window.player.rogue.bossCompleted.fill(false);
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
