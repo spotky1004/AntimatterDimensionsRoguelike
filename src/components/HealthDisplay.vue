@@ -13,9 +13,9 @@ export default {
   },
   methods: {
     update() {
-      this.healthStr = format(Currency.hp.value, 3, 3);
+      this.healthStr = format(Currency.hp.value.max(0), 3, 3);
       this.maxHealthStr = format(Currency.maxHp.value, 3, 3);
-      const ratio = Currency.hp.value.div(Currency.maxHp.value).max(0).min(1).toNumber();
+      const ratio = Currency.hp.value.max(0).div(Currency.maxHp.value).max(0).min(1).toNumber();
       this.progressStyle = `
         --filter: hue-rotate(-${(1 - ratio) * 100}deg) brightness(${1 + (1 - ratio) / 2});
         --hp-left: ${ratio * 100}%;
