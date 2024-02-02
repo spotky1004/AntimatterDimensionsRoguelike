@@ -1,5 +1,6 @@
 <script>
 import BossCutscenes from "@/components/bosses/BossCutscenes";
+import BossOverlays from "@/components/bosses/BossOverlays";
 import CelestialQuoteHistoryDisplay from "@/components/modals/celestial-quotes/CelestialQuoteHistoryDisplay";
 import CelestialQuoteModal from "@/components/modals/celestial-quotes/CelestialQuoteModal";
 import CreditsContainer from "@/components/tabs/celestial-pelle/CreditsContainer";
@@ -21,6 +22,7 @@ export default {
     HowToPlay,
     HealthDisplay,
     BossCutscenes,
+    BossOverlays,
     TimeTheoremShop,
     ModernSidebar,
     SaveTimer,
@@ -80,6 +82,7 @@ export default {
     <SaveTimer :style="hideIfMatoFullscreen" />
     <HealthDisplay />
     <BossCutscenes />
+    <BossOverlays />
     <SpeedrunStatus :style="hideIfMatoFullscreen" />
     <template v-if="view.theme !== 'S12'">
       <ModalProgressBar v-if="view.modal.progressBar" />

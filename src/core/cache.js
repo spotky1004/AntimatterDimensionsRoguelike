@@ -97,11 +97,11 @@ export const GameCache = {
 
   // The effect is defined in antimatter_dimensions.js because that's where the non-cached
   // code originally lived.
-  /** @type {Lazy<Decimal>} */
+  /** @type {Lazy<typeof Decimal>} */
   antimatterDimensionCommonMultiplier: new Lazy(() => antimatterDimensionCommonMultiplier()),
 
   // 0 will cause a crash if invoked; this way the tier can be used as an index
-  /** @type {Lazy<Decimal>[]} */
+  /** @type {Lazy<typeof Decimal>[]} */
   antimatterDimensionFinalMultipliers: Array.range(0, 9)
     .map(tier => new Lazy(() => getDimensionFinalMultiplierUncached(tier))),
 
@@ -123,7 +123,10 @@ export const GameCache = {
 
   infinityChallengeTimeSum: new Lazy(() => player.challenge.infinity.bestTimes.sum()),
 
-  rogueItemEffects: new Lazy(() => calculateRogueEffects())
+  rogueItemEffects: new Lazy(() => calculateRogueEffects()),
+
+  /** @type {Lazy<typeof Decimal>} */
+  damageMultiplier: new Lazy(() => damageMultiplier()),
 };
 
 EventHub.logic.on(GAME_EVENT.GLYPHS_CHANGED, () => {

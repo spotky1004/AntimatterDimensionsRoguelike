@@ -278,18 +278,21 @@ addItem({
   icon: faIcon("fire-flame-curved"),
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
-  descriptionStr: lv => `-${format(lv / 1000, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`,
+  descriptionStr: lv => {
+    const burnValue = GameCache.damageMultiplier.value.mul(lv / 1000);
+    return `-${format(burnValue, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`;
+  },
   calcEffect: (effect, lv, props) => {
     effect.fire.ad = true;
 
-    const attackValue = lv / 1000;
+    const attackValue = GameCache.damageMultiplier.value.mul(lv / 1000);
     let diffSum = 0;
     for (let i = 0; i < 8; i++) {
       const curBoughtAmount = Math.floor(player.dimensions.antimatter[i].bought / 10);
       diffSum += Math.max(0, curBoughtAmount - props[i]);
       props[i] = curBoughtAmount;
     }
-    Currency.hp.subtract(diffSum * attackValue);
+    Currency.hp.subtract(attackValue.mul(diffSum));
   },
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
@@ -302,8 +305,8 @@ addItem({
   type: "debuff",
   icon: faIcon("bug"),
   nameStr: lv => `${["A", "Two", "Three", "Four", "Five"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
-  descriptionStr: lv => `- ${format(lv / 1000, 3, 3)} ${faIcon("heart")}/s`,
-  calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(lv / 1000),
+  descriptionStr: lv => `- ${format(GameCache.damageMultiplier.value.mul(lv / 1000), 3, 3)} ${faIcon("heart")}/s`,
+  calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul(lv / 1000)),
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
   xpReqs: [0, 0, 0, 0],

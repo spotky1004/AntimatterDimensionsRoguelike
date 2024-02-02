@@ -74,7 +74,8 @@ export function rogueReset() {
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
   window.player.rogue.cutsceneId = -1;
-  window.player.rogue.bossFightings = [];
+  window.player.rogue.bossFightStartTimes.fill(0);
+  window.player.rogue.bossFightings.fill(false);
   window.player.rogue.bossCompleted.fill(false);
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);

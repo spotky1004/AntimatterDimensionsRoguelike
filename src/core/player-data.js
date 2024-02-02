@@ -778,6 +778,7 @@ export default {
     cutsceneId: -1,
     cutsceneTime: 0,
     bossFightings: Array(10).fill(false),
+    bossFightStartTimes: Array(10).fill(0),
     bossCompleted: Array(10).fill(false),
     xp: new Decimal(0),
     level: 0,

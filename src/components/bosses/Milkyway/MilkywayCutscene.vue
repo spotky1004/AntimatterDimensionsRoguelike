@@ -70,7 +70,5 @@ export default {
     #0000 40vmin,
     #000
   );
-
-  z-index: 2;
 }
 </style>

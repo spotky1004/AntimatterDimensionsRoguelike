@@ -482,6 +482,7 @@ export function gameLoop(passDiff, options = {}) {
   // We do these after autobuyers, since it's possible something there might
   // change a multiplier.
   GameCache.rogueItemEffects.invalidate();
+  GameCache.damageMultiplier.invalidate();
   GameCache.antimatterDimensionCommonMultiplier.invalidate();
   GameCache.antimatterDimensionFinalMultipliers.invalidate();
   GameCache.infinityDimensionCommonMultiplier.invalidate();

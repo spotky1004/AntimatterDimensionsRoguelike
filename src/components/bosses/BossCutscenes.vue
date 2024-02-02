@@ -42,5 +42,6 @@ export default {
   height: 100vh;
 
   pointer-events: none;
+  z-index: 1000;
 }
 </style>
