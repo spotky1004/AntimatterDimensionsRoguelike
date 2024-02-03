@@ -77,6 +77,11 @@ export function rogueReset() {
   window.player.rogue.bossFightStartTimes.fill(0);
   window.player.rogue.bossFightings.fill(false);
   window.player.rogue.bossDefeated.fill(false);
+  window.player.rogue.seed = Math.floor(Math.random() * 2 ** 32);
+  window.player.rogue.normalItems = [];
+  window.player.rogue.debuffItems = [];
+  window.player.rogue.specialItems = [];
+  window.player.rogue.questCompleted.fill(false);
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
 
@@ -86,12 +91,6 @@ export function rogueReset() {
     achievement.lock();
   }
   player.records.totalTimePlayed = player.records.realTimePlayed;
-
-  window.player.rogue.seed = Math.floor(Math.random() * 2 ** 32);
-  player.rogue.normalItems = [];
-  player.rogue.debuffItems = [];
-  player.rogue.specialItems = [];
-  player.rogue.questCompleted.fill(false);
 
   const x = player.reality.glyphs.protectedRows;
   player.reality.glyphs.protectedRows = 0;
@@ -403,4 +402,5 @@ export function rogueReset() {
     AutomatorBackend.start(AutomatorBackend.state.topLevelScript);
   }
   Currency.maxHp.reset();
+  window.player.rogue.questCompleteNotified.fill(false);
 }

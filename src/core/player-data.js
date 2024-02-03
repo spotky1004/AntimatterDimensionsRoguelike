@@ -767,6 +767,7 @@ export default {
     maxHp: DC.D1,
     itemsUnlocked: Array(4000).fill(false),
     itemXps: Array(4000).fill(0),
+    questCompleteNotified: Array(500).fill(false),
     questUnlocked: Array(500).fill(false),
     questCompleted: Array(500).fill(false),
     /** @type {{ id: number, props: number[] }[]} */

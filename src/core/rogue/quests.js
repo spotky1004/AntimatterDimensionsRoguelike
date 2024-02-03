@@ -1,9 +1,21 @@
 export function updateQuests() {
+  // Unlock quest
   for (const [id, quest] of window.GameDatabase.rogue.quests) {
     if (window.player.rogue.questUnlocked[id] || !quest.isUnlocked()) continue;
     window.player.rogue.questUnlocked[id] = true;
   }
 
+  // Notify quest completeion
+  for (const quest of window.GameDatabase.rogue.normalQuests) {
+    if (
+      window.player.rogue.questCompleteNotified[quest.id] ||
+      quest.getProgress() < 1
+    ) continue;
+    window.player.rogue.questCompleteNotified[quest.id] = true;
+    GameUI.notify.success(`Completed quest: ${quest.name()}`);
+  }
+
+  // Autocomplete debuff quests
   for (const quest of window.GameDatabase.rogue.debuffQuests) {
     if (
       window.player.rogue.questCompleted[quest.id] ||
