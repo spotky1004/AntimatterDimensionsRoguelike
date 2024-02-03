@@ -119,8 +119,8 @@ addItem({
   type: "normal",
   icon: faIcon("1"),
   nameStr: lv => `${["First", "Second", "Third", "Fourth"][lv - 1]} Boost`,
-  descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.D5.pow(lv))}`,
-  calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.D5.pow(lv)),
+  descriptionStr: lv => `Boosts 1st Antimatter Dimension by x${format(DC.E1.pow(lv))}`,
+  calcEffect: (effect, lv) => effect.adMults[1] = effect.adMults[1].mul(DC.E1.pow(lv)),
   unlockConditionStr: () => `Free`,
   isUnlocked: () => true,
   xpReqs: [10, 80, 200],
@@ -147,12 +147,12 @@ addItem({
   nameStr: lv => `Half Life ${roman(lv)}`,
   descriptionStr: (lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.D2.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D4.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     return `Boosts Anaimatter Dimensions by x${format(boost, 2, 2)}.<br> But, decays overtime.`;
   },
   calcEffect: (effect, lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.D2.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D4.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     effect.adAllMult = effect.adAllMult.mul(boost);
   },
   unlockConditionStr: () => `Complete achievement 13`,
@@ -179,8 +179,8 @@ addItem({
   type: "normal",
   icon: faIcon("5"),
   nameStr: lv => `Antimatter Punch ${roman(lv)}`,
-  descriptionStr: lv => `Discount antimatter dimensions by /${format(DC.D5.pow(lv ** 2), 2)}`,
-  calcEffect: (effect, lv) => effect.adDiscount = effect.adDiscount.mul(DC.D5.pow(lv ** 2)),
+  descriptionStr: lv => `Discount antimatter dimensions by /${format(DC.D5.mul(10).pow(lv ** 2), 2)}`,
+  calcEffect: (effect, lv) => effect.adDiscount = effect.adDiscount.mul(DC.D5.mul(10).pow(lv ** 2)),
   unlockConditionStr: () => `Complete achievement 15`,
   isUnlocked: () => Achievement(15).isUnlocked,
   xpReqs: [10, 30, 70, 200, 500, 2000],
@@ -193,12 +193,12 @@ addItem({
   icon: faIcon("6"),
   nameStr: lv => `${"6".repeat(lv)}`,
   descriptionStr: lv => {
-    let str = `Boosts 6th Antimatter Dimensions by x${format(DC.D6.pow(lv))}<br>`;
+    let str = `Boosts 6th Antimatter Dimensions by x${format(DC.E3.pow(lv))}<br>`;
     str += `But, - ${format(6 * lv / 1000, 3, 3)} ${faIcon("heart")}/s`;
     return str;
   },
   calcEffect: (effect, lv) => {
-    effect.adMults[6] = effect.adMults[6].mul(DC.D6.pow(lv));
+    effect.adMults[6] = effect.adMults[6].mul(DC.E3.pow(lv));
     effect.hpDelta = effect.hpDelta.sub(6 * lv / 1000);
   },
   unlockConditionStr: () => `Complete achievement 16`,
