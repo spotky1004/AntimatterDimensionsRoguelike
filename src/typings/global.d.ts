@@ -10,6 +10,7 @@ import {
 import { Currency as _Currency } from "../core/currency";
 export {};
 import { GAME_EVENT as _GAME_EVENT } from "../core/event-hub";
+import { BOSS_ENUM as _BOSS_ENUM, BossDatas as _BossDatas, BOSS_NAMES as _BOSS_NAMES } from "../core/rogue/boss";
 
 declare global {
   interface Window {
@@ -22,4 +23,8 @@ declare global {
   const Achievement: (x: number) => { isUnlocked: boolean };
   const getRogueEffect = _getRogueEffect;
   const GAME_EVENT = _GAME_EVENT;
+
+  const BOSS_ENUM = _BOSS_ENUM;
+  const BOSS_NAMES = _BOSS_NAMES;
+  const BossDatas = _BossDatas;
 }
