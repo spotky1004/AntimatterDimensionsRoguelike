@@ -193,7 +193,7 @@ addItem({
   icon: faIcon("6"),
   nameStr: lv => `${"6".repeat(lv)}`,
   descriptionStr: lv => {
-    let str = `Boosts 6th Antimatter Dimensions by ${format(DC.D6.pow(lv))}<br>`;
+    let str = `Boosts 6th Antimatter Dimensions by x${format(DC.D6.pow(lv))}<br>`;
     str += `But, - ${format(6 * lv / 1000, 3, 3)} ${faIcon("heart")}/s`;
     return str;
   },
