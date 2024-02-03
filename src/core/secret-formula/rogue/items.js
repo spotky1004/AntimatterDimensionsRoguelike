@@ -235,6 +235,7 @@ addItem({
     const recoverAmount = DC.D1.mul(lv).mul(recoverCount);
     Currency.hp.add(recoverAmount);
   },
+  unlockConditionStr: () => `Complete achievement 17`,
   isUnlocked: () => Achievement(17).isUnlocked,
   xpReqs: [10, 30, 50, 100],
   levelChances: [0.3, 0.3, 0.3, 0.3],

@@ -11,7 +11,7 @@ export default {
   methods: {
     update() {
       const t = (window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0]) / 1000;
-      const mul = getMilkywayDamageMultiplier().toNumber();
+      const mul = BossDatas[BOSS_ENUM.MILKYWAY].calcDamageMultiplier().toNumber();
       this.mul = mul.toFixed(3);
 
       const textRotate = t ** 1.2;
