@@ -12,6 +12,7 @@ export const BOSS_ENUM = {
 export const BossDatas = {
   [BOSS_ENUM.MILKYWAY]: {
     getName: () => "Milkyway Galaxy",
+    getPrimaryColor: () => "#d381e6",
     checkCondition: () => window.player.galaxies >= 1 || checkBossEncountered(BOSS_ENUM.MILKYWAY),
     isDefeated: () => window.player.galaxies >= 2 || checkBossDefeated(BOSS_ENUM.MILKYWAY),
     calcAntimatterCap: () => 1e200,
@@ -22,6 +23,7 @@ export const BossDatas = {
   },
   [BOSS_ENUM.TIMEWALL]: {
     getName: () => "The Time Wall",
+    getPrimaryColor: () => "#f5ad42",
     checkCondition: () => window.player.infinities.gte(1) || checkBossEncountered(BOSS_ENUM.TIMEWALL),
     isDefeated: () => window.player.challenge.normal.completedBits > 2 || checkBossDefeated(BOSS_ENUM.TIMEWALL),
   }
@@ -33,7 +35,8 @@ export function updateBoss(realDiff) {
   for (let i = 0; i < bossCount; i++) {
     if (
       BossDatas[i].isDefeated() ||
-      !BossDatas[i].checkCondition()
+      !BossDatas[i].checkCondition() ||
+      checkBossFighing(i)
     ) continue;
     enterBossFight(i);
   }
@@ -75,6 +78,7 @@ export function enterBossFight(id) {
 }
 
 export function defeatBoss(id) {
+  Modal.bossDefeat.show({ bossId: id });
   window.player.rogue.bossDefeated[id] = true;
 }
 

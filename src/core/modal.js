@@ -11,6 +11,7 @@ import NormalChallengeStartModal from "@/components/modals/challenges/NormalChal
 import AntimatterGalaxyModal from "@/components/modals/prestige/AntimatterGalaxyModal";
 import ArmageddonModal from "@/components/modals/prestige/ArmageddonModal";
 import BigCrunchModal from "@/components/modals/prestige/BigCrunchModal";
+import BossDefeatModal from "@/components/modals/BossDefeatModal";
 import DimensionBoostModal from "@/components/modals/prestige/DimensionBoostModal";
 import EnterCelestialsModal from "@/components/modals/prestige/EnterCelestialsModal";
 import EnterDilationModal from "@/components/modals/prestige/EnterDilationModal";
@@ -224,6 +225,7 @@ Modal.changeName = new Modal(ChangeNameModal);
 Modal.armageddon = new Modal(ArmageddonModal, 1);
 Modal.RogueDieModal = new Modal(RogueDieModal, 2);
 Modal.rogueItemChoose = new Modal(RogueItemChooseModal, 1, GAME_EVENT.ROGUE_DIE);
+Modal.bossDefeat = new Modal(BossDefeatModal, 1, GAME_EVENT.ROGUE_DIE);
 
 Modal.confirmationOptions = new Modal(ConfirmationOptionsModal);
 Modal.infoDisplayOptions = new Modal(InfoDisplayOptionsModal);
