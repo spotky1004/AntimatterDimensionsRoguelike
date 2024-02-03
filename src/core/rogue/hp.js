@@ -8,7 +8,9 @@ export function updateHp(realDiff) {
 
 export function calcDamageMultiplier() {
   let mul = DC.D1;
-  mul = mul.mul(getMilkywayDamageMultiplier());
+  if (checkBossFighing(BOSS_ENUM.MILKYWAY)) {
+    mul = mul.mul(BossDatas[BOSS_ENUM.MILKYWAY].calcDamageMultiplier());
+  }
   return mul;
 }
 

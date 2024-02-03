@@ -1,6 +1,4 @@
 <script>
-const BOSS_NAME = "Milkyway Galaxy";
-
 const colorRange = [
   [85, 123],
   [55, 61],
@@ -36,6 +34,7 @@ export default {
       return Math.min(innerHeight, innerWidth);
     },
     pixelPositions() {
+      const bossName = BOSS_NAMES[BOSS_ENUM.MILKYWAY];
       const size = this.size;
 
       const tmpCanvas = document.createElement("canvas");
@@ -43,11 +42,11 @@ export default {
       tmpCanvas.height = size;
       const ctx = tmpCanvas.getContext("2d");
 
-      const fontSize = size * 1.5 / BOSS_NAME.length;
+      const fontSize = size * 1.5 / bossName.length;
 
       ctx.font = `${fontSize}px Typewriter, serif`;
       ctx.fillStyle = "red";
-      ctx.fillText(BOSS_NAME, 0, (size + fontSize) / 2);
+      ctx.fillText(bossName, 0, (size + fontSize) / 2);
 
       const imgData = ctx.getImageData(0, 0, size, size).data;
       /** @type {[x: number, y: number][]} */
