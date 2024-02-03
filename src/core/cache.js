@@ -126,7 +126,7 @@ export const GameCache = {
   rogueItemEffects: new Lazy(() => calculateRogueEffects()),
 
   /** @type {Lazy<typeof Decimal>} */
-  damageMultiplier: new Lazy(() => damageMultiplier()),
+  damageMultiplier: new Lazy(() => calcDamageMultiplier()),
 };
 
 EventHub.logic.on(GAME_EVENT.GLYPHS_CHANGED, () => {

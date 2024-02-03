@@ -6,7 +6,7 @@ export function updateHp(realDiff) {
   Currency.hp.add(delta);
 }
 
-export function damageMultiplier() {
+export function calcDamageMultiplier() {
   let mul = DC.D1;
   mul = mul.mul(getMilkywayDamageMultiplier());
   return mul;
