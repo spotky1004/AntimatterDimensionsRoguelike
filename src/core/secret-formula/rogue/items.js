@@ -194,12 +194,12 @@ addItem({
   nameStr: lv => `${"6".repeat(lv)}`,
   descriptionStr: lv => {
     let str = `Boosts 6th Antimatter Dimensions by x${format(DC.E3.pow(lv))}<br>`;
-    str += `But, - ${format(6 * lv / 1000, 3, 3)} ${faIcon("heart")}/s`;
+    str += `But, - ${format(GameCache.damageMultiplier.value.mul(6 * lv / 1000), 3, 3)} ${faIcon("heart")}/s`;
     return str;
   },
   calcEffect: (effect, lv) => {
     effect.adMults[6] = effect.adMults[6].mul(DC.E3.pow(lv));
-    effect.hpDelta = effect.hpDelta.sub(6 * lv / 1000);
+    effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul(6 * lv / 1000));
   },
   unlockConditionStr: () => `Complete achievement 16`,
   isUnlocked: () => Achievement(16).isUnlocked,
