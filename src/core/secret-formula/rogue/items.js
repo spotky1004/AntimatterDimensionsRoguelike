@@ -305,13 +305,15 @@ addItem({
   id: 2002,
   type: "debuff",
   icon: faIcon("bug"),
-  nameStr: lv => `${["A", "Two", "Three", "Four", "Five"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
-  descriptionStr: lv => `- ${format(GameCache.damageMultiplier.value.mul(lv / 1000), 3, 3)} ${faIcon("heart")}/s`,
-  calcEffect: (effect, lv) => effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul(lv / 1000)),
+  nameStr: lv => `${["A", "Two", "Three"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
+  descriptionStr: lv => `- ${format(GameCache.damageMultiplier.value.mul((lv + 3) / 1000), 3, 3)} ${faIcon("heart")}/s`,
+  calcEffect: (effect, lv) => {
+    effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul((lv + 3) / 1000));
+  },
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
-  xpReqs: [0, 0, 0, 0],
-  levelChances: [0.6, 0.5, 0.4, 0.3],
+  xpReqs: [0, 0],
+  levelChances: [0.6, 0.5],
   defaultProps: () => []
 });
 
