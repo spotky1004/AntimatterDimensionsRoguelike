@@ -15,7 +15,7 @@ export const BossDatas = {
     getPrimaryColor: () => "#d381e6",
     checkCondition: () => window.player.galaxies >= 1 || checkBossEncountered(BOSS_ENUM.MILKYWAY),
     isDefeated: () => window.player.galaxies >= 2 || checkBossDefeated(BOSS_ENUM.MILKYWAY),
-    calcAntimatterCap: () => 1e200,
+    calcAntimatterCap: () => 1e250,
     calcDamageMultiplier: () => {
       const t = window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0];
       return DC.D1.add(t / 1000000);
@@ -79,6 +79,7 @@ export function enterBossFight(id) {
 
 export function defeatBoss(id) {
   Modal.bossDefeat.show({ bossId: id });
+  window.player.rogue.bossFightings[id] = false;
   window.player.rogue.bossDefeated[id] = true;
 }
 

@@ -34,7 +34,7 @@ export default {
       return Math.min(innerHeight, innerWidth);
     },
     pixelPositions() {
-      const bossName = BOSS_NAMES[BOSS_ENUM.MILKYWAY];
+      const bossName = BossDatas[BOSS_ENUM.MILKYWAY].getName();
       const size = this.size;
 
       const tmpCanvas = document.createElement("canvas");
