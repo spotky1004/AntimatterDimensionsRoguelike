@@ -207,7 +207,7 @@ Currency.antimatter = new class extends DecimalCurrency {
       TabNotification.newAutobuyer.clearTrigger();
       TabNotification.newAutobuyer.tryTrigger();
     }
-    player.antimatter = value;
+    player.antimatter = value.min(this.maxValue);
     player.records.thisInfinity.maxAM = player.records.thisInfinity.maxAM.max(value);
     player.records.thisEternity.maxAM = player.records.thisEternity.maxAM.max(value);
     player.records.thisReality.maxAM = player.records.thisReality.maxAM.max(value);
@@ -229,6 +229,14 @@ Currency.antimatter = new class extends DecimalCurrency {
     return NormalChallenge(12).isRunning
       ? AntimatterDimension(1).productionPerRealSecond.plus(AntimatterDimension(2).productionPerRealSecond)
       : AntimatterDimension(1).productionPerRealSecond;
+  }
+
+  get maxValue() {
+    let maxValue = DC.INF;
+    if (!BossDatas[BOSS_ENUM.MILKYWAY].isDefeated()) {
+      maxValue = maxValue.min(BossDatas[BOSS_ENUM.MILKYWAY].calcAntimatterCap());
+    }
+    return maxValue;
   }
 
   get startingValue() {
