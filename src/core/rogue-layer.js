@@ -382,6 +382,7 @@ export function rogueReset() {
   InfinityChallenges.clearCompletions();
   playerInfinityUpgradesOnReset();
   player.IPMultPurchases = 0;
+  player.break = false;
 
   Currency.antimatter.reset();
   player.dimensionBoosts = 0;
