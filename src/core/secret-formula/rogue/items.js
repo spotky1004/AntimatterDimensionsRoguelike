@@ -280,13 +280,13 @@ addItem({
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
   descriptionStr: lv => {
-    const burnValue = GameCache.damageMultiplier.value.mul(lv / 1000);
+    const burnValue = GameCache.damageMultiplier.value.mul((lv + 2) / 1000);
     return `-${format(burnValue, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`;
   },
   calcEffect: (effect, lv, props) => {
     effect.fire.ad = true;
 
-    const attackValue = GameCache.damageMultiplier.value.mul(lv / 1000);
+    const attackValue = GameCache.damageMultiplier.value.mul((lv + 2) / 1000);
     let diffSum = 0;
     for (let i = 0; i < 8; i++) {
       const curBoughtAmount = Math.floor(player.dimensions.antimatter[i].bought / 10);
