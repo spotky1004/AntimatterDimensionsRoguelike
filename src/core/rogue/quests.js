@@ -12,7 +12,7 @@ export function updateQuests() {
       quest.getProgress() < 1
     ) continue;
     window.player.rogue.questCompleteNotified[quest.id] = true;
-    GameUI.notify.success(`Completed quest: ${quest.name()}`);
+    GameUI.notify.success(`Quest completed: ${quest.name()}`);
   }
 
   // Autocomplete debuff quests
