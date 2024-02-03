@@ -13,7 +13,7 @@ export const BossDatas = {
   [BOSS_ENUM.MILKYWAY]: {
     getName: () => "Milkyway Galaxy",
     checkCondition: () => window.player.galaxies >= 1 || checkBossEncountered(BOSS_ENUM.MILKYWAY),
-    isDefeated: () => window.player.galaxies >= 2 || checkBossCompleted(BOSS_ENUM.MILKYWAY),
+    isDefeated: () => window.player.galaxies >= 2 || checkBossDefeated(BOSS_ENUM.MILKYWAY),
     calcAntimatterCap: () => 1e200,
     calcDamageMultiplier: () => {
       const t = window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0];
@@ -23,7 +23,7 @@ export const BossDatas = {
   [BOSS_ENUM.TIMEWALL]: {
     getName: () => "The Time Wall",
     checkCondition: () => window.player.infinities.gte(1) || checkBossEncountered(BOSS_ENUM.TIMEWALL),
-    isDefeated: () => window.player.challenge.normal.completedBits > 2 || checkBossCompleted(BOSS_ENUM.TIMEWALL),
+    isDefeated: () => window.player.challenge.normal.completedBits > 2 || checkBossDefeated(BOSS_ENUM.TIMEWALL),
   }
 };
 
@@ -57,15 +57,15 @@ export function checkBossFighing(id) {
 /**
  * @returns {boolean}
  */
-export function checkBossCompleted(id) {
-  return window.player.rogue.bossCompleted[id];
+export function checkBossDefeated(id) {
+  return window.player.rogue.bossDefeated[id];
 }
 
 /**
  * @returns {boolean}
  */
 export function checkBossEncountered(id) {
-  return checkBossCompleted(id) || checkBossFighing(id);
+  return checkBossDefeated(id) || checkBossFighing(id);
 }
 
 export function enterBossFight(id) {
@@ -75,7 +75,7 @@ export function enterBossFight(id) {
 }
 
 export function defeatBoss(id) {
-  window.player.rogue.bossCompleted[id] = true;
+  window.player.rogue.bossDefeated[id] = true;
 }
 
 export function playBossCutscene(id) {
