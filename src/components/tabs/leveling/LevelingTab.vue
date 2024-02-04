@@ -1,6 +1,11 @@
 <script>
+import LevelingBar from "./LevelingBar";
+
 export default {
-  name: "LevelingTab"
+  name: "LevelingTab",
+  components: {
+    LevelingBar
+  }
 };
 </script>
 
@@ -8,7 +13,7 @@ export default {
   <div
     class="leveling-tab"
   >
-    This is leveling tab
+    <LevelingBar />
   </div>
 </template>
 
