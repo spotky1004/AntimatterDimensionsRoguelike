@@ -21,6 +21,7 @@ import InfinityDimensionsTab from "./infinity-dimensions/InfinityDimensionsTab";
 import InfinityUpgradesTab from "./infinity-upgrades/InfinityUpgradesTab";
 import ItemsTab from "./items/ItemsTab";
 import LaitelaTab from "./celestial-laitela/LaitelaTab";
+import LevelingTab from "./leveling/LevelingTab";
 import MultiplierBreakdownTab from "./statistics/MultiplierBreakdownTab";
 import NormalAchievementsTab from "./normal-achievements/NormalAchievementsTab";
 import NormalChallengesTab from "./normal-challenges/NormalChallengesTab";
@@ -89,6 +90,7 @@ const TabComponents = {
   ItemsTab,
   QuestsTab,
   CollectionTab,
+  LevelingTab,
   ShopTab,
   MultiplierBreakdownTab
 };

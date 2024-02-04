@@ -790,7 +790,6 @@ export default {
       leveling: false,
       boss: Array(10).fill(false),
       special: false,
-      skillTree: false,
     }
   },
   isGameEnd: false,

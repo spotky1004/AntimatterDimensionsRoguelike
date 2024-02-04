@@ -4,12 +4,13 @@ import { deepmergeAll } from "@/utility/deepmerge";
 import { GameUI } from "./ui";
 
 export function rogueUpdate(realDiff) {
+  unlockRogueContents();
+
   updateHp(realDiff);
   if (Currency.hp.value.lte(0)) rogueDie();
-
   updateBoss(realDiff);
-  unlockRogueContents();
   updateQuests();
+  updateLeveling();
 }
 
 export function unlockRogueContents() {
@@ -27,6 +28,13 @@ export function unlockRogueContents() {
   ) {
     window.player.rogue.unlocks.items = true;
     Tab.rogue["rogue-items"].show();
+  }
+  if (
+    !window.player.rogue.unlocks.leveling &&
+    window.player.rogue.level >= 1
+  ) {
+    window.player.rogue.unlocks.leveling = true;
+    Tab.rogue["rogue-leveling"].show();
   }
 
   window.player.rogue.itemsUnlocked[1001] = true;

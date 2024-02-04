@@ -532,6 +532,15 @@ export const tabs = [
         condition: () => player.rogue.unlocks.items,
         id: 2,
         hidable: true
+      },
+      {
+        key: "rogue-leveling",
+        name: "Leveling",
+        symbol: "<i class='fas fa-tree'></i>",
+        component: "LevelingTab",
+        condition: () => player.rogue.unlocks.leveling,
+        id: 3,
+        hidable: true
       }
     ]
   }
