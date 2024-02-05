@@ -89,9 +89,8 @@ export const AD = {
     icon: MultiplierTabIcons.DIMENSION("AD"),
   },
 
-  rogue: {
-    name: "Rogue",
-    displayOverride: dim => (dim ? `${AntimatterDimensions.all[dim - 1].displayName} Dimension` : ""),
+  items: {
+    name: dim => (dim ? `Items AD ${dim}` : "Items"),
     multValue: dim => {
       if (dim) {
         if (!AntimatterDimensions.all[dim - 1].isProducing) return DC.D1;
@@ -109,7 +108,7 @@ export const AD = {
       return 1;
     },
     isActive: true,
-    icon: MultiplierTabIcons.ROGUE,
+    icon: MultiplierTabIcons.ITEMS,
   },
   dimboost: {
     name: dim => (dim ? `Dimboosts on AD ${dim}` : "Dimboosts"),

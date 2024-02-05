@@ -5,7 +5,7 @@ import { multiplierTabValues } from "./values";
 
 const dynamicGenProps = ["TP", "DT", "infinities", "eternities", "gamespeed", "replicanti"];
 const propList = {
-  AD: ["rogue", "purchase", "dimboost", "sacrifice", "achievementMult", "achievement", "infinityUpgrade",
+  AD: ["items", "purchase", "dimboost", "sacrifice", "achievementMult", "achievement", "infinityUpgrade",
     "breakInfinityUpgrade", "infinityPower", "infinityChallenge", "timeStudy", "eternityChallenge", "glyph", "v",
     "alchemy", "pelle", "iap", "effectNC", "nerfIC", "nerfV", "nerfCursed", "nerfPelle"],
   ID: ["purchase", "achievementMult", "achievement", "replicanti", "infinityChallenge", "timeStudy", "eternityUpgrade",
@@ -81,7 +81,7 @@ export const multiplierTabTree = {
     getProps("DT")
   ],
   tickspeed_total: [
-    ["tickspeed_base", "tickspeed_rogue", "tickspeed_upgrades", "tickspeed_galaxies", "tickspeed_pelleTickspeedPow"]
+    ["tickspeed_base", "tickspeed_items", "tickspeed_upgrades", "tickspeed_galaxies", "tickspeed_pelleTickspeedPow"]
   ],
   tickspeed_upgrades: [
     ["tickspeedUpgrades_purchased", "tickspeedUpgrades_free"]
