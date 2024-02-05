@@ -32,7 +32,7 @@ export default {
     class="milkyway-overlay"
   >
     <i
-      class="milkyway-symbol fas fa-certificate"
+      class="milkyway-symbol fas fa-fan"
       :style="symbolStyle"
     />
     <div
