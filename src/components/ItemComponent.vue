@@ -166,9 +166,8 @@ export default {
 
 .rogue-item__lv {
   position: absolute;
-  bottom: -1rem;
-  right: -0.3rem;
-  padding: 0.1rem 0.7rem;
+  bottom: -0.7rem;
+  right: 0.5rem;
 
   color: var(--color2);
   filter: brightness(1.1);
