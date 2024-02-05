@@ -306,8 +306,13 @@ addItem({
   type: "debuff",
   icon: faIcon("bug"),
   nameStr: lv => `${["A", "Two", "Three"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
-  descriptionStr: lv => `- ${format(GameCache.damageMultiplier.value.mul((lv + 3) / 1000), 3, 3)} ${faIcon("heart")}/s`,
+  descriptionStr: lv => {
+    let str = `- ${format(GameCache.damageMultiplier.value.mul((lv + 3) / 1000), 3, 3)} ${faIcon("heart")}/s<br>`;
+    str += `When you have any Antimatter Dimensions`;
+    return str;
+  },
   calcEffect: (effect, lv) => {
+    if (window.player.dimensions.antimatter.every(dim => dim.amount.eq(DC.D0))) return;
     effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul((lv + 3) / 1000));
   },
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
