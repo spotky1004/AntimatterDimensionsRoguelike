@@ -116,6 +116,10 @@ export const MultiplierTabIcons = {
     symbol: `<i class="fas fa-sack-dollar"></i>`,
     color: "var(--color-rogue)"
   },
+  LEVELING: {
+    symbol: `<i class="fas fa-tree"></i>`,
+    color: "var(--color-rogue)"
+  },
   ANTIMATTER: {
     symbol: `<i class='fas fa-atom' />`,
     color: "var(--color-antimatter)",
