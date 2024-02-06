@@ -309,7 +309,7 @@ export const shortcuts = [
     name: "Fullscreen",
     keys: ["F10"],
     type: "bind",
-    function: () => {},
+    function: () => ({}),
     visible: () => false
   },
   {
