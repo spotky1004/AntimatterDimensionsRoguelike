@@ -262,7 +262,7 @@ addItem({
   descriptionStr: lv => {
     let str = `On click:<br>`;
     str += `Heal by ${format((1 + (lv - 1) / 3) ** 2, 3, 3)} ${faIcon("heart")}<br>`;
-    str += `But, divide AD 1 multiplier by /${format(DC.D2.pow(lv + 1))} permanent`;
+    str += `But, divide AD 1 multiplier and AM by /${format(DC.D2.pow(lv + 1))} permanent`;
     return str;
   },
   calcEffect: (effect, lv, props) => {
@@ -279,8 +279,10 @@ addItem({
     canClick: () => true,
     handler: (lv, props) => {
       const healAmount = (1 + (lv - 1) / 3) ** 2;
+      const divAmount = DC.D2.pow(lv + 1);
       props[0]++;
       Currency.hp.add(healAmount);
+      Currency.antimatter.divide(divAmount);
     }
   }
 });
