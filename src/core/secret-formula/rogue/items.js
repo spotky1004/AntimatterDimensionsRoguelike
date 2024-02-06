@@ -30,7 +30,7 @@ const roman = x => Notations.find("Roman").format(x);
 const faIcon = name => `<i class="fas fa-${name}"></i>`;
 
 /** @type {Map<number, RogueItemData>} */
-const items = new Map();
+export const items = new Map();
 /** @param {RogueItemData} data */
 function addItem(data) {
   const key = data.id;
@@ -334,7 +334,3 @@ addItem({
   levelChances: [0.6, 0.5],
   defaultProps: () => []
 });
-
-export {
-  items
-};
