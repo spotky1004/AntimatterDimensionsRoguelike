@@ -138,7 +138,7 @@ addItem({
   nameStr: lv => `A luck related item ${roman(lv)}`,
   descriptionStr: lv => {
     let str = `For each Dimension Boost, `;
-    str += `${format(10 / lv, 2, 2)}% chance to recover ${format(lv)} ${faIcon("heart")}`;
+    str += `${format(10 / lv, 2, 2)}% chance to recover ${format(3 * lv)} ${faIcon("heart")}`;
     return str;
   },
   calcEffect: (_, lv, props) => {
@@ -156,7 +156,7 @@ addItem({
     } else {
       recoverCount = rollCount * chance * (1 + (fastRandom() * 2 - 1) / Math.sqrt(rollCount));
     }
-    const recoverAmount = DC.D1.mul(lv).mul(recoverCount);
+    const recoverAmount = DC.D3.mul(lv).mul(recoverCount);
     Currency.hp.add(recoverAmount);
   },
   unlockConditionStr: () => `Complete achievement 17`,
@@ -229,7 +229,7 @@ addItem({
   },
   calcEffect: (effect, lv, props) => {
     const multValue = new Decimal(0.95 + (lv - 1) / 100);
-    const healAmount = DC.D0_001.mul(Math.ceil(lv / 2));
+    const healAmount = DC.D0_01.mul(Math.ceil(lv / 2));
     let healCount = 0;
     for (let i = 0; i < 8; i++) {
       const firstAmountIdx = 2 * i + 1;
@@ -244,6 +244,7 @@ addItem({
       } else {
         props[prevAmountIdx] = curAmount;
       }
+      props[prevAmountIdx] = curAmount;
     }
     Currency.hp.add(healAmount.mul(healCount));
   },
