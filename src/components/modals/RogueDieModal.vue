@@ -30,7 +30,7 @@ export default {
       const items = [];
       for (const itemId of this.rewards.itemUnlocks) {
         const itemData = window.GameDatabase.rogue.items.get(itemId);
-        const item = window.GameDatabase.rogue.genItem(itemData, 0, 1);
+        const item = genItem(itemData, 0, 1);
         items.push(item);
       }
       return items;

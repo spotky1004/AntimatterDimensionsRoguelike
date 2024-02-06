@@ -31,7 +31,7 @@ export default {
   methods: {
     update() {
       if (this.item && this.item.id !== -1) {
-        const tier = window.GameDatabase.rogue.getItemTier(this.itemData);
+        const tier = getItemTier(this.itemData);
         this.xpHave = window.player.rogue.itemXps[this.item.id];
         this.xpReq = this.itemData.xpReqs[tier] ?? Infinity;
         if (isFinite(this.xpReq)) {

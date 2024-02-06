@@ -1,8 +1,6 @@
 import { DC } from "../../constants";
 import { Notations } from "../../notations";
 
-import xorshift32, { MAX } from "../../../utility/xorshift32";
-
 /**
  * @typedef {{ id: number, lv: number, props: number[] }} RogueItem
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
@@ -27,86 +25,6 @@ import xorshift32, { MAX } from "../../../utility/xorshift32";
  * @prop {() => number[]} defaultProps
  * @prop {RogueItemClick} [click]
  */
-
-function calculateRogueEffects() {
-  const effect = {
-    tickUpgrade: DC.D1,
-    adAllMult: DC.D1,
-    /** @type {(typeof Decimal)[]} */
-    adMults: Array.range(0, 9).map(() => DC.D1),
-    /** @type {(typeof Decimal)[]} */
-    adPows: Array.range(0, 9).map(() => DC.D1),
-    adDiscount: DC.D1,
-    hpDelta: DC.D0,
-    fire: {
-      ad: false
-    },
-  };
-
-  const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
-  for (const key of rogueItemKeys) {
-    for (const item of [...window.player.rogue[key]]) {
-      items.get(item.id).calcEffect(effect, item.lv, item.props);
-    }
-  }
-
-  return effect;
-}
-window.calculateRogueEffects = calculateRogueEffects;
-
-/**
- * @template {keyof RogueEffects} Name
- * @param {Name} name
- * @returns {RogueEffects[Name]}
- */
-function getRogueEffect(name) {
-  return GameCache.rogueItemEffects.value[name];
-}
-window.getRogueEffect = getRogueEffect;
-
-/**
- * @param {RogueItemData} itemData
- */
-function getItemTier(itemData) {
-  let tier = 0;
-  const itemXp = window.player.rogue.itemXps[itemData.id];
-  const tierReqs = itemData.xpReqs;
-  for (let i = 0; i < tierReqs.length; i++) {
-    if (tierReqs[i] > itemXp) break;
-    tier++;
-  }
-  return tier;
-}
-window.getItemTier = getItemTier;
-
-/**
- * @param {RogueItemData} itemData
- * @param {number | null} forcedLevel
- * @returns {RogueItem}
- */
-function genItem(itemData, seed = 0, forcedLevel = null) {
-  let lv = 1;
-  if (forcedLevel) {
-    lv = forcedLevel;
-  } else {
-    const tier = getItemTier(itemData);
-    let x = seed;
-    for (let i = 0; i < tier; i++) {
-      x = xorshift32(x);
-      const r = x / MAX;
-      const p = itemData.levelChances[i];
-      if (r <= p) lv++;
-    }
-  }
-
-  const item = {
-    id: itemData.id,
-    lv,
-    props: itemData.defaultProps()
-  };
-  return item;
-}
-window.genItem = genItem;
 
 const roman = x => Notations.find("Roman").format(x);
 const faIcon = name => `<i class="fas fa-${name}"></i>`;
@@ -418,9 +336,5 @@ addItem({
 });
 
 export {
-  items,
-  calculateRogueEffects,
-  getRogueEffect,
-  getItemTier,
-  genItem
+  items
 };

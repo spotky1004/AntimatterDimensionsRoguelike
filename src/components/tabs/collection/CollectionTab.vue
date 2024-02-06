@@ -17,8 +17,8 @@ export default {
       for (const [itemId, itemData] of window.GameDatabase.rogue.items) {
         const isUnlocked = window.player.rogue.itemsUnlocked[itemId];
         if (isUnlocked) {
-          const tier = window.GameDatabase.rogue.getItemTier(itemData);
-          const item = window.GameDatabase.rogue.genItem(itemData, 0, tier + 1);
+          const tier = getItemTier(itemData);
+          const item = genItem(itemData, 0, tier + 1);
           items.push(item);
         } else {
           items.push({ id: -1 });

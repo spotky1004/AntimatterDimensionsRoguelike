@@ -6,7 +6,7 @@ import { GameDatabase } from "../core/secret-formula/game-database";
 import {
   calculateRogueEffects as _calculateRogueEffects,
   getRogueEffect as _getRogueEffect,
-} from "../core/secret-formula/rogue/items";
+} from "../core/rogue/items";
 import { Currency as _Currency } from "../core/currency";
 export {};
 import { GAME_EVENT as _GAME_EVENT } from "../core/event-hub";
@@ -21,6 +21,7 @@ declare global {
   const GameCache = _GameCache;
   const Currency = _Currency;
   const Achievement: (x: number) => { isUnlocked: boolean };
+  const calculateRogueEffects = _calculateRogueEffects;
   const getRogueEffect = _getRogueEffect;
   const GAME_EVENT = _GAME_EVENT;
 
