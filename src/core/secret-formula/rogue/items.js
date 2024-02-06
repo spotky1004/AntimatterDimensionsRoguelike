@@ -8,6 +8,11 @@ import xorshift32, { MAX } from "../../../utility/xorshift32";
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
  */
 /**
+ * @typedef RogueItemClick
+ * @prop {(lv: number, props: number[]) => boolean} canClick
+ * @prop {(lv: number, props: number[]) => void} handler
+ */
+/**
  * @typedef RogueItemData
  * @prop {number} id
  * @prop {"normal" | "debuff" | "special"} type
@@ -20,6 +25,7 @@ import xorshift32, { MAX } from "../../../utility/xorshift32";
  * @prop {number[]} xpReqs
  * @prop {number[]} levelChances ([0 ~ 1])[]
  * @prop {() => number[]} defaultProps
+ * @prop {RogueItemClick} [click]
  */
 
 function calculateRogueEffects() {
@@ -299,8 +305,8 @@ addItem({
   nameStr: lv => `Poisoned Cake ${roman(lv)}`,
   descriptionStr: lv => {
     let str = `When you buy 10's AD:<br>`;
-    str += `Heals ${format(0.01 * Math.ceil(lv / 2), 2, 2)} ${faIcon("heart")},<br>`;
-    str += `but multiply that Dimension by x${format(0.95 + (lv - 1) / 100, 2, 2)}`;
+    str += `Heals ${format(0.01 * Math.ceil(lv / 2), 2, 2)} ${faIcon("heart")}<br>`;
+    str += `But, multiply that Dimension by x${format(0.95 + (lv - 1) / 100, 2, 2)}`;
     return str;
   },
   calcEffect: (effect, lv, props) => {
@@ -328,6 +334,36 @@ addItem({
   xpReqs: [10, 30, 90],
   levelChances: [0.5, 0.5, 0.5],
   defaultProps: () => Array.from({ length: 16 }, (_, i) => player.dimensions.antimatter[Math.floor(i / 2)].bought)
+});
+addItem({
+  id: 1012,
+  type: "normal",
+  icon: faIcon("shield-virus"),
+  nameStr: lv => `Apocalypse Heal Kit ${roman(lv)}`,
+  descriptionStr: lv => {
+    let str = `On click:<br>`;
+    str += `Heal by ${format((1 + (lv - 1) / 3) ** 2, 3, 3)} ${faIcon("heart")}<br>`;
+    str += `But, divide AD 1 multiplier by /${format(DC.D2.pow(lv + 1))} permanent`;
+    return str;
+  },
+  calcEffect: (effect, lv, props) => {
+    const useCount = props[0];
+    const divAmount = DC.D2.pow(lv + 1);
+    effect.adMults[1] = effect.adMults[1].div(divAmount.pow(useCount));
+  },
+  unlockConditionStr: () => `Complete achievement 23`,
+  isUnlocked: () => Achievement(23).isUnlocked,
+  xpReqs: [30, 60, 100],
+  levelChances: [0.3, 0.3, 0.3],
+  defaultProps: () => [0],
+  click: {
+    canClick: () => true,
+    handler: (lv, props) => {
+      const healAmount = (1 + (lv - 1) / 3) ** 2;
+      props[0]++;
+      Currency.hp.add(healAmount);
+    }
+  }
 });
 
 
