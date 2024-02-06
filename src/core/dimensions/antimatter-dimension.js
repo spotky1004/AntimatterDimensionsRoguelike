@@ -140,9 +140,9 @@ function applyNDMultipliers(mult, tier) {
     multiplier = multiplier.times(1 + tier / 100);
   }
 
-  multiplier = multiplier.times(getRogueEffect("adMults")[tier]);
-
   multiplier = multiplier.clampMin(1);
+
+  multiplier = multiplier.times(getRogueEffect("adMults")[tier]);
 
   return multiplier;
 }
