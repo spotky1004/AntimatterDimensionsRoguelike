@@ -271,6 +271,28 @@ addItem({
   defaultProps: () => [player.records.thisInfinity.realTime]
 });
 
+addItem({
+  id: 1010,
+  type: "normal",
+  icon: faIcon("paperclip"),
+  nameStr: lv => `A Paperclip ${roman(lv)}`,
+  descriptionStr: lv => {
+    const paperclips = window.player.news.specialTickerData.paperclips;
+    let str = `Each paperclip boosts Antimatter Dimensions by +x${format(lv * 0.1, 1, 1)}<br>`;
+    str += `Current effect: x${format(1 + lv * 0.1 * paperclips, 1, 1)}`;
+    return str;
+  },
+  calcEffect: (effect, lv) => {
+    const paperclips = window.player.news.specialTickerData.paperclips;
+    effect.adAllMult = effect.adAllMult.mul(1 + lv * 0.1 * paperclips);
+  },
+  unlockConditionStr: () => `Complete achievement 22`,
+  isUnlocked: () => Achievement(22).isUnlocked,
+  xpReqs: [20, 40, 80, 160],
+  levelChances: [0.5, 0.5, 0.5, 0.5],
+  defaultProps: () => []
+});
+
 
 // Debuff
 addItem({
