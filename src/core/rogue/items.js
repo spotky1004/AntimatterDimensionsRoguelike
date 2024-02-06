@@ -1,8 +1,10 @@
-import { DC } from "../constants";
+import { v4 as uuidv4 } from "uuid";
+
 import xorshift32, { MAX } from "../../utility/xorshift32";
+import { DC } from "../constants";
 
 /**
- * @typedef {{ id: number, lv: number, props: number[] }} RogueItem
+ * @typedef {{ uuid: string, id: number, lv: number, props: number[] }} RogueItem
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
  * @typedef {import("../secret-formula/rogue/items").RogueItemData} RogueItemData
  */
@@ -116,9 +118,48 @@ export function genItem(itemData, seed = 0, forcedLevel = null) {
   }
 
   const item = {
+    uuid: uuidv4(),
     id: itemData.id,
     lv,
     props: itemData.defaultProps()
   };
   return item;
+}
+
+/**
+ * @param {string} uuid
+ * @returns {RogueItem?}
+ */
+export function getItemByUUID(uuid) {
+  for (const item of window.player.rogue.normalItems) {
+    if (item.uuid === uuid) return item;
+  }
+  for (const item of window.player.rogue.debuffItems) {
+    if (item.uuid === uuid) return item;
+  }
+  for (const item of window.player.rogue.specialItems) {
+    if (item.uuid === uuid) return item;
+  }
+  return null;
+}
+
+/**
+ * @param {RogueItem} item
+ */
+export function canUseItem(item) {
+  const itemData = window.GameDatabase.rogue.items.get(item.id);
+  if (typeof itemData.click === "undefined") return false;
+  return itemData.click.canClick(item.lv, item.props);
+}
+
+/**
+ * @param {RogueItem} item
+ */
+export function useItem(item) {
+  const itemData = window.GameDatabase.rogue.items.get(item.id);
+  if (!canUseItem(item) || typeof itemData.click === "undefined") return false;
+
+  GameUI.notify.info(`Used item: ${itemData.nameStr(item.lv, item.props)}`);
+  itemData.click.handler(item.lv, item.props);
+  return true;
 }

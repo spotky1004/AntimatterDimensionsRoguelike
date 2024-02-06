@@ -39,6 +39,18 @@ export default {
     return {
       colCount: 8
     };
+  },
+  methods: {
+    canUseItem(item) {
+      if (!item) return false;
+      return canUseItem(item);
+    },
+    useItem(item) {
+      if (!item) return;
+
+      const realItem = getItemByUUID(item.uuid);
+      useItem(realItem);
+    }
   }
 };
 </script>
@@ -60,7 +72,11 @@ export default {
         v-for="col in colCount"
         :key="col"
         class="items-inventory__cell"
-        :class="{ locked: (row - 1) * colCount + (col - 1) >= size }"
+        :class="{
+          locked: (row - 1) * colCount + (col - 1) >= size,
+          useable: canUseItem(items[(row - 1) * colCount + (col - 1)])
+        }"
+        @click="() => useItem(items[(row - 1) * colCount + (col - 1)])"
       >
         <ItemComponent
           v-if="(row - 1) * colCount + (col - 1) < Math.min(items.length, size)"
@@ -152,6 +168,10 @@ export default {
 
   background-color: var(--color3);
   box-shadow: 0 0 3rem var(--color4) inset;
+}
+
+.items-inventory__cell.useable {
+  box-shadow: 0 0 1rem var(--color-rogue);
 }
 
 .items-inventory__cell.locked {

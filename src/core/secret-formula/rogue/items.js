@@ -2,7 +2,7 @@ import { DC } from "../../constants";
 import { Notations } from "../../notations";
 
 /**
- * @typedef {{ id: number, lv: number, props: number[] }} RogueItem
+ * @typedef {{ uuid: string, id: number, lv: number, props: number[] }} RogueItem
  * @typedef {ReturnType<typeof calculateRogueEffects>} RogueEffects
  */
 /**

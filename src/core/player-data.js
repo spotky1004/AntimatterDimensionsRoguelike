@@ -770,11 +770,11 @@ export default {
     questCompleteNotified: Array(500).fill(false),
     questUnlocked: Array(500).fill(false),
     questCompleted: Array(500).fill(false),
-    /** @type {{ id: number, props: number[] }[]} */
+    /** @type {{ uuid: string, id: number, lv: number, props: number[] }[]} */
     specialItems: [],
-    /** @type {{ id: number, props: number[] }[]} */
+    /** @type {{ uuid: string, id: number, lv: number, props: number[] }[]} */
     normalItems: [],
-    /** @type {{ id: number, props: number[] }[]} */
+    /** @type {{ uuid: string, id: number, lv: number, props: number[] }[]} */
     debuffItems: [],
     cutsceneId: -1,
     cutsceneTime: 0,
