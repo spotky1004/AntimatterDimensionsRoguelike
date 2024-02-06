@@ -30,6 +30,7 @@ const rawDC = {
   DM1:                  new Decimal("-1"),
   D0:                   new Decimal("0"),
 
+  D0_001:                new Decimal("0.001"),
   D0_01:                new Decimal("0.01"),
   D0_1:                 new Decimal("0.1"),
   D0_4:                 new Decimal("0.4"),

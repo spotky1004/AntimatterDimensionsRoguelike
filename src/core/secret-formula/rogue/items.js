@@ -270,7 +270,7 @@ addItem({
   levelChances: [0.5, 0.5, 0.5],
   defaultProps: () => [player.records.thisInfinity.realTime]
 });
-
+// 21 -> 1009
 addItem({
   id: 1010,
   type: "normal",
@@ -291,6 +291,43 @@ addItem({
   xpReqs: [20, 40, 80, 160],
   levelChances: [0.5, 0.5, 0.5, 0.5],
   defaultProps: () => []
+});
+addItem({
+  id: 1011,
+  type: "normal",
+  icon: faIcon("cake-candles"),
+  nameStr: lv => `Poisoned Cake ${roman(lv)}`,
+  descriptionStr: lv => {
+    let str = `When you buy 10's AD:<br>`;
+    str += `Heals ${format(0.01 * Math.ceil(lv / 2), 2, 2)} ${faIcon("heart")},<br>`;
+    str += `but multiply that Dimension by x${format(0.95 + (lv - 1) / 100, 2, 2)}`;
+    return str;
+  },
+  calcEffect: (effect, lv, props) => {
+    const multValue = new Decimal(0.95 + (lv - 1) / 100);
+    const healAmount = DC.D0_001.mul(Math.ceil(lv / 2));
+    let healCount = 0;
+    for (let i = 0; i < 8; i++) {
+      const firstAmountIdx = 2 * i + 1;
+      const prevAmountIdx = 2 * i;
+
+      const firstAmount = props[firstAmountIdx];
+      const prevAmount = props[prevAmountIdx];
+      const curAmount = window.player.dimensions.antimatter[i].bought / 10;
+      healCount += Math.max(0, curAmount - prevAmount);
+      if (curAmount > firstAmount) {
+        effect.adMults[i + 1] = effect.adMults[i + 1].mul(multValue.pow(curAmount - firstAmount));
+      } else {
+        props[prevAmountIdx] = curAmount;
+      }
+    }
+    Currency.hp.add(healAmount.mul(healCount));
+  },
+  unlockConditionStr: () => `Complete achievement 23`,
+  isUnlocked: () => false,
+  xpReqs: [10, 30, 90],
+  levelChances: [0.5, 0.5, 0.5],
+  defaultProps: () => Array.from({ length: 16 }, (_, i) => player.dimensions.antimatter[Math.floor(i / 2)].bought)
 });
 
 
