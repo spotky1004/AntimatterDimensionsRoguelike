@@ -39,6 +39,15 @@ export function grantItem(item) {
   return false;
 }
 
+/**
+ * @param {number} id
+ */
+export function grantItemById(id, level = 1) {
+  const itemData = window.GameDatabase.rogue.items.get(id);
+  const item = genItem(itemData, 0, level);
+  grantItem(item);
+}
+
 export function getInventorySize() {
   const sizes = {
     normal: 4,
