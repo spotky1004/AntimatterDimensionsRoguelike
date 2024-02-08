@@ -265,11 +265,7 @@ addItem({
     str += `But, divide AD 1 multiplier and AM by /${format(DC.D2.pow(lv + 1))} permanent`;
     return str;
   },
-  calcEffect: (effect, lv, props) => {
-    const useCount = props[0];
-    const divAmount = DC.D2.pow(lv + 1);
-    effect.adMults[1] = effect.adMults[1].div(divAmount.pow(useCount));
-  },
+  calcEffect: () => undefined,
   unlockConditionStr: () => `Complete achievement 23`,
   isUnlocked: () => Achievement(23).isUnlocked,
   xpReqs: [30, 60, 100],
@@ -283,6 +279,7 @@ addItem({
       props[0]++;
       Currency.hp.add(healAmount);
       Currency.antimatter.divide(divAmount);
+      window.player.rogue.effects.rogue.adMults[1] = window.player.rogue.effects.rogue.adMults[1].div(divAmount);
     }
   }
 });
