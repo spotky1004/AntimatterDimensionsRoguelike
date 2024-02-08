@@ -1,6 +1,7 @@
 import { AUTOMATOR_MODE, AUTOMATOR_TYPE } from "./automator/automator-backend";
 import { AutomatorPanels } from "@/components/tabs/automator/AutomatorDocs";
 import { DC } from "./constants";
+import { getDefaultRogueEffects } from "./rogue/items";
 import { GlyphInfo } from "@/components/modals/options/SelectGlyphInfoDropdown";
 import { GlyphTypes } from "./glyph-effects";
 
@@ -783,6 +784,14 @@ export default {
     bossDefeated: Array(10).fill(false),
     xp: new Decimal(0),
     level: 0,
+    effects: {
+      dimboost: getDefaultRogueEffects(),
+      galaxy: getDefaultRogueEffects(),
+      infinity: getDefaultRogueEffects(),
+      eternity: getDefaultRogueEffects(),
+      reality: getDefaultRogueEffects(),
+      rogue: getDefaultRogueEffects()
+    },
     unlocks: {
       hp: false,
       quests: false,

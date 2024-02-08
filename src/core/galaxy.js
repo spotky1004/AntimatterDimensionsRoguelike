@@ -120,6 +120,7 @@ export class Galaxy {
 }
 
 function galaxyReset() {
+  window.player.rogue.effects.galaxy = getDefaultRogueEffects();
   EventHub.dispatch(GAME_EVENT.GALAXY_RESET_BEFORE);
   player.galaxies++;
   if (!Achievement(143).isUnlocked || (Pelle.isDoomed && !PelleUpgrade.galaxyNoResetDimboost.canBeApplied)) {

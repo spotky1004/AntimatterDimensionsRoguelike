@@ -152,6 +152,8 @@ function bigCrunchCheckUnlocks() {
 }
 
 export function secondSoftReset(enteringAntimatterChallenge) {
+  window.player.rogue.effects.galaxy = getDefaultRogueEffects();
+  window.player.rogue.effects.infinity = getDefaultRogueEffects();
   player.dimensionBoosts = 0;
   player.galaxies = 0;
   player.records.thisInfinity.maxAM = DC.D0;

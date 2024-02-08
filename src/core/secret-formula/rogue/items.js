@@ -118,12 +118,12 @@ addItem({
   nameStr: lv => `${"6".repeat(lv)}`,
   descriptionStr: lv => {
     let str = `Boosts 6th Antimatter Dimensions by x${format(DC.E2.pow(lv))}<br>`;
-    str += `But, - ${format(GameCache.damageMultiplier.value.mul(6 * lv / 1000), 3, 3)} ${faIcon("heart")}/s`;
+    str += `But, - ${format(6 * lv / 1000, 3, 3)} ${faIcon("heart-crack")}/s`;
     return str;
   },
   calcEffect: (effect, lv) => {
     effect.adMults[6] = effect.adMults[6].mul(DC.E2.pow(lv));
-    effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul(6 * lv / 1000));
+    effect.hpMinus = effect.hpMinus.add(6 * lv / 1000);
   },
   unlockConditionStr: () => `Complete achievement 16`,
   isUnlocked: () => Achievement(16).isUnlocked,
@@ -323,13 +323,13 @@ addItem({
   icon: faIcon("bug"),
   nameStr: lv => `${["A", "Two", "Three"][lv - 1]} Bug${" s"[Math.sign(lv - 1)]}`,
   descriptionStr: lv => {
-    let str = `- ${format(GameCache.damageMultiplier.value.mul((lv + 3) / 1000), 3, 3)} ${faIcon("heart")}/s<br>`;
+    let str = `- ${format((lv + 3) / 1000, 3, 3)} ${faIcon("heart-crack")}/s<br>`;
     str += `When you have any Antimatter Dimensions`;
     return str;
   },
   calcEffect: (effect, lv) => {
     if (window.player.dimensions.antimatter.every(dim => dim.amount.eq(DC.D0))) return;
-    effect.hpDelta = effect.hpDelta.sub(GameCache.damageMultiplier.value.mul((lv + 3) / 1000));
+    effect.hpMinus = effect.hpMinus.add((lv + 3) / 1000);
   },
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,

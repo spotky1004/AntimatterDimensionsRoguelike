@@ -183,6 +183,10 @@ export function initializeChallengeCompletions(isReality) {
 }
 
 export function initializeResourcesAfterEternity() {
+  window.player.rogue.effects.dimboost = getDefaultRogueEffects();
+  window.player.rogue.effects.galaxy = getDefaultRogueEffects();
+  window.player.rogue.effects.infinity = getDefaultRogueEffects();
+  window.player.rogue.effects.eternity = getDefaultRogueEffects();
   player.sacrificed = DC.D0;
   Currency.infinities.reset();
   player.records.bestInfinity.time = 999999999999;

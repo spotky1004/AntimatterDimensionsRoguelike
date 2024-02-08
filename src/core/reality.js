@@ -749,6 +749,12 @@ export function finishProcessReality(realityProps) {
   if (Pelle.isDoomed && PelleUpgrade.keepAutobuyers.canBeApplied && Autobuyer.bigCrunch.hasMaxedInterval) {
     player.break = true;
   }
+
+  window.player.rogue.effects.dimboost = getDefaultRogueEffects();
+  window.player.rogue.effects.galaxy = getDefaultRogueEffects();
+  window.player.rogue.effects.infinity = getDefaultRogueEffects();
+  window.player.rogue.effects.eternity = getDefaultRogueEffects();
+  window.player.rogue.effects.reality = getDefaultRogueEffects();
 }
 
 function restoreCelestialRuns(celestialRunState) {

@@ -178,6 +178,7 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
   if (Currency.antimatter.gt(Player.infinityLimit)) return;
   const bulk = Math.min(tempBulk, DimBoost.maxBoosts - player.dimensionBoosts);
   EventHub.dispatch(GAME_EVENT.DIMBOOST_BEFORE, bulk);
+  window.player.rogue.effects.dimboost = getDefaultRogueEffects();
   player.dimensionBoosts = Math.max(0, player.dimensionBoosts + bulk);
   resetChallengeStuff();
   const canKeepDimensions = Pelle.isDoomed

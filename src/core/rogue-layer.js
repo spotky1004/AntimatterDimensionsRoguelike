@@ -90,6 +90,12 @@ export function rogueReset() {
   window.player.rogue.debuffItems = [];
   window.player.rogue.specialItems = [];
   window.player.rogue.questCompleted.fill(false);
+  window.player.rogue.effects.dimboost = getDefaultRogueEffects();
+  window.player.rogue.effects.galaxy = getDefaultRogueEffects();
+  window.player.rogue.effects.infinity = getDefaultRogueEffects();
+  window.player.rogue.effects.eternity = getDefaultRogueEffects();
+  window.player.rogue.effects.reality = getDefaultRogueEffects();
+  window.player.rogue.effects.rogue = getDefaultRogueEffects();
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
 

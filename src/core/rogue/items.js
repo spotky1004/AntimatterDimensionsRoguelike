@@ -48,30 +48,90 @@ export function getInventorySize() {
   return sizes;
 }
 
-export function calculateRogueEffects() {
-  const effect = {
-    tickUpgrade: DC.D1,
-    adAllMult: DC.D1,
-    /** @type {(typeof Decimal)[]} */
-    adMults: Array.range(0, 9).map(() => DC.D1),
-    /** @type {(typeof Decimal)[]} */
-    adPows: Array.range(0, 9).map(() => DC.D1),
-    adDiscount: DC.D1,
-    hpDelta: DC.D0,
-    fire: {
+const rogueEffectDatas = {
+  tickUpgrade: {
+    default: () => DC.D1,
+    merge: (a, b) => a.mul(b)
+  },
+  adAllMult: {
+    default: () => DC.D1,
+    merge: (a, b) => a.mul(b)
+  },
+  adMults: {
+    /** @type {() => (typeof Decimal)[]} */
+    default: () => Array.range(0, 9).map(() => DC.D1),
+    merge: (a, b) => a.map((ai, i) => ai.mul(b[i]))
+  },
+  adPows: {
+    /** @type {() => (typeof Decimal)[]} */
+    default: () => Array.range(0, 9).map(() => DC.D1),
+    merge: (a, b) => a.map((ai, i) => ai.mul(b[i]))
+  },
+  adDiscount: {
+    default: () => DC.D1,
+    merge: (a, b) => a.mul(b)
+  },
+  hpRegen: {
+    default: () => DC.D0,
+    merge: (a, b) => a.add(b)
+  },
+  hpMinus: {
+    default: () => DC.D0,
+    merge: (a, b) => a.add(b)
+  },
+  fire: {
+    default: () => ({
       ad: false
-    },
-  };
+    }),
+    merge: (a, b) => {
+      const out = {};
+      for (const key of rogueEffectFireKeys) {
+        out[key] = a[key] || b[key];
+      }
+      return out;
+    }
+  }
+};
+const rogueEffectKeys = Object.keys(rogueEffectDatas);
+const rogueEffectFireKeys = Object.keys(rogueEffectDatas.fire.default());
+
+export function getDefaultRogueEffects() {
+  /** @type {{ [K in keyof typeof rogueEffectDatas]: ReturnType<(typeof rogueEffectDatas)[K]["default"]> }} */
+  const effects = {};
+  for (const key of rogueEffectKeys) {
+    effects[key] = rogueEffectDatas[key].default();
+  }
+  return effects;
+}
+
+const rogueInventoryKeys = ["normalItems", "debuffItems", "specialItems"];
+export function calculateRogueItemEffects() {
+  const effect = getDefaultRogueEffects();
 
   const items = window.GameDatabase.rogue.items;
-  const rogueItemKeys = ["normalItems", "debuffItems", "specialItems"];
-  for (const key of rogueItemKeys) {
+  for (const key of rogueInventoryKeys) {
     for (const item of [...window.player.rogue[key]]) {
       items.get(item.id).calcEffect(effect, item.lv, item.props);
     }
   }
 
   return effect;
+}
+
+const rogueEffectLayerKeys = ["dimboost", "galaxy", "infinity", "eternity", "reality", "rogue"];
+export function calculateRogueEffects() {
+  const mergedEffect = calculateRogueItemEffects();
+
+  for (const effectKey of rogueEffectKeys) {
+    let newValue = mergedEffect[effectKey];
+    const mergeFunc = rogueEffectDatas[effectKey].merge;
+    for (const leyerKey of rogueEffectLayerKeys) {
+      newValue = mergeFunc(newValue, window.player.rogue.effects[leyerKey][effectKey]);
+    }
+    mergedEffect[effectKey] = newValue;
+  }
+
+  return mergedEffect;
 }
 
 /**
