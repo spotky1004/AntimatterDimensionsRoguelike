@@ -792,6 +792,14 @@ export default {
       reality: getDefaultRogueEffects(),
       rogue: getDefaultRogueEffects()
     },
+    leveling: {
+      tiers: {
+        dimension: 0
+      },
+      allocates: {
+        dimension: 0
+      }
+    },
     unlocks: {
       hp: false,
       quests: false,
