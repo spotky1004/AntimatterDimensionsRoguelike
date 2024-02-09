@@ -16,6 +16,6 @@ export function calcDamageMultiplier() {
 
 export function getHpDelta() {
   let delta = getRogueEffect("hpRegen");
-  delta = delta.add(GameCache.damageMultiplier.value.mul(getRogueEffect("hpMinus")));
+  delta = delta.minus(GameCache.damageMultiplier.value.mul(getRogueEffect("hpMinus")));
   return delta;
 }
