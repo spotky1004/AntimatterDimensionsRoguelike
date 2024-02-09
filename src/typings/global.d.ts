@@ -17,6 +17,9 @@ declare global {
     player: typeof playerData;
     GameDatabase: typeof GameDatabase;
   }
+
+  type RogueEffects = ReturnType<typeof calculateRogueEffects>;
+
   const Decimal = _Decimal;
   const GameCache = _GameCache;
   const Currency = _Currency;
