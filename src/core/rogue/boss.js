@@ -18,7 +18,7 @@ export const BossDatas = {
     calcAntimatterCap: () => 1e250,
     calcDamageMultiplier: () => {
       const t = window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0];
-      return DC.D1.add(t / 1000000);
+      return new Decimal((1 + t / 100000) ** 1.5);
     }
   },
   [BOSS_ENUM.TIMEWALL]: {
