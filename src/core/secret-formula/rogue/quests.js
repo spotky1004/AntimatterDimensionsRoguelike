@@ -32,7 +32,7 @@ function rollRewardTable(quest, maxSelect = Infinity, surpassLock = false) {
   let x = quest.id * window.player.rogue.seed;
   x = xorshift32(x);
 
-  let pickCount = Math.floor(Math.sqrt(avaibles.length)) + (x % 2);
+  let pickCount = Math.floor(Math.sqrt(avaibles.length) + 1) + (x % 2);
   pickCount = Math.max(1, Math.min(maxSelect, avaibles.length, pickCount));
 
   /** @type {[itemData: import("./items").RogueItemData, item: import("./items").RogueItem][]} */
