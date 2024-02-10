@@ -86,6 +86,6 @@ export default {
   top: 50%;
   transform: translateY(-50%);
 
-  mix-blend-mode: difference;
+  color: var(--color-rogue-dark);
 }
 </style>
