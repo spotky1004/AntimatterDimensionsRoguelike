@@ -208,9 +208,9 @@ Currency.antimatter = new class extends DecimalCurrency {
       TabNotification.newAutobuyer.tryTrigger();
     }
     player.antimatter = value.min(this.maxValue);
-    player.records.thisInfinity.maxAM = player.records.thisInfinity.maxAM.max(value);
-    player.records.thisEternity.maxAM = player.records.thisEternity.maxAM.max(value);
-    player.records.thisReality.maxAM = player.records.thisReality.maxAM.max(value);
+    player.records.thisInfinity.maxAM = player.records.thisInfinity.maxAM.max(value).min(this.maxValue);
+    player.records.thisEternity.maxAM = player.records.thisEternity.maxAM.max(value).min(this.maxValue);
+    player.records.thisReality.maxAM = player.records.thisReality.maxAM.max(value).min(this.maxValue);
 
     if (Pelle.isDoomed) {
       player.celestials.pelle.records.totalAntimatter = player.celestials.pelle.records.totalAntimatter.max(value);
