@@ -1,6 +1,6 @@
 /**
- * @typedef SkillTierReq
- * @prop {() => number} maxLevel
+ * @typedef SkillTier
+ * @prop {() => number} getMaxLevel
  * @prop {() => boolean} checkReq
  * @prop {() => boolean} getReqStr
  */
@@ -14,8 +14,9 @@
  * @typedef SkillData
  * @prop {(tier: number) => string} getName
  * @prop {(tier: number) => string} getColor
+ * @prop {(tier: number, level: number) => string} getEffectStr
  * @prop {(effect: RogueEffects, lv: number, tier: number) => void} calcEffect
- * @prop {SkillTierReq[]} tierReqs
+ * @prop {SkillTier[]} tiers
  * @prop {SkillPerk[]} perks
  */
 /**
@@ -31,25 +32,32 @@ const SKILL_PERKS = {
 const skillDatas = {
   dimension: {
     getName: () => "Dimension",
-    getColor: tier => ["#89cf11", "#cf8d11", "#8623b8"][tier],
+    getColor: tier => ["#df5050", "#cf8d11", "#8623b8"][tier],
+    getEffectStr: (tier, lv) => {
+      let str = "";
+      str += `x${1 + lv} AD`;
+      if (tier >= 1) str += `, x${1 + lv} ID`;
+      if (tier >= 2) str += `, x${1 + lv} ED`;
+      return str;
+    },
     calcEffect: (effect, lv) => {
       effect.adAllMult = effect.adAllMult.mul(1 + lv);
       // TODO: Boost all ID on tier 1
       // TODO: Boost all ED on tier 2
     },
-    tierReqs: [
+    tiers: [
       {
-        maxLevel: () => 8,
+        getMaxLevel: () => 8,
         checkReq: () => true,
         getReqStr: () => "Hello!",
       },
       {
-        maxLevel: () => 16,
+        getMaxLevel: () => 16,
         checkReq: () => window.player.dimensions.infinity[0].amount.gt(0),
         getReqStr: () => "Have a First Infinity Dimension",
       },
       {
-        maxLevel: () => 24,
+        getMaxLevel: () => 24,
         checkReq: () => window.player.dimensions.time[0].amount.gt(0),
         getReqStr: () => "Have a First Eternity Dimension"
       }
@@ -57,7 +65,7 @@ const skillDatas = {
     perks: [
       {
         perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
-        getReq: () => 5,
+        getReq: () => 6,
         getDescription: () => "Ability to remove Normal Items"
       },
       {
