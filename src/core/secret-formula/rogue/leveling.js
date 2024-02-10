@@ -63,15 +63,15 @@ const skillDatas = {
       }
     ],
     perks: [
-      // {
-      //   perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
-      //   getReq: () => 6,
-      //   getDescription: () => "Ability to remove Normal Items"
-      // },
+      {
+        perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
+        getReq: () => 8,
+        getDescription: () => "Ability to remove Normal Items (Not implemented)"
+      },
       {
         perkId: SKILL_PERKS.ROLL_MORE_ITEM,
-        getReq: () => 15,
-        getDescription: () => "50% chance to roll 1 more item"
+        getReq: () => 16,
+        getDescription: () => "50% chance to roll 1 more item (Not implemented)"
       }
     ]
   }
