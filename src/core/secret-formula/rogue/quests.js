@@ -87,13 +87,13 @@ addQuest({
   id: 103,
   type: "normal",
   name: () => "90° × ∞",
-  description: () => `Have 88 8th Antimatter Dimension`,
-  getProgress: () => clampProgress(window.player.dimensions.antimatter[7].amount.div(8)),
+  description: () => `Have 120 8th Antimatter Dimension`,
+  getProgress: () => clampProgress(window.player.dimensions.antimatter[7].amount.div(120)),
   isUnlocked: () => window.player.rogue.questCompleted[101],
   rewardTable: [
-    [1, 1001], [2, 1002], [3, 1003], [4, 1004], [5, 1005],
-    [6, 1006], [7, 1007], [9, 1008], [2, 1010], [2, 1011],
-    [2, 1012]
+    [1, 1001], [2, 1002], [3, 1003], [3, 1004], [3, 1005],
+    [3, 1006], [3, 1007], [9, 1008], [30, 1010], [30, 1011],
+    [30, 1012]
   ]
 });
 
@@ -111,8 +111,8 @@ addQuest({
   id: 202,
   type: "debuff",
   name: () => "It's hurt",
-  description: () => `Lose 3&nbsp;<i class="fas fa-heart"></i>`,
-  getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(3).sub(0.001)),
+  description: () => `Lose 1&nbsp;<i class="fas fa-heart"></i>`,
+  getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(1).sub(0.001)),
   isUnlocked: () => false,
   rewardTable: [[5, 2001], [1, 2002]]
 });

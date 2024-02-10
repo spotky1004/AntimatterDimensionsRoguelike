@@ -16,12 +16,12 @@ export default {
 
       const textRotate = t ** 1.2;
       const textRotateRad = textRotate / 180 * Math.PI;
-      const scale = Math.min(1 + t / 250, 10);
+      const scale = Math.min(1 + t / 50, 10);
       this.symbolStyle = `
       --transform: rotate(${3 * t ** 1.2}deg) scale(${scale});
-      --filter: grayscale(${Math.max(0, 1 - t / 1000)}) blur(${Math.min(3, t / 1000)}px);`;
+      --filter: grayscale(${Math.max(0, 1 - t / 200)}) blur(${Math.min(3, t / 200)}px);`;
       // eslint-disable-next-line
-      this.textStyle = `--filter: grayscale(${Math.max(0, 1 - t / 1000)}); --trasnform: translate(calc(-50% + ${6 * scale * Math.cos(textRotateRad)}rem), calc(-50% + ${6 * scale * Math.sin(textRotateRad)}rem)) rotate(${textRotate + 90}deg); --font-size: ${1.5 * scale / 2}rem;`;
+      this.textStyle = `--filter: grayscale(${Math.max(0, 1 - t / 200)}); --trasnform: translate(calc(-50% + ${6 * scale * Math.cos(textRotateRad)}rem), calc(-50% + ${6 * scale * Math.sin(textRotateRad)}rem)) rotate(${textRotate + 90}deg); --font-size: ${1.5 * scale / 2}rem;`;
     }
   }
 };

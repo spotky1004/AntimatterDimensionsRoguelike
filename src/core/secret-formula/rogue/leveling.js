@@ -63,11 +63,11 @@ const skillDatas = {
       }
     ],
     perks: [
-      {
-        perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
-        getReq: () => 6,
-        getDescription: () => "Ability to remove Normal Items"
-      },
+      // {
+      //   perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
+      //   getReq: () => 6,
+      //   getDescription: () => "Ability to remove Normal Items"
+      // },
       {
         perkId: SKILL_PERKS.ROLL_MORE_ITEM,
         getReq: () => 15,

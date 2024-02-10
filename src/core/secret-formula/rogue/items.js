@@ -261,7 +261,7 @@ addItem({
   nameStr: lv => `Apocalypse Heal Kit ${roman(lv)}`,
   descriptionStr: lv => {
     let str = `On click:<br>`;
-    str += `Heal by ${format((1 + (lv - 1) / 3) ** 2, 3, 3)} ${faIcon("heart")}<br>`;
+    str += `Heal by ${format((1 + (lv - 1) / 3) ** 2 + 0.5, 3, 3)} ${faIcon("heart")}<br>`;
     str += `But, divide AD 1 multiplier and AM by /${format(DC.D2.pow(lv + 1))} permanent`;
     return str;
   },
@@ -274,7 +274,7 @@ addItem({
   click: {
     canClick: () => true,
     handler: (lv, props) => {
-      const healAmount = (1 + (lv - 1) / 3) ** 2;
+      const healAmount = (1 + (lv - 1) / 3) ** 2 + 0.5;
       const divAmount = DC.D2.pow(lv + 1);
       props[0]++;
       Currency.hp.add(healAmount);
@@ -293,7 +293,7 @@ addItem({
   rarity: "C",
   nameStr: lv => `Burning Dimensions ${roman(lv)}`,
   descriptionStr: lv => {
-    const burnValue = GameCache.damageMultiplier.value.mul((lv + 2) / 1000);
+    const burnValue = (lv + 2) / 1000;
     return `-${format(burnValue, 3, 3)} ${faIcon("heart")} when you buy 10's Antimatter Dimensions`;
   },
   calcEffect: (effect, lv, props) => {
@@ -311,7 +311,7 @@ addItem({
   unlockConditionStr: () => `Obtain item by Debuff Conditions`,
   isUnlocked: () => false,
   xpReqs: [0, 0, 0],
-  levelChances: [0.4, 0.2, 0.1],
+  levelChances: [0.5, 0.3, 0.2],
   defaultProps: () => Array.from({ length: 8 }, (_, i) => player.dimensions.antimatter[i].bought)
 });
 addItem({

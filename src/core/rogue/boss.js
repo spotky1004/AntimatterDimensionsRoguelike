@@ -12,8 +12,8 @@ export const BossDatas = {
     getName: () => "Milkyway Galaxy",
     getPrimaryColor: () => "#d381e6",
     checkCondition: () => window.player.galaxies >= 1 || checkBossEncountered(BOSS_ENUM.MILKYWAY),
-    isDefeated: () => window.player.galaxies >= 2 || checkBossDefeated(BOSS_ENUM.MILKYWAY),
-    calcAntimatterCap: () => 1e250,
+    isDefeated: () => window.player.galaxies >= 3 || checkBossDefeated(BOSS_ENUM.MILKYWAY),
+    calcAntimatterCap: () => 1e300,
     calcDamageMultiplier: () => {
       const t = window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0];
       return new Decimal((1 + t / 300000) ** 1.5);
