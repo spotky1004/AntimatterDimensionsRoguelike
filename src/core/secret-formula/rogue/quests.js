@@ -111,8 +111,8 @@ addQuest({
   id: 202,
   type: "debuff",
   name: () => "It's hurt",
-  description: () => `Lose 5&nbsp;<i class="fas fa-heart"></i>`,
-  getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(5).sub(0.001)),
+  description: () => `Lose 3&nbsp;<i class="fas fa-heart"></i>`,
+  getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(3).sub(0.001)),
   isUnlocked: () => false,
   rewardTable: [[5, 2001], [1, 2002]]
 });
