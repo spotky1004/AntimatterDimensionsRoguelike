@@ -87,23 +87,6 @@ addQuest({
   isUnlocked: () => window.player.rogue.questCompleted[101],
   rewardTable: [[1, 1001], [2, 1002], [3, 1003], [4, 1004], [5, 1005], [6, 1006], [7, 1007], [8, 1008]]
 });
-addQuest({
-  id: 104,
-  type: "normal",
-  name: () => "666",
-  description: () => `Have exactly<br>6 Dim Boosts<br>6 6th Antimatter Dimension`,
-  getProgress: () => {
-    const dimBoost = window.player.dimensionBoosts;
-    const dim6 = window.player.dimensions.antimatter[5].amount.toNumber();
-
-    let progress = 0;
-    if (dimBoost <= 6) progress += dimBoost / 12;
-    if (dim6 <= 6) progress += dim6 / 12;
-    return clampProgress(progress);
-  },
-  isUnlocked: () => window.player.dimensionBoosts > 0,
-  rewardTable: [[1, 1001], [1, 1002], [1, 1003], [1, 1004], [1, 1005]]
-});
 
 // Debuff
 addQuest({
