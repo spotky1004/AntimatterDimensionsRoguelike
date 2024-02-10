@@ -1,19 +1,19 @@
 /**
  * @typedef SkillTierReq
  * @prop {() => number} maxLevel
- * @prop {() => boolean} req
- * @prop {() => boolean} reqStr
+ * @prop {() => boolean} checkReq
+ * @prop {() => boolean} getReqStr
  */
 /**
  * @typedef SkillPerk
  * @prop {number} perkId
- * @prop {() => number} req
- * @prop {() => string} description
+ * @prop {() => number} getReq
+ * @prop {() => string} getDescription
  */
 /**
  * @typedef SkillData
- * @prop {(tier: number) => string} name
- * @prop {(tier: number) => string} color
+ * @prop {(tier: number) => string} getName
+ * @prop {(tier: number) => string} getColor
  * @prop {(effect: RogueEffects, lv: number, tier: number) => void} calcEffect
  * @prop {SkillTierReq[]} tierReqs
  * @prop {SkillPerk[]} perks
@@ -22,42 +22,57 @@
  * @typedef {"dimension"} SkillNames
  */
 
-export const SKILL_PERKS = {
+const SKILL_PERKS = {
   REOMVE_NORMAL_ITEM: 0,
   ROLL_MORE_ITEM: 1
 };
 
 /** @type {{ [K in SkillNames]: SkillData }} */
-export const skillDatas = {
+const skillDatas = {
   dimension: {
-    name: () => "Dimension",
-    color: () => "#89cf11",
+    getName: () => "Dimension",
+    getColor: tier => ["#89cf11", "#cf8d11", "#8623b8"][tier],
     calcEffect: (effect, lv) => {
       effect.adAllMult = effect.adAllMult.mul(1 + lv);
+      // TODO: Boost all ID on tier 1
+      // TODO: Boost all ED on tier 2
     },
     tierReqs: [
       {
         maxLevel: () => 8,
-        req: () => true,
-        reqStr: () => "Hello!",
+        checkReq: () => true,
+        getReqStr: () => "Hello!",
       },
       {
         maxLevel: () => 16,
-        req: () => true,
-        reqStr: () => "Unlock Infinity Dimensions",
+        checkReq: () => window.player.dimensions.infinity[0].amount.gt(0),
+        getReqStr: () => "Have a First Infinity Dimension",
+      },
+      {
+        maxLevel: () => 24,
+        checkReq: () => window.player.dimensions.time[0].amount.gt(0),
+        getReqStr: () => "Have a First Eternity Dimension"
       }
     ],
     perks: [
       {
         perkId: SKILL_PERKS.REOMVE_NORMAL_ITEM,
-        req: () => 5,
-        description: () => "Ability to remove Normal Items"
+        getReq: () => 5,
+        getDescription: () => "Ability to remove Normal Items"
       },
       {
         perkId: SKILL_PERKS.ROLL_MORE_ITEM,
-        req: () => 15,
-        description: () => "50% chance to roll 1 more item"
+        getReq: () => 15,
+        getDescription: () => "50% chance to roll 1 more item"
       }
     ]
   }
+};
+
+const skillKeys = Object.keys(skillDatas);
+
+export {
+  SKILL_PERKS,
+  skillDatas,
+  skillKeys
 };

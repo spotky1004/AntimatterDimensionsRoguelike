@@ -34,6 +34,32 @@ export default {
         items.push(item);
       }
       return items;
+    },
+    skillTierUpDatas() {
+      /**
+       * @typedef TierUpData
+       * @prop {string} key
+       * @prop {string} name
+       * @prop {string} colorStyle
+       * @prop {string} condition
+       */
+      /** @type {TierUpData[]} */
+      const tierUpDatas = [];
+      for (const skillKey of window.GameDatabase.rogue.skillKeys) {
+        if (!this.rewards.skillTierUps[skillKey]) continue;
+        /** @type {import("../../core/secret-formula/rogue/leveling").SkillData} */
+        const data = window.GameDatabase.rogue.skillDatas[skillKey];
+        /** @type {number} */
+        const newTier = window.player.rogue.leveling.tiers[skillKey] + 1;
+        /** @type {TierUpData} */
+        tierUpDatas.push({
+          key: skillKey,
+          name: data.getName(newTier),
+          colorStyle: `--color: ${data.getColor(newTier)};`,
+          condition: data.tierReqs[newTier].getReqStr()
+        });
+      }
+      return tierUpDatas;
     }
   },
   methods: {
@@ -80,6 +106,31 @@ export default {
         :font-size="'0.8em'"
       />
     </div>
+    <div
+      v-if="skillTierUpDatas.length !== 0"
+      class="rogue-die__section"
+    >
+      <div class="rogue-die__section__title">
+        Skill Tier Up
+      </div>
+      <div
+        v-for="data in skillTierUpDatas"
+        :key="data.key"
+        class="rogue-die__skill-up"
+        :style="data.colorStyle"
+      >
+        <div
+          class="rogue-die__skill-up__title"
+        >
+          <span>{{ data.name }}</span> skill tier up!
+        </div>
+        <div
+          class="rogue-die__skill-up__condition"
+        >
+          {{ data.condition }}
+        </div>
+      </div>
+    </div>
     <PrimaryButton
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click.native="confirmModal"
@@ -121,5 +172,40 @@ export default {
 
 .rogue-die__xp {
   font-size: 1.2em;
+}
+
+.rogue-die__skill-up {
+  --color: #f00;
+
+
+  margin: 0.8rem auto;
+  padding: 0.2rem 0.8rem;
+  width: 90%;
+
+  border: 0.2rem solid var(--color);
+  border-radius: 0.4rem;
+  background: linear-gradient(
+    135deg,
+    #0000 10%,
+    var(--color)
+  );
+}
+
+.rogue-die__skill-up__title {
+  text-align: left;
+}
+
+.rogue-die__skill-up__title > span {
+  color: var(--color);
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.rogue-die__skill-up__condition {
+  margin-top: -0.6rem;
+
+  text-align: right;
+
+  opacity: 0.4;
 }
 </style>

@@ -19,3 +19,22 @@ export function getXpRequirement() {
   const level = window.player.rogue.level;
   return DC.D1.add(0.25 + level / 50).pow(level);
 }
+
+export function checkSkillTierUps() {
+  /** @type {{ [K in import("../secret-formula/rogue/leveling").SkillNames]: boolean }} */
+  const ups = {};
+  for (const skillKey of window.GameDatabase.rogue.skillKeys) {
+    /** @type {import("../secret-formula/rogue/leveling").SkillData} */
+    const skillData = window.GameDatabase.rogue.skillDatas[skillKey];
+    /** @type {number} */
+    const curTier = window.player.rogue.leveling.tiers[skillKey];
+    const maxTier = skillData.tierReqs.length - 1;
+
+    let isUp = true;
+    if (curTier <= maxTier && skillData.tierReqs[curTier + 1].checkReq()) {
+      isUp = true;
+    }
+    ups[skillKey] = isUp;
+  }
+  return ups;
+}

@@ -44,7 +44,8 @@ export function calcRogueDieRewards() {
   const rewards = {
     xp: Currency.maxHp.value.sub(1).max(0),
     /** @type {number[]} */
-    itemUnlocks: []
+    itemUnlocks: [],
+    skillTierUps: checkSkillTierUps()
   };
 
   // Item Unlocks
@@ -75,12 +76,15 @@ const nonResetAchievements = [22, 76];
 export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
   Tab.rogue["rogue-quests"].show();
+
+  // Rogue rewards
   const rewards = calcRogueDieRewards();
   Modal.RogueDieModal.show({ rewards: deepmergeAll([{}, rewards]) });
   addRogueXp(rewards.xp);
   for (const unlockedId of rewards.itemUnlocks) {
     window.player.rogue.itemsUnlocked[unlockedId] = true;
   }
+
   window.player.rogue.cutsceneId = -1;
   window.player.rogue.bossFightStartTimes.fill(0);
   window.player.rogue.bossFightings.fill(false);
