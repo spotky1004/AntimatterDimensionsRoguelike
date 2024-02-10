@@ -50,3 +50,15 @@ export function checkSkillTierUps() {
   }
   return ups;
 }
+
+export function calculateRogueSkillEffects() {
+  const effects = getDefaultRogueEffects();
+  for (const skillKey of window.GameDatabase.rogue.skillKeys) {
+    /** @type {import("../secret-formula/rogue/leveling").SkillData} */
+    const skillData = window.GameDatabase.rogue.skillDatas[skillKey];
+    const tier = window.player.rogue.leveling.tiers[skillKey];
+    const allocated = window.player.rogue.leveling.allocates[skillKey];
+    skillData.calcEffect(effects, tier, allocated);
+  }
+  return effects;
+}

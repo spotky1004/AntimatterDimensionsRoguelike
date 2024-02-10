@@ -15,7 +15,7 @@
  * @prop {(tier: number) => string} getName
  * @prop {(tier: number) => string} getColor
  * @prop {(tier: number, level: number) => string} getEffectStr
- * @prop {(effect: RogueEffects, lv: number, tier: number) => void} calcEffect
+ * @prop {(effect: RogueEffects, tier: number, lv: number) => void} calcEffect
  * @prop {SkillTier[]} tiers
  * @prop {SkillPerk[]} perks
  */
@@ -40,7 +40,7 @@ const skillDatas = {
       if (tier >= 2) str += `, x${1 + lv} ED`;
       return str;
     },
-    calcEffect: (effect, lv) => {
+    calcEffect: (effect, tier, lv) => {
       effect.adAllMult = effect.adAllMult.mul(1 + lv);
       // TODO: Boost all ID on tier 1
       // TODO: Boost all ED on tier 2

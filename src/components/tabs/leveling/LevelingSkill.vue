@@ -16,6 +16,9 @@ export default {
       allocated: 0,
       maxLevel: 0,
       perkStrs: [],
+      avaiableLP: 0,
+      hoveringAt: -1,
+      showingPreview: false
     };
   },
   methods: {
@@ -24,16 +27,40 @@ export default {
       const data = window.GameDatabase.rogue.skillDatas[skillKey];
       this.tier = window.player.rogue.leveling.tiers[skillKey];
       this.name = data.getName(this.tier);
-      this.allocated = window.player.rogue.leveling.allocates[skillKey];
-      this.effectStr = data.getEffectStr(this.tier, this.allocated);
       this.colorStyle = `--color: ${data.getColor(this.tier)};`;
       this.maxLevel = data.tiers[this.tier].getMaxLevel();
+      this.avaiableLP = getAvaiableLevelingPoint();
+      this.allocated = window.player.rogue.leveling.allocates[skillKey];
+
+      if (
+        this.hoveringAt > this.allocated &&
+        this.isAvaiable(this.hoveringAt)
+      ) {
+        this.showingPreview = true;
+      } else {
+        this.showingPreview = false;
+      }
+      const showingLevel = this.showingPreview ? this.hoveringAt : this.allocated;
+      this.effectStr = data.getEffectStr(this.tier, showingLevel);
 
       this.perkStrs = Array(this.maxLevel + 1).fill(null);
       for (const perk of data.perks) {
         const req = perk.getReq();
         this.perkStrs[req] = perk.getDescription();
       }
+    },
+    buy(idx) {
+      if (!this.isAvaiable(idx)) return;
+      window.player.rogue.leveling.allocates[this.skillKey] = idx;
+    },
+    isBought(idx) {
+      return this.allocated >= idx;
+    },
+    willBuy(idx) {
+      return !this.isBought(idx) && this.showingPreview && this.hoveringAt >= idx;
+    },
+    isAvaiable(idx) {
+      return !this.isBought(idx) && this.allocated + this.avaiableLP >= idx;
     },
     getEffectStrAt(allocated) {
       return data.getEffectStr(this.tier, allocated);
@@ -45,6 +72,7 @@ export default {
 <template>
   <div
     class="leveling-skill"
+    :class="{ 'is-preview': showingPreview }"
     :style="colorStyle"
   >
     <div
@@ -54,12 +82,20 @@ export default {
     </div>
     <div
       class="leveling-skill__bar"
+      @mouseout="hoveringAt = -1"
     >
       <span
         v-for="i in maxLevel"
         :key="i"
         class="leveling-skill__bar__cell"
-        :class="{ 'has-perk': perkStrs[i] !== null }"
+        :class="{
+          'has-perk': perkStrs[i] !== null,
+          'bought': isBought(i),
+          'will-buy': willBuy(i),
+          'avaiable': isAvaiable(i)
+        }"
+        @click="buy(i)"
+        @mouseover="hoveringAt = i"
       >
         <div
           class="leveling-skill__bar__cell_idx"
@@ -83,7 +119,9 @@ export default {
     <div
       class="leveling-skill__effect"
     >
-      provides {{ effectStr }}
+      <span v-if="!showingPreview">provides</span>
+      <span v-else>will provide</span>
+      {{ effectStr }}
     </div>
   </div>
 </template>
@@ -146,12 +184,21 @@ export default {
   position: relative;
   flex: 1 1;
 
-  filter: brightness(0.5);
+  filter: brightness(0.4);
   background-color: var(--color);
 
   user-select: none;
-  transition: flex-grow 0.3s;
+  transition: flex-grow 0.3s, filter 0.3s;
   overflow: hidden;
+}
+.leveling-skill__bar__cell.avaiable {
+  filter: brightness(0.6);
+}
+.leveling-skill__bar__cell.will-buy {
+  filter: brightness(1.2);
+}
+.leveling-skill__bar__cell.bought {
+  filter: brightness(1);
 }
 .leveling-skill__bar__cell:first-child {
   border-radius: 1rem 0 0 1rem;
@@ -245,5 +292,8 @@ export default {
   font-size: 1.5rem;
   color: var(--color);
   filter: brightness(0.7);
+}
+.leveling-skill.is-preview > .leveling-skill__effect {
+  filter: brightness(1);
 }
 </style>

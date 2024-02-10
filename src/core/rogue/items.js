@@ -140,6 +140,11 @@ export function calculateRogueEffects() {
     mergedEffect[effectKey] = newValue;
   }
 
+  const skillEffects = calculateRogueSkillEffects();
+  for (const effectKey of rogueEffectKeys) {
+    mergedEffect[effectKey] = rogueEffectDatas[effectKey].merge(mergedEffect[effectKey], skillEffects[effectKey]);
+  }
+
   return mergedEffect;
 }
 
