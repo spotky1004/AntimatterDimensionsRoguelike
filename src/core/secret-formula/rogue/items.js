@@ -138,7 +138,7 @@ addItem({
   nameStr: lv => `A luck related item ${roman(lv)}`,
   descriptionStr: lv => {
     let str = `For each Dimension Boost, `;
-    str += `${format(10 + lv, 2, 2)}% chance to recover ${format(3 * lv)} ${faIcon("heart")}`;
+    str += `${format(10 + 10 * lv, 2, 2)}% chance to recover ${format(3 * lv)} ${faIcon("heart")}`;
     return str;
   },
   calcEffect: (_, lv, props) => {
@@ -147,7 +147,7 @@ addItem({
     const rollCount = Math.max(0, curDimBoost - prevDimBoost);
     props[0] = curDimBoost;
 
-    const chance = (10 + lv) / 100;
+    const chance = (10 + 10 * lv) / 100;
     let recoverCount = 0;
     if (rollCount < 3 / chance) {
       for (let i = 0; i < rollCount; i++) {
@@ -194,7 +194,7 @@ addItem({
   levelChances: [0.5, 0.5, 0.5],
   defaultProps: () => [player.records.thisInfinity.realTime]
 });
-// 21 -> 1009
+// Ach21 -> 1009
 addItem({
   id: 1010,
   type: "normal",

@@ -1,5 +1,3 @@
-import { DC } from "../constants";
-
 const bossCount = 1;
 
 export const BOSS_ENUM = {
@@ -18,7 +16,7 @@ export const BossDatas = {
     calcAntimatterCap: () => 1e250,
     calcDamageMultiplier: () => {
       const t = window.player.lastUpdate - window.player.rogue.bossFightStartTimes[0];
-      return new Decimal((1 + t / 100000) ** 1.5);
+      return new Decimal((1 + t / 300000) ** 1.5);
     }
   },
   [BOSS_ENUM.TIMEWALL]: {
