@@ -72,7 +72,7 @@ addItem({
   descriptionStr: (lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
     const boost = DC.D4.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
-    return `Boosts Anaimatter Dimensions by x${format(boost, 2, 2)}.<br> But, decays overtime.`;
+    return `Boosts Antimatter Dimensions by x${format(boost, 2, 2)}.<br> But, decays overtime.`;
   },
   calcEffect: (effect, lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
