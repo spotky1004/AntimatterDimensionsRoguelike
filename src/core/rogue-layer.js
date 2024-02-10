@@ -73,6 +73,7 @@ export function rogueDie() {
 }
 
 const nonResetAchievements = [22, 76];
+// eslint-disable-next-line
 export function rogueReset() {
   // Refer to https://github.com/toilet45/ADRedemption/blob/master/src/core/mending.js. Thank you royal!
   Tab.rogue["rogue-quests"].show();
@@ -100,6 +101,12 @@ export function rogueReset() {
   window.player.rogue.effects.eternity = getDefaultRogueEffects();
   window.player.rogue.effects.reality = getDefaultRogueEffects();
   window.player.rogue.effects.rogue = getDefaultRogueEffects();
+  if (window.player.rogue.leveling.respecOnNextRun) {
+    for (const skillKey of window.GameDatabase.rogue.skillKeys) {
+      window.player.rogue.leveling.allocates[skillKey] = 0;
+    }
+    window.player.rogue.leveling.respecOnNextRun = false;
+  }
 
   EventHub.dispatch(GAME_EVENT.ROGUE_DIE);
 

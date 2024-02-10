@@ -667,14 +667,14 @@ export default {
       run: false,
       quoteBits: 0,
       dimensions: Array.range(0, 4).map(() =>
-        ({
-          amount: DC.D0,
-          intervalUpgrades: 0,
-          powerDMUpgrades: 0,
-          powerDEUpgrades: 0,
-          timeSinceLastUpdate: 0,
-          ascensionCount: 0
-        })),
+      ({
+        amount: DC.D0,
+        intervalUpgrades: 0,
+        powerDMUpgrades: 0,
+        powerDEUpgrades: 0,
+        timeSinceLastUpdate: 0,
+        ascensionCount: 0
+      })),
       entropy: 0,
       thisCompletion: 3600,
       fastestCompletion: 3600,
@@ -798,7 +798,8 @@ export default {
       },
       allocates: {
         dimension: 0
-      }
+      },
+      respecOnNextRun: false
     },
     unlocks: {
       hp: false,

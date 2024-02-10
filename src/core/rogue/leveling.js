@@ -20,6 +20,18 @@ export function getXpRequirement() {
   return DC.D1.add(0.25 + level / 50).pow(level);
 }
 
+export function getAllocatedLevelingPoint() {
+  let sum = 0;
+  for (const skillKey of window.GameDatabase.rogue.skillKeys) {
+    sum += window.player.rogue.leveling.allocates[skillKey];
+  }
+  return sum;
+}
+
+export function getAvaiableLevelingPoint() {
+  return window.player.rogue.level - getAllocatedLevelingPoint();
+}
+
 export function checkSkillTierUps() {
   /** @type {{ [K in import("../secret-formula/rogue/leveling").SkillNames]: boolean }} */
   const ups = {};
