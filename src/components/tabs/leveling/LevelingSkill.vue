@@ -166,6 +166,10 @@ export default {
   flex: 2 2;
 }
 
+.leveling-skill__bar__cell > * {
+  pointer-events: none;
+}
+
 .leveling-skill__bar__cell_idx {
   position: absolute;
   top: 50%;
@@ -177,7 +181,7 @@ export default {
   font-size: 2rem;
 
   z-index: 9;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, top 0.3s;
 }
 .leveling-skill__bar__cell:nth-child(5n) > .leveling-skill__bar__cell_idx {
   color: #666;
@@ -187,6 +191,7 @@ export default {
   border-right: 0.2rem solid #333;
 }
 .leveling-skill__bar__cell.has-perk:hover > .leveling-skill__bar__cell_idx {
+  top: -4rem;
   opacity: 0;
 }
 
@@ -195,6 +200,7 @@ export default {
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: 8rem;
   width: 80%;
   height: 100%;
   margin: 0 10%;
@@ -204,9 +210,10 @@ export default {
   opacity: 0;
 
   z-index: 10;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, top 0.3s;
 }
 .leveling-skill__bar__cell:hover > .leveling-skill__bar__perk {
+  top: 0;
   opacity: 1;
 }
 
@@ -221,11 +228,13 @@ export default {
 
   transform: rotate(-30deg);
 
-  transition: font-size 0.3s, bottom 0.3s;
+  transition: font-size 0.3s, bottom 0.3s, color 0.3s;
 }
 .leveling-skill__bar__cell:hover > .leveling-skill__bar__perk-mark {
   bottom: -2.7rem;
+
   font-size: 7rem;
+  color: #111;
 }
 
 .leveling-skill__effect {
