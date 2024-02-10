@@ -114,7 +114,7 @@ addQuest({
   description: () => `Lose 1&nbsp;<i class="fas fa-heart"></i>`,
   getProgress: () => clampProgress(Currency.maxHp.value.sub(Currency.hp.value).div(1).sub(0.001)),
   isUnlocked: () => false,
-  rewardTable: [[5, 2001], [1, 2002]]
+  rewardTable: [[1, 2001]]
 });
 
 const normalQuests = [...quests.entries()]
