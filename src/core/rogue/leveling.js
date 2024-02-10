@@ -30,7 +30,7 @@ export function checkSkillTierUps() {
     const curTier = window.player.rogue.leveling.tiers[skillKey];
     const maxTier = skillData.tierReqs.length - 1;
 
-    let isUp = true;
+    let isUp = false;
     if (curTier <= maxTier && skillData.tierReqs[curTier + 1].checkReq()) {
       isUp = true;
     }
