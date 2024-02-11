@@ -31,7 +31,7 @@ export function unlockRogueContents() {
   }
   if (
     !window.player.rogue.unlocks.leveling &&
-    window.player.rogue.level >= 1
+    window.player.rogue.xp.gt(0)
   ) {
     window.player.rogue.unlocks.leveling = true;
     Tab.rogue["rogue-leveling"].show();
