@@ -53,8 +53,7 @@ export default {
     adjustableTextClass() {
       return {
         "l-narrow-box": this.isSmall,
-        "l-wide-box": !this.isSmall,
-        "rogue-fire": this.rogueFire
+        "l-wide-box": !this.isSmall
       };
     }
   }
@@ -64,7 +63,10 @@ export default {
 <template>
   <div class="l-dimension-text-container">
     <div :class="adjustableTextClass()">
-      <span class="c-dim-row__large">
+      <span
+        class="c-dim-row__large"
+        :class="{ 'rogue-fire': rogueFire }"
+      >
         {{ name }}
       </span>
       <span class="c-dim-row__small">
