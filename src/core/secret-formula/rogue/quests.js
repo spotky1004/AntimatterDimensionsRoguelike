@@ -28,11 +28,7 @@ function addQuest(data) {
 function rollRewardTable(quest, maxSelect = Infinity, surpassLock = false) {
   if (!quest.rewardTable) return [];
 
-  const avaibles = quest.rewardTable
-    .filter(([, id]) => (
-      (surpassLock || window.player.rogue.itemsUnlocked[id]) &&
-      !hasItem(id)
-    ));
+  const avaibles = quest.rewardTable.filter(([, id]) => surpassLock || window.player.rogue.itemsUnlocked[id]);
   let x = quest.id * window.player.rogue.seed;
   x = xorshift32(x);
 
@@ -54,8 +50,10 @@ function rollRewardTable(quest, maxSelect = Infinity, surpassLock = false) {
 
       x = xorshift32(x);
       const itemData = window.GameDatabase.rogue.items.get(id);
-      const item = genItem(itemData, x);
-      pickedItems.push([itemData, item]);
+      if (!hasItem(itemData.id)) {
+        const item = genItem(itemData, x);
+        pickedItems.push([itemData, item]);
+      }
       break;
     }
   }
