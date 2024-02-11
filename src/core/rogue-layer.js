@@ -42,7 +42,7 @@ export function unlockRogueContents() {
 
 export function calcRogueDieRewards() {
   const rewards = {
-    xp: Currency.maxHp.value.sub(1).max(0),
+    xp: Currency.maxHp.value.sub(0.5).max(0),
     /** @type {number[]} */
     itemUnlocks: [],
     skillTierUps: checkSkillTierUps()
