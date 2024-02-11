@@ -237,12 +237,12 @@ addItem({
 
       const firstAmount = props[firstAmountIdx];
       const prevAmount = props[prevAmountIdx];
-      const curAmount = window.player.dimensions.antimatter[i].bought / 10;
+      const curAmount = Math.floor(window.player.dimensions.antimatter[i].bought / 10);
       healCount += Math.max(0, curAmount - prevAmount);
       if (curAmount > firstAmount) {
         effect.adMults[i + 1] = effect.adMults[i + 1].mul(multValue.pow(curAmount - firstAmount));
       } else {
-        props[prevAmountIdx] = curAmount;
+        props[firstAmountIdx] = curAmount;
       }
       props[prevAmountIdx] = curAmount;
     }
@@ -252,7 +252,9 @@ addItem({
   isUnlocked: () => Achievement(23).isUnlocked,
   xpReqs: [10, 30, 90],
   levelChances: [0.5, 0.5, 0.5],
-  defaultProps: () => Array.from({ length: 16 }, (_, i) => player.dimensions.antimatter[Math.floor(i / 2)].bought)
+  defaultProps: () => Array.from({ length: 16 }, (_, i) =>
+    Math.floor(window.player.dimensions.antimatter[Math.floor(i / 2)].bought / 10)
+  )
 });
 addItem({
   id: 1012,
