@@ -11,6 +11,12 @@ export function rogueUpdate(realDiff) {
   updateBoss(realDiff);
   updateQuests();
   updateLeveling();
+
+  // Temp Fix
+  if (typeof player.challenge.normal.bestTimes[0] !== "number") {
+    player.challenge.normal.bestTimes = Array.repeat(Number.MAX_VALUE, 11);
+    player.challenge.infinity.bestTimes = Array.repeat(Number.MAX_VALUE, 8);
+  }
 }
 
 export function unlockRogueContents() {
@@ -153,8 +159,8 @@ export function rogueReset() {
   };
 
   player.records.totalAntimatter = DC.E1;
-  player.challenge.normal.bestTimes = Array.repeat(Decimal.pow10(Number.MAX_VALUE), 11);
-  player.challenge.infinity.bestTimes = Array.repeat(Decimal.pow10(Number.MAX_VALUE), 8);
+  player.challenge.normal.bestTimes = Array.repeat(Number.MAX_VALUE, 11);
+  player.challenge.infinity.bestTimes = Array.repeat(Number.MAX_VALUE, 8);
 
   player.celestials.teresa.pouredAmount = 0;
   player.celestials.teresa.unlockBits = 0;
@@ -249,7 +255,7 @@ export function rogueReset() {
 
   player.records.recentRealities = Array.from(
     { length: 10 },
-    () => [Number.MAX_VALUE, Number.MAX_VALUE, DC.D1, DC.D1, "", DC.D0]
+    () => [Number.MAX_VALUE, Number.MAX_VALUE, DC.D1, 1, "", 0, 0]
   );
   GameCache.averageRealTimePerEternity.invalidate();
   player.records.thisReality = {
@@ -379,6 +385,9 @@ export function rogueReset() {
   player.dilation.lastEP = DC.DM1;
   player.eternityUpgrades.clear();
   EternityUpgrade.epMult.reset();
+  player.records.recentEternities = Array.range(0, 10).map(() =>
+    [Number.MAX_VALUE, Number.MAX_VALUE, DC.D1, DC.D1, "", DC.D0]
+  );
 
   resetInfinityRuns();
   player.records.thisInfinity = {
@@ -407,6 +416,9 @@ export function rogueReset() {
   playerInfinityUpgradesOnReset();
   player.IPMultPurchases = 0;
   player.break = false;
+  player.records.recentInfinities = Array.range(0, 10).map(() =>
+    [Number.MAX_VALUE, Number.MAX_VALUE, DC.D1, DC.D1, ""]
+  );
 
   Currency.antimatter.reset();
   player.dimensionBoosts = 0;
