@@ -69,13 +69,13 @@ class NormalChallengeState extends GameMechanicState {
   }
 
   requestStart() {
-    if (!Tab.challenges.isUnlocked) return;
-    if (GameEnd.creditsEverClosed) return;
-    if (!player.options.confirmations.challenges) {
-      this.start();
-      return;
-    }
-    Modal.startNormalChallenge.show(this.id);
+    // Lock if (!Tab.challenges.isUnlocked) return;
+    // Lock if (GameEnd.creditsEverClosed) return;
+    // Lock if (!player.options.confirmations.challenges) {
+    // Lock   this.start();
+    // Lock   return;
+    // Lock }
+    // Lock Modal.startNormalChallenge.show(this.id);
   }
 
   start() {
