@@ -266,7 +266,7 @@ addItem({
     return str;
   },
   calcEffect: () => undefined,
-  unlockConditionStr: () => `Complete achievement 23`,
+  unlockConditionStr: () => `Complete achievement 24`,
   isUnlocked: () => Achievement(24).isUnlocked,
   xpReqs: [30, 60, 100],
   levelChances: [0.3, 0.3, 0.3],
