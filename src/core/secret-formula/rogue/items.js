@@ -249,7 +249,7 @@ addItem({
     Currency.hp.add(healAmount.mul(healCount));
   },
   unlockConditionStr: () => `Complete achievement 23`,
-  isUnlocked: () => false,
+  isUnlocked: () => Achievement(23).isUnlocked,
   xpReqs: [10, 30, 90],
   levelChances: [0.5, 0.5, 0.5],
   defaultProps: () => Array.from({ length: 16 }, (_, i) => player.dimensions.antimatter[Math.floor(i / 2)].bought)
@@ -267,7 +267,7 @@ addItem({
   },
   calcEffect: () => undefined,
   unlockConditionStr: () => `Complete achievement 23`,
-  isUnlocked: () => Achievement(23).isUnlocked,
+  isUnlocked: () => Achievement(24).isUnlocked,
   xpReqs: [30, 60, 100],
   levelChances: [0.3, 0.3, 0.3],
   defaultProps: () => [0],
