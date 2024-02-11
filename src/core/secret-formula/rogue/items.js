@@ -71,12 +71,12 @@ addItem({
   nameStr: lv => `Half Life ${roman(lv)}`,
   descriptionStr: (lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.D4.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D6.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     return `Boosts Antimatter Dimensions by x${format(boost, 2, 2)}.<br> But, decays overtime.`;
   },
   calcEffect: (effect, lv, [s]) => {
     const e = window.player.records.totalTimePlayed;
-    const boost = DC.D4.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
+    const boost = DC.D6.pow(lv).div(1 + (e - s) / (1e6 * lv)).max(1);
     effect.adAllMult = effect.adAllMult.mul(boost);
   },
   unlockConditionStr: () => `Complete achievement 13`,

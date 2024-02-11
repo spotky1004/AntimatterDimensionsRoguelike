@@ -50,8 +50,10 @@ function rollRewardTable(quest, maxSelect = Infinity, surpassLock = false) {
 
       x = xorshift32(x);
       const itemData = window.GameDatabase.rogue.items.get(id);
-      const item = genItem(itemData, x);
-      pickedItems.push([itemData, item]);
+      if (!hasItem(itemData.id)) {
+        const item = genItem(itemData, x);
+        pickedItems.push([itemData, item]);
+      }
       break;
     }
   }

@@ -237,3 +237,19 @@ export function useItem(item) {
   itemData.click.handler(item.lv, item.props);
   return true;
 }
+
+/**
+ * @param {number} id
+ */
+export function hasItem(id) {
+  for (const item of window.player.rogue.normalItems) {
+    if (item.id === id) return true;
+  }
+  for (const item of window.player.rogue.debuffItems) {
+    if (item.id === id) return true;
+  }
+  for (const item of window.player.rogue.specialItems) {
+    if (item.id === id) return true;
+  }
+  return false;
+}
