@@ -152,8 +152,9 @@ export default {
     font-size 0.3s,
     mix-blend-mode 0.3s,
     color 0.3s;
-  z-index: -1;
+  z-index: 1;
   user-select: none;
+  pointer-events: none;
 }
 .leveling-skill:hover > .leveling-skill__name {
   mix-blend-mode: difference;
@@ -174,7 +175,7 @@ export default {
   border-radius: 1rem;
 
   transition: height 0.3s, top 0.3s;
-  z-index: -2;
+  z-index: 0;
 }
 .leveling-skill:hover > .leveling-skill__bar {
   top: 0;
