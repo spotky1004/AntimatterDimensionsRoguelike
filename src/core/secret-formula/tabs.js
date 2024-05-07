@@ -502,7 +502,7 @@ export const tabs = [
     name: "Rogue",
     hideAt: 2.5,
     UIClass: "o-tab-btn--rogue",
-    condition: () => true,
+    condition: () => player.rogue.unlocks.quests,
     id: 11,
     hidable: true,
     subtabs: [
